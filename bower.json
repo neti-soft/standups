@@ -1,0 +1,20 @@
+{
+  "name": "standups",
+  "version": "0.0.1",
+  "homepage": "https://github.com/mpodriezov/standups",
+  "authors": [
+    "mpodriezov (mpodryezov@gmail.com)",
+    "neti-soft (neti@neti-soft.com)"
+  ],
+  "description": "Collaboration tool for daily stand-ups meetings",
+  "main": "src/index.html",
+  "license": "Apache License V2",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
