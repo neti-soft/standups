@@ -2,9 +2,8 @@
   "name": "standups",
   "version": "0.0.1",
   "description": "Collaboration tool for daily stand-ups meetings",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "karma run"
   },
   "repository": {
     "type": "git",
@@ -14,5 +13,12 @@
   "license": "Apache License V2",
   "bugs": {
     "url": "https://github.com/mpodriezov/standups/issues"
+  },
+  "devDependencies": {
+    "karma": "~0.12.16",
+    "karma-jasmine": "~0.1.5",
+    "karma-chrome-launcher": "~0.1.4",
+    "gulp": "~3.8.0",
+    "gulp-less": "~1.2.3"
   }
 }

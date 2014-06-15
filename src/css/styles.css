@@ -1,4 +1,6 @@
+html,
 body {
-	min-width: 357px;
-	overflow-x: hidden;
+  font-family: arial, sans-serif;
+  color: #000000;
+  background-color: #ffffff;
 }
