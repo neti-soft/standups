@@ -19,6 +19,7 @@
     "karma-jasmine": "~0.1.5",
     "karma-chrome-launcher": "~0.1.4",
     "gulp": "~3.8.0",
-    "gulp-less": "~1.2.3"
+    "gulp-less": "~1.2.3",
+    "gulp-karma": "0.0.4"
   }
 }
