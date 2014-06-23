@@ -11,6 +11,30 @@ gulp.task('less', function () {
         .pipe(gulp.dest(path.join(__dirname, 'src', 'css')));
 });
 
+gulp.task('copy-components', function () {
+    //styles
+    var styles = [
+        "./src/components/font-awesome/css/font-awesome.css"
+    ];
+    gulp.src(styles).pipe(gulp.dest('./src/css/'));
+
+    var fonts = [
+        "./src/components/font-awesome/fonts/*.*"
+    ];
+    gulp.src(fonts).pipe(gulp.dest('./src/fonts/'));
+});
+
+gulp.task('build', function () {
+    gulp.src([
+        "src/css/**/*.*",
+        "src/fonts/**/*.*",
+        "src/js/**/*.*",
+        "src/img/**/*.*",
+        "src/index.html",
+        "src/manifest.json"
+    ], { base: './src' }).pipe(gulp.dest('./dist'));
+});
+
 gulp.task('watch', function () {
     return gulp.watch(path.join(__dirname, 'src/less/*.less'), ['less']);
 });
