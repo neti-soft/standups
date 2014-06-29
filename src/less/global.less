@@ -4,6 +4,20 @@ html, body {
   background-color: @background;
 }
 
+a {
+  text-decoration: none;
+  cursor: pointer;
+  color: @links_color;
+}
+
+ul.nav {
+  list-style: none;
+  li {
+    display: inline-block;
+    float: left;
+  }
+}
+
 .content {
   width: 400px;
 
@@ -13,11 +27,21 @@ html, body {
 
   header {
 
-    .opts {
+    nav {
       height: 20px;
-      padding: 10px;
+      margin-bottom: 5px;
       padding-right: 10px;
+      padding-top: 5px;
+
+      a {
+        color: @text;
+        margin-right: 5px;
+      }
+
+      .fa {
+        font-size: 1.2em;
+        padding: 2px;
+      }
     }
   }
-
 }

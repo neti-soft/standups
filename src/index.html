@@ -35,11 +35,22 @@
 </script>
 
 <script id="opts-tpl" type="text/x-handlebars-template">
-  <div id="opts" class="opts pull-right">
-    <i class="fa fa-volume-up"></i>
-    <i class="fa fa-volume-off"></i>
-    <i class="fa fa-gear"></i>
-  </div>
+  <nav id="opts">
+    <ul class="nav pull-right">
+      <li>
+        <a data-action="toggleVolume">
+          {{#if volume}}
+          <i class="fa fa-volume-up"></i>
+          {{else}}
+          <i class="fa fa-volume-off"></i>
+          {{/if}}
+        </a>
+      </li>
+      <li>
+        <a data-action="showSettings"><i class="fa fa-gear"></i></a>
+      </li>
+    </ul>
+  </nav>
 </script>
 
 <script id="timer-tpl" type="text/x-handlebars-template">

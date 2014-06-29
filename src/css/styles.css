@@ -130,14 +130,35 @@ body {
   color: #000000;
   background-color: #ffffff;
 }
+a {
+  text-decoration: none;
+  cursor: pointer;
+  color: #1122cc;
+}
+ul.nav {
+  list-style: none;
+}
+ul.nav li {
+  display: inline-block;
+  float: left;
+}
 .content {
   width: 400px;
 }
 .content .section {
   width: 100%;
 }
-.content header .opts {
+.content header nav {
   height: 20px;
-  padding: 10px;
+  margin-bottom: 5px;
   padding-right: 10px;
+  padding-top: 5px;
+}
+.content header nav a {
+  color: #000000;
+  margin-right: 5px;
+}
+.content header nav .fa {
+  font-size: 1.2em;
+  padding: 2px;
 }
