@@ -130,14 +130,36 @@ body {
   color: #000000;
   background-color: #ffffff;
 }
-.content {
+a {
+  text-decoration: none;
+  cursor: pointer;
+  color: #1122cc;
+}
+ul.nav {
+  list-style: none;
+}
+ul.nav li {
+  display: inline-block;
+  float: left;
+}
+.viewport {
   width: 400px;
 }
-.content .section {
+.viewport section {
   width: 100%;
-}
-.content header .opts {
-  height: 20px;
-  padding: 10px;
+  padding-left: 10px;
   padding-right: 10px;
+}
+.viewport header nav {
+  height: 20px;
+  margin-bottom: 5px;
+  padding-top: 5px;
+}
+.viewport header nav ul a {
+  color: #000000;
+  margin-right: 5px;
+}
+.viewport header nav ul .fa {
+  font-size: 1.2em;
+  padding: 2px;
 }

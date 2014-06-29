@@ -18,11 +18,13 @@ ul.nav {
   }
 }
 
-.content {
+.viewport {
   width: 400px;
 
-  .section {
+  section {
     width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
   }
 
   header {
@@ -30,18 +32,21 @@ ul.nav {
     nav {
       height: 20px;
       margin-bottom: 5px;
-      padding-right: 10px;
       padding-top: 5px;
 
-      a {
-        color: @text;
-        margin-right: 5px;
+      ul {
+
+        a {
+          color: @text;
+          margin-right: 5px;
+        }
+
+        .fa {
+          font-size: 1.2em;
+          padding: 2px;
+        }
       }
 
-      .fa {
-        font-size: 1.2em;
-        padding: 2px;
-      }
     }
   }
 }

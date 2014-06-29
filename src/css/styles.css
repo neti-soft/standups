@@ -142,23 +142,24 @@ ul.nav li {
   display: inline-block;
   float: left;
 }
-.content {
+.viewport {
   width: 400px;
 }
-.content .section {
+.viewport section {
   width: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
 }
-.content header nav {
+.viewport header nav {
   height: 20px;
   margin-bottom: 5px;
-  padding-right: 10px;
   padding-top: 5px;
 }
-.content header nav a {
+.viewport header nav ul a {
   color: #000000;
   margin-right: 5px;
 }
-.content header nav .fa {
+.viewport header nav ul .fa {
   font-size: 1.2em;
   padding: 2px;
 }
