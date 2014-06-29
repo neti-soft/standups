@@ -136,6 +136,8 @@ body {
 .content .section {
   width: 100%;
 }
-.timer {
-  float: left;
+.content header .opts {
+  height: 20px;
+  padding: 10px;
+  padding-right: 10px;
 }

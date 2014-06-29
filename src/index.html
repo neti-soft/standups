@@ -3,11 +3,14 @@
 <head>
   <title>Standups</title>
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/font-awesome.css">
 </head>
 <body>
 
 <script src="components/jquery/dist/jquery.js"></script>
 <script src="components/handlebars/handlebars.js"></script>
+<script src="js/common.widget.js"></script>
+<script src="js/opts.widget.js"></script>
 <script src="js/timer.widget.js"></script>
 <script src="js/viewport.widget.js"></script>
 <script src="js/controller.js"></script>
@@ -15,15 +18,27 @@
 <!-- Templates -->
 <script id="viewport-tpl" type="text/x-handlebars-template">
   <div class="content">
-    <section class="main">
+    <section id="main">
+      <header>
+
+
+      </header>
+
       <div id="timer">
-
+        Timer
       </div>
-      <div id="options">
 
-      </div>
     </section>
-    <section class="options">Options</section>
+
+    <section id="settings">Options</section>
+  </div>
+</script>
+
+<script id="opts-tpl" type="text/x-handlebars-template">
+  <div id="opts" class="opts pull-right">
+    <i class="fa fa-volume-up"></i>
+    <i class="fa fa-volume-off"></i>
+    <i class="fa fa-gear"></i>
   </div>
 </script>
 
