@@ -1,9 +1,10 @@
-angular.module('standups.ctrl', []);
+angular.module('standups.ctrl', ['standups.helpers']);
 
-angular.module('standups.ctrl').controller('ViewportCtrl', ["$scope", function ($scope) {
+angular.module('standups.ctrl').controller('ViewportCtrl', ["$scope", "Helpers", function ($scope, Helpers) {
 
     $scope.model = {
         currentView: "main",
+        isFullScreen: false,
         settings: {
             volume: true
         }
@@ -19,6 +20,10 @@ angular.module('standups.ctrl').controller('ViewportCtrl', ["$scope", function (
         return $scope.model.currentView == view;
     };
 
+    $scope.isFullScreen = function (state) {
+        return $scope.model.isFullScreen == state;
+    }
+
     $scope.toggleVolume = function () {
         $scope.model.settings.volume = !$scope.model.settings.volume;
     };
@@ -30,6 +35,11 @@ angular.module('standups.ctrl').controller('ViewportCtrl', ["$scope", function (
     $scope.closeSettings = function () {
         $scope.model.currentView = "main";
     };
+
+    $scope.fullScreen = function () {
+        Helpers.requestFullScreen(".viewport");
+        $scope.model.isFullScreen = !$scope.model.isFullScreen;
+    }
 
 }]);
 
