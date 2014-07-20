@@ -33,3 +33,4 @@ node_modules
 # Dependency directory web
 # see http://bower.io/
 bower_components
+src/components
