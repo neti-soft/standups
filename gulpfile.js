@@ -29,8 +29,11 @@ gulp.task('build', function () {
         "src/css/**/*.*",
         "src/fonts/**/*.*",
         "src/js/**/*.*",
+        "src/js/components/angular/angular.js",
+        "src/js/components/jquery/dist/jquery.js",
         "src/img/**/*.*",
-        "src/index.html",
+        "src/templates/index.html",
+        "src/background.html",
         "src/manifest.json"
     ], { base: './src' }).pipe(gulp.dest('./dist'));
 });

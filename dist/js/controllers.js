@@ -1,9 +1,11 @@
-angular.module('standups.ctrl', []);
+var ctrlrs = angular.module('standups.ctrl', ['standups.helpers']);
 
-angular.module('standups.ctrl').controller('ViewportCtrl', ["$scope", function ($scope) {
+/* Global view port controller. Handles all views */
+ctrlrs.controller('ViewportCtrl', ["$scope", "Screen", function ($scope, Screen) {
 
     $scope.model = {
         currentView: "main",
+        isFullScreen: false,
         settings: {
             volume: true
         }
@@ -13,11 +15,14 @@ angular.module('standups.ctrl').controller('ViewportCtrl', ["$scope", function (
         return $scope.model.settings.volume == state;
     };
 
-
     $scope.isSection = function (view) {
 
         return $scope.model.currentView == view;
     };
+
+    $scope.isFullScreen = function (state) {
+        return $scope.model.isFullScreen == state;
+    }
 
     $scope.toggleVolume = function () {
         $scope.model.settings.volume = !$scope.model.settings.volume;
@@ -31,12 +36,24 @@ angular.module('standups.ctrl').controller('ViewportCtrl', ["$scope", function (
         $scope.model.currentView = "main";
     };
 
+    $scope.fullScreen = function () {
+        Screen.requestFullScreen(".viewport");
+        $scope.model.isFullScreen = !$scope.model.isFullScreen;
+    }
+
 }]);
 
-angular.module('standups.ctrl').controller('MainCtrl', ["$scope", function ($scope) {
+/* Controller for main view */
+ctrlrs.controller('MainCtrl', ["$scope", function ($scope) {
 
 }]);
 
-angular.module('standups.ctrl').controller('SettingsCtrl', ["$scope", function ($scope) {
+/* Controller for Settings view */
+ctrlrs.controller('SettingsCtrl', ["$scope", function ($scope) {
+
+}]);
+
+/* Controller for toggled extension mode */
+ctrlrs.controller('ExtensionMiniCtrl', ["$scope", function ($scope) {
 
 }]);

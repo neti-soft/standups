@@ -124,42 +124,57 @@ a img {
 :focus {
   outline: 0;
 }
-html,
-body {
+#extension-standups {
   font-family: arial, sans-serif;
   color: #000000;
   background-color: #ffffff;
+  display: block;
+  position: fixed;
+  z-index: 100000000000;
+  width: 400px;
+  height: 100%;
+  min-height: 640px;
+  top: 1px;
+  right: 2px;
 }
-a {
+#extension-standups a {
   text-decoration: none;
   cursor: pointer;
   color: #1122cc;
 }
-ul.nav {
+#extension-standups :-webkit-full-screen .viewport {
+  width: 100%;
+  height: 100%;
+}
+#extension-standups ul.nav {
   list-style: none;
 }
-ul.nav li {
+#extension-standups ul.nav li {
   display: inline-block;
   float: left;
 }
-.viewport {
-  width: 400px;
-}
-.viewport section {
-  width: 100%;
+#extension-standups .viewport section {
   padding-left: 10px;
   padding-right: 10px;
 }
-.viewport header nav {
+#extension-standups .viewport header nav {
   height: 20px;
   margin-bottom: 5px;
   padding-top: 5px;
 }
-.viewport header nav ul a {
+#extension-standups .viewport header nav ul a {
   color: #000000;
   margin-right: 5px;
 }
-.viewport header nav ul .fa {
+#extension-standups .viewport header nav ul .fa {
   font-size: 1.2em;
   padding: 2px;
+}
+#extension-standups .extension-toggled-menu {
+  display: none;
+  width: 100px;
+  height: 50px;
+  position: fixed;
+  top: 10px;
+  right: 10px;
 }

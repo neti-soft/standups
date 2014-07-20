@@ -1,10 +1,10 @@
-angular.module('standups', ['standups.ctrl']).config(function () {
-    // Called when the user clicks on the browser action.
-    chrome.browserAction.onClicked.addListener(function (tab) {
-        // No tabs or host permissions needed!
-        console.log('Turning ' + tab.url + ' red!');
-        chrome.tabs.executeScript({
-            code: 'document.body.style.backgroundColor="red"'
-        });
+$(function () {
+    chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+        if (request.cmd == "bootstrap") {
+            chrome.extension.sendRequest({ cmd: "read_file", file: "templates/index.html" }, function (html) {
+                $("body").append(html);
+                angular.module('standups', ['standups.ctrl']);
+            });
+        }
     });
 });

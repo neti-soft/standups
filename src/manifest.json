@@ -8,7 +8,20 @@
     ],
     "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
     "browser_action": {
-        "default_icon": "img/icon.png",
-        "default_popup": "index.html"
-    }
+        "default_icon": "img/icon.png"
+    },
+    "background": {
+        "page": "background.html"
+    },
+    "content_scripts": [
+        {
+            "matches": ["http://*/*", "https://*/*"],
+            "css": ["css/font-awesome.css", "css/styles.css"],
+            "js": ["components/angular/angular.js", "components/jquery/dist/jquery.js", "js/app.js", "js/controllers.js", "js/helpers.js"]
+        }
+    ],
+    "web_accessible_resources": [
+        "fonts/*.*",
+        "templates/*.html"
+    ]
 }
