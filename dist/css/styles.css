@@ -136,6 +136,8 @@ a img {
   min-height: 640px;
   top: 1px;
   right: 2px;
+  -webkit-transition: opacity 1.5s;
+  transition: opacity 1.5s;
 }
 #extension-standups a {
   text-decoration: none;
