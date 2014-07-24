@@ -1,131 +1,110 @@
-/**
- * Global Reset of all HTML Elements
- *
- * Resetting all of our HTML Elements ensures a smoother
- * visual transition between browsers. If you don't believe me,
- * try temporarily commenting out this block of code, then go
- * and look at Mozilla versus Safari, both good browsers with
- * a good implementation of CSS. The thing is, all browser CSS
- * defaults are different and at the end of the day if visual
- * consistency is what we're shooting for, then we need to
- * make sure we're resetting all spacing elements.
- *
- */
-html,
-body {
-  border: 0;
-  font-family: "Helvetica-Neue", "Helvetica", Arial, sans-serif;
-  line-height: 1.5;
-  margin: 0;
-  padding: 0;
-}
-div,
-span,
-object,
-iframe,
-img,
-table,
-caption,
-thead,
-tbody,
-tfoot,
-tr,
-tr,
-td,
-article,
-aside,
-canvas,
-details,
-figure,
-hgroup,
-menu,
-nav,
-footer,
-header,
-section,
-summary,
-mark,
-audio,
-video {
+#extension-standups div,
+#extension-standups span,
+#extension-standups object,
+#extension-standups iframe,
+#extension-standups img,
+#extension-standups table,
+#extension-standups caption,
+#extension-standups thead,
+#extension-standups tbody,
+#extension-standups tfoot,
+#extension-standups tr,
+#extension-standups tr,
+#extension-standups td,
+#extension-standups article,
+#extension-standups aside,
+#extension-standups canvas,
+#extension-standups details,
+#extension-standups figure,
+#extension-standups hgroup,
+#extension-standups menu,
+#extension-standups nav,
+#extension-standups footer,
+#extension-standups header,
+#extension-standups section,
+#extension-standups summary,
+#extension-standups mark,
+#extension-standups audio,
+#extension-standups video {
   border: 0;
   margin: 0;
   padding: 0;
 }
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-blockquote,
-pre,
-a,
-abbr,
-address,
-cit,
-code,
-del,
-dfn,
-em,
-ins,
-q,
-samp,
-small,
-strong,
-sub,
-sup,
-b,
-i,
-hr,
-dl,
-dt,
-dd,
-ol,
-ul,
-li,
-fieldset,
-legend,
-label {
+#extension-standups h1,
+#extension-standups h2,
+#extension-standups h3,
+#extension-standups h4,
+#extension-standups h5,
+#extension-standups h6,
+#extension-standups p,
+#extension-standups blockquote,
+#extension-standups pre,
+#extension-standups a,
+#extension-standups abbr,
+#extension-standups address,
+#extension-standups cit,
+#extension-standups code,
+#extension-standups del,
+#extension-standups dfn,
+#extension-standups em,
+#extension-standups ins,
+#extension-standups q,
+#extension-standups samp,
+#extension-standups small,
+#extension-standups strong,
+#extension-standups sub,
+#extension-standups sup,
+#extension-standups b,
+#extension-standups i,
+#extension-standups hr,
+#extension-standups dl,
+#extension-standups dt,
+#extension-standups dd,
+#extension-standups ol,
+#extension-standups ul,
+#extension-standups li,
+#extension-standups fieldset,
+#extension-standups legend,
+#extension-standups label {
   border: 0;
   font-size: 100%;
   vertical-align: baseline;
   margin: 0;
   padding: 0;
 }
-article,
-aside,
-canvas,
-figure,
-figure img,
-figcaption,
-hgroup,
-footer,
-header,
-nav,
-section,
-audio,
-video {
+#extension-standups article,
+#extension-standups aside,
+#extension-standups canvas,
+#extension-standups figure,
+#extension-standups figure img,
+#extension-standups figcaption,
+#extension-standups hgroup,
+#extension-standups footer,
+#extension-standups header,
+#extension-standups nav,
+#extension-standups section,
+#extension-standups audio,
+#extension-standups video {
   display: block;
 }
-table {
+#extension-standups table {
   border-collapse: separate;
   border-spacing: 0;
 }
-table caption,
-table th,
-table td {
+#extension-standups table caption,
+#extension-standups table th,
+#extension-standups table td {
   text-align: left;
   vertical-align: middle;
 }
-a img {
+#extension-standups a img {
   border: 0;
 }
-:focus {
+#extension-standups :focus {
   outline: 0;
 }
 #extension-standups {
-  font-family: arial, sans-serif;
+  font-family: 'Lucida Grande', Helvetica, sans-serif;
   color: #000000;
   background-color: #ffffff;
   display: block;
@@ -138,6 +117,7 @@ a img {
   right: 2px;
   -webkit-transition: opacity 1.5s;
   transition: opacity 1.5s;
+  font-size: 100%;
 }
 #extension-standups a {
   text-decoration: none;
@@ -164,12 +144,16 @@ a img {
   margin-bottom: 5px;
   padding-top: 5px;
 }
+#extension-standups .viewport header nav ul {
+  margin: 0;
+  padding: 0;
+}
 #extension-standups .viewport header nav ul a {
   color: #000000;
   margin-right: 5px;
 }
 #extension-standups .viewport header nav ul .fa {
-  font-size: 1.2em;
+  font-size: 20px;
   padding: 2px;
 }
 #extension-standups .extension-toggled-menu {
