@@ -64,3 +64,7 @@ ctrlrs.controller('SettingsCtrl', ["$scope", function ($scope) {
 ctrlrs.controller('ExtensionMiniCtrl', ["$scope", function ($scope) {
 
 }]);
+
+ctrlrs.controller('TimerCtrl', ["$scope", function() {
+    console.log('It works');
+}])
