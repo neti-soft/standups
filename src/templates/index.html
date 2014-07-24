@@ -48,7 +48,14 @@
     </section>
 
     <script type="text/ng-template" id="templates/timer.html">
-      <h1>Timer</h1>
+      <div data-ng-click="toggleEdit()">
+        <div data-ng-show="isEdit">
+          This will be shown in edit mode!
+        </div>
+        <div data-ng-hide="isEdit">
+          This will is timer!
+        </div>
+      </div>
     </script>
   </div>
 </div>
