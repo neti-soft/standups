@@ -106,6 +106,7 @@
 #extension-standups {
   font-family: 'Lucida Grande', Helvetica, sans-serif;
   color: #000000;
+  border-left: 1px solid #f2f2f2;
   background-color: #ffffff;
   display: block;
   position: fixed;
@@ -144,10 +145,6 @@
   margin-bottom: 5px;
   padding-top: 5px;
 }
-#extension-standups .viewport header nav ul {
-  margin: 0;
-  padding: 0;
-}
 #extension-standups .viewport header nav ul a {
   color: #000000;
   margin-right: 5px;
@@ -155,6 +152,10 @@
 #extension-standups .viewport header nav ul .fa {
   font-size: 20px;
   padding: 2px;
+}
+#extension-standups .section-name {
+  font-size: 18px;
+  margin-left: 10px;
 }
 #extension-standups .extension-toggled-menu {
   display: none;

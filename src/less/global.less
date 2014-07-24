@@ -1,6 +1,7 @@
 #extension-standups {
   font-family: 'Lucida Grande', Helvetica, sans-serif;
   color: @text;
+  border-left: 1px solid @light_grey_color;
   background-color: @background;
   display: block;
   position: fixed;
@@ -49,9 +50,6 @@
 
         ul {
 
-          margin: 0;
-          padding: 0;
-
           a {
             color: @text;
             margin-right: 5px;
@@ -65,6 +63,11 @@
 
       }
     }
+  }
+
+  .section-name {
+    font-size: 18px;
+    margin-left: 10px;
   }
 
   .extension-toggled-menu {
