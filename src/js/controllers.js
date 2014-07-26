@@ -64,3 +64,12 @@ ctrlrs.controller('SettingsCtrl', ["$scope", function ($scope) {
 ctrlrs.controller('ExtensionMiniCtrl', ["$scope", function ($scope) {
 
 }]);
+
+ctrlrs.controller('TimerCtrl', ["$scope", function($scope) {
+
+    $scope.isEdit = false;
+
+    $scope.toggleEdit = function() {
+        $scope.isEdit = !$scope.isEdit;
+    }
+}])

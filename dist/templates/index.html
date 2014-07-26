@@ -7,30 +7,28 @@
     <section data-ng-show="isSection('main')" data-ng-controller="MainCtrl">
       <header>
         <nav>
+          <span class="section-name">Standups</span>
           <ul class="navigation pull-right">
-            <li>
-              <a data-ng-click="toggleVolume()">
-                <i data-ng-show="isVolume(true)" class="fa fa-volume-up"></i>
-                <i data-ng-show="isVolume(false)" class="fa fa-volume-off"></i>
-              </a>
-            </li>
-            <li>
-              <a data-ng-click="fullScreen()">
-                <i data-ng-show="isFullScreen(false)" class="fa fa-expand"></i>
-                <i data-ng-show="isFullScreen(true)" class="fa fa-compress"></i>
-              </a>
-            </li>
+            <!--<li>-->
+            <!--<a data-ng-click="toggleVolume()">-->
+            <!--<i data-ng-show="isVolume(true)" class="fa fa-volume-up"></i>-->
+            <!--<i data-ng-show="isVolume(false)" class="fa fa-volume-off"></i>-->
+            <!--</a>-->
+            <!--</li>-->
+            <!--<li>-->
+            <!--<a data-ng-click="fullScreen()">-->
+            <!--<i data-ng-show="isFullScreen(false)" class="fa fa-expand"></i>-->
+            <!--<i data-ng-show="isFullScreen(true)" class="fa fa-compress"></i>-->
+            <!--</a>-->
+            <!--</li>-->
             <li>
               <a data-ng-click="showSettings()"><i class="fa fa-gear"></i></a>
             </li>
           </ul>
         </nav>
       </header>
-
       <article>
-        <div id="timer">
-          Timer
-        </div>
+        <div timer></div>
       </article>
     </section>
 
@@ -46,10 +44,18 @@
           </ul>
         </nav>
       </header>
-
-      <article>
-
-      </article>
+      <article></article>
     </section>
+
+    <script type="text/ng-template" id="templates/timer.html">
+      <div data-ng-click="toggleEdit()">
+        <div data-ng-show="isEdit">
+          This will be shown in edit mode!
+        </div>
+        <div data-ng-hide="isEdit">
+          This will is timer!
+        </div>
+      </div>
+    </script>
   </div>
 </div>
