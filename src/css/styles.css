@@ -103,6 +103,37 @@
 #extension-standups :focus {
   outline: 0;
 }
+#extension-standups .standups-timer {
+  font-family: arial, sans-serif;
+  color: #222;
+}
+#extension-standups .standups-timer .cntr {
+  border: 1px solid transparent;
+  display: inline-block;
+  outline: none;
+  padding: 5px 12px;
+  word-spacing: -3px;
+  letter-spacing: -3px;
+  position: relative;
+}
+#extension-standups .standups-timer .cntr .dig,
+#extension-standups .standups-timer .cntr .sep {
+  word-spacing: normal;
+  letter-spacing: normal;
+  display: inline-block;
+}
+#extension-standups .standups-timer .cntr .dig {
+  border: none;
+  border-right: 1px solid transparent;
+  font-size: 4em;
+}
+#extension-standups .standups-timer .cntr .sep {
+  font-size: 2em;
+  padding-right: 10px;
+}
+#extension-standups .standups-timer .cntr .cur {
+  border-right: 1px solid #000000;
+}
 #extension-standups {
   font-family: 'Lucida Grande', Helvetica, sans-serif;
   color: #000000;

@@ -46,16 +46,23 @@
       </header>
       <article></article>
     </section>
-
-    <script type="text/ng-template" id="templates/timer.html">
-      <div data-ng-click="toggleEdit()">
-        <div data-ng-show="isEdit">
-          This will be shown in edit mode!
-        </div>
-        <div data-ng-hide="isEdit">
-          This will is timer!
-        </div>
-      </div>
-    </script>
   </div>
+
+
+  <script type="text/ng-template" id="templates/timer.html">
+    <div class="standups-timer" data-ng-click="toggleEdit()">
+      <div class="cntr">
+        <span class="dig">{{time.h2}}</span>
+        <span class="dig">{{time.h1}}</span>
+        <span class="sep">h</span>
+        <span class="dig">{{time.m2}}</span>
+        <span class="dig">{{time.m1}}</span>
+        <span class="sep">m</span>
+        <span class="dig">{{time.s2}}</span>
+        <span class="dig">{{time.s1}}</span>
+        <span class="sep">s</span>
+      </div>
+    </div>
+  </script>
+
 </div>
