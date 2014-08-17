@@ -38,3 +38,81 @@ helpers.service("Screen", function () {
         }
     }
 });
+
+helpers.factory("Timer", function () {
+
+    function Timer(h, m, s) {
+        this.timeout = false;
+        this.time = {};
+        this._events = {};
+        this.setAsTime(h, m, s);
+        this.h = this.time.h;
+        this.m = this.time.m;
+        this.s = this.time.s;
+    }
+
+    Timer.prototype.start = function () {
+        if (!this.timeout) {
+            this.interval = setInterval(this.tick.bind(this), 1000);
+        }
+    };
+
+    Timer.prototype.tick = function () {
+        if (!this.timeout) {
+            this.degrees();
+            this.fire('change', this.time);
+        } else {
+            this.stop();
+            this.fire('timeout', this.time);
+        }
+    };
+
+    Timer.prototype.on = function (e, cb) {
+        this._events[e] = cb;
+    };
+
+    Timer.prototype.fire = function (e) {
+        var args = [].splice(1, arguments);
+        this._events[e] && this._events[e].apply(this, args);
+    };
+
+    Timer.prototype.degrees = function () {
+        var d = new Date(1, 1, 1, this.time.h, this.time.m, this.time.s);
+        d.setSeconds(d.getSeconds() - 1);
+        this.setAsDate(d);
+        this.checkTimeout();
+    };
+
+    Timer.prototype.checkTimeout = function () {
+        if (this.time.h == 0 && this.time.m == 0 && this.time.s == 0) {
+            this.timeout = true;
+        }
+        return this.timeout;
+    };
+
+    Timer.prototype.stop = function () {
+        clearInterval(this.interval);
+    };
+
+    Timer.prototype.reset = function () {
+        this.time.h = this.h;
+        this.time.m = this.m;
+        this.time.s = this.s;
+        this.checkTimeout();
+    };
+
+    Timer.prototype.setAsDate = function (d) {
+        this.time.h = d.getHours() + ((d.getDate() - 1) * 24);
+        this.time.m = d.getMinutes();
+        this.time.s = d.getSeconds();
+        this.h = this.time.h;
+        this.m = this.time.m;
+        this.s = this.time.s;
+    };
+
+    Timer.prototype.setAsTime = function (h, m, s) {
+        this.setAsDate(new Date(1, 1, 1, h || 0, m || 0, s || 0)); // Fri Feb 01 1901
+    };
+
+    return Timer;
+});

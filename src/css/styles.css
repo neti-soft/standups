@@ -122,6 +122,10 @@
   letter-spacing: normal;
   display: inline-block;
 }
+#extension-standups .standups-timer .cntr .edit {
+  color: #AAA;
+  cursor: default;
+}
 #extension-standups .standups-timer .cntr .dig {
   border: none;
   border-right: 1px solid transparent;

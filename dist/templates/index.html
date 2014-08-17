@@ -50,18 +50,23 @@
 
 
   <script type="text/ng-template" id="templates/timer.html">
-    <div class="standups-timer" data-ng-click="toggleEdit()">
+    <div class="standups-timer" data-ng-click="toggleEdit()" data-ng-init="init()">
       <div class="cntr">
-        <span class="dig">{{time.h2}}</span>
-        <span class="dig">{{time.h1}}</span>
+        <span id="h1" class="dig"></span>
+        <span id="h2" class="dig"></span>
         <span class="sep">h</span>
-        <span class="dig">{{time.m2}}</span>
-        <span class="dig">{{time.m1}}</span>
+        <span id="m1" class="dig m1"></span>
+        <span id="m2" class="dig m2"></span>
         <span class="sep">m</span>
-        <span class="dig">{{time.s2}}</span>
-        <span class="dig">{{time.s1}}</span>
+        <span id="s1" class="dig s1"></span>
+        <span id="s2" class="dig s2"></span>
         <span class="sep">s</span>
       </div>
+    </div>
+    <div>
+      <button data-ng-click="start()">Start</button>
+      <button data-ng-click="reset()">Reset</button>
+      <button data-ng-click="setDate()">Set 99 secs</button>
     </div>
   </script>
 
