@@ -41,11 +41,11 @@ ctrlrs.controller('ViewportCtrl', ["$scope", "Screen", function ($scope, Screen)
         $scope.model.isFullScreen = !$scope.model.isFullScreen;
     }
 
-    Screen.scroll(function(extEl) {
+    Screen.scroll(function (extEl) {
         extEl.css('opacity', 0.3);
     });
 
-    Screen.scrollStopped(function(extEl) {
+    Screen.scrollStopped(function (extEl) {
         extEl.css('opacity', 1);
     });
 }]);
@@ -64,12 +64,3 @@ ctrlrs.controller('SettingsCtrl', ["$scope", function ($scope) {
 ctrlrs.controller('ExtensionMiniCtrl', ["$scope", function ($scope) {
 
 }]);
-
-ctrlrs.controller('TimerCtrl', ["$scope", function($scope) {
-
-    $scope.isEdit = false;
-
-    $scope.toggleEdit = function() {
-        $scope.isEdit = !$scope.isEdit;
-    }
-}])
