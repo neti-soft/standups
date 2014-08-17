@@ -84,9 +84,7 @@ helpers.factory("Timer", function () {
     };
 
     Timer.prototype.checkTimeout = function () {
-        if (this.time.h == 0 && this.time.m == 0 && this.time.s == 0) {
-            this.timeout = true;
-        }
+        this.timeout = this.time.h == 0 && this.time.m == 0 && this.time.s == 0;
         return this.timeout;
     };
 
@@ -108,6 +106,7 @@ helpers.factory("Timer", function () {
         this.h = this.time.h;
         this.m = this.time.m;
         this.s = this.time.s;
+        this.checkTimeout();
     };
 
     Timer.prototype.setAsTime = function (h, m, s) {
