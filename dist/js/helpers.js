@@ -52,7 +52,7 @@ helpers.factory("Timer", function () {
     }
 
     Timer.prototype.start = function () {
-        if (!this.timeout) {
+        if (!this.timeout && !this.interval) {
             this.interval = setInterval(this.tick.bind(this), 1000);
         }
     };
@@ -108,6 +108,21 @@ helpers.factory("Timer", function () {
         this.s = this.time.s;
         this.checkTimeout();
     };
+
+    Timer.prototype.toArray = function () {
+        var to2digit = function (n) {
+            return ("0" + n).slice(-2);
+        };
+
+        return [
+            to2digit(this.time.h)[0],
+            to2digit(this.time.h)[1],
+            to2digit(this.time.m)[0],
+            to2digit(this.time.m)[1],
+            to2digit(this.time.s)[0],
+            to2digit(this.time.s)[1]
+        ]
+    }
 
     Timer.prototype.setAsTime = function (h, m, s) {
         this.setAsDate(new Date(1, 1, 1, h || 0, m || 0, s || 0)); // Fri Feb 01 1901
