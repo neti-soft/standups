@@ -1,6 +1,6 @@
 var directives = angular.module('standups.directives', ["standups.ctrl", "standups.helpers"]);
 
-directives.directive("timer", ["Timer", function (Timer) {
+directives.directive("timer", ["Timer", "Keyboard", function (Timer, Keyboard) {
     return {
         restrict: "AE",
         templateUrl: "templates/timer.html",
@@ -18,6 +18,8 @@ directives.directive("timer", ["Timer", function (Timer) {
                 minutes: 5,
                 seconds: 0
             };
+
+            scope.cursorAt = "s2";
 
             scope.start = function () {
                 scope.cancelEdit();
@@ -91,6 +93,7 @@ directives.directive("timer", ["Timer", function (Timer) {
             };
 
             scope.edit = function () {
+                scope.isEdit = true;
                 els.cntr.addClass('cntredit');
                 timer.stop();
                 els.hsep.show();
@@ -105,6 +108,7 @@ directives.directive("timer", ["Timer", function (Timer) {
             };
 
             scope.cancelEdit = function () {
+                scope.isEdit = false;
                 angular.forEach(els, function (el) {
                     el.removeClass('cur');
                 });
@@ -117,10 +121,17 @@ directives.directive("timer", ["Timer", function (Timer) {
             };
 
             scope.placeCursor = function (t) {
+                scope.cursorAt = t;
                 angular.forEach(els, function (el) {
                     el.removeClass('cur');
                 });
                 els[t].addClass('cur');
+            };
+
+            scope.onNumberTyped = function(e, str) {
+                if(scope.isEdit) {
+                    console.log(str);
+                }
             };
 
             timer.on('change', scope.update);
@@ -128,6 +139,8 @@ directives.directive("timer", ["Timer", function (Timer) {
             timer.on('timeout', scope.timeout);
 
             scope.setDate(scope.defaults.hour, scope.defaults.minutes, scope.defaults.seconds);
+
+            Keyboard.on(/[0-9]/gi, scope.onNumberTyped);
         }
     }
 }])

@@ -78,7 +78,7 @@ helpers.factory("Timer", function () {
         }
     };
 
-    Timer.prototype._update = function(date) {
+    Timer.prototype._update = function (date) {
         this.time.h = date.getHours() + ((date.getDate() - 1) * 24);
         this.time.m = date.getMinutes();
         this.time.s = date.getSeconds();
@@ -126,3 +126,28 @@ helpers.factory("Timer", function () {
 
     return Timer;
 });
+
+helpers.service("Keyboard", [function () {
+
+    var subs = [];
+
+    window.addEventListener("keydown", function (e) {
+        subs.forEach(function(sub) {
+            if (sub.prevent) {
+                e.preventDefault();
+            }
+            var str = String.fromCharCode(e.keyCode);
+            if(sub.pattern.test(str)) sub.callback(e, str);
+        });
+    });
+
+    return {
+        on: function (pattern, cb, prevent) {
+            subs.push({
+                pattern: pattern,
+                callback: cb,
+                prevent: prevent || false
+            });
+        }
+    }
+}]);
