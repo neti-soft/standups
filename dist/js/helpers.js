@@ -124,6 +124,12 @@ helpers.factory("Timer", function () {
         ]
     }
 
+    Timer.format = {
+        to2digit : function (n) {
+            return ("0" + n).slice(-2);
+        }
+    };
+
     Timer.prototype.setAsTime = function (h, m, s) {
         this.setAsDate(new Date(1, 1, 1, h || 0, m || 0, s || 0)); // Fri Feb 01 1901
     };

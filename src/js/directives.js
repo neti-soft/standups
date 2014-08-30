@@ -13,10 +13,7 @@ directives.directive("timer", ["Timer", function (Timer) {
                 els[cls] = $('.standups-timer .' + cls);
             });
 
-            scope.isEdit = false;
-
             scope.start = function () {
-                scope.isEdit = false;
                 timer.start();
             };
 
@@ -24,59 +21,52 @@ directives.directive("timer", ["Timer", function (Timer) {
                 timer.stop();
             };
 
-            scope.setDate = function () {
-                timer.setAsTime(0, 0, 99); //99 secs
+            scope.setDate = function (h, m, s) {
+                timer.setAsTime(h, m, s);
                 scope.update();
             };
 
             scope.update = function () {
 
-                var to2digit = function (n) {
-                    return ("0" + n).slice(-2);
-                };
+                var h1 = Timer.format.to2digit(timer.time.h)[0],
+                    h2 = Timer.format.to2digit(timer.time.h)[1],
+                    m1 = Timer.format.to2digit(timer.time.m)[0],
+                    m2 = Timer.format.to2digit(timer.time.m)[1],
+                    s1 = Timer.format.to2digit(timer.time.s)[0],
+                    s2 = Timer.format.to2digit(timer.time.s)[1];
 
-                var h1 = to2digit(timer.time.h)[0],
-                    h2 = to2digit(timer.time.h)[1],
-                    m1 = to2digit(timer.time.m)[0],
-                    m2 = to2digit(timer.time.m)[1],
-                    s1 = to2digit(timer.time.s)[0],
-                    s2 = to2digit(timer.time.s)[1];
+                els.hsep.show();
+                els.msep.show();
 
-                if (h1 > 0) {
-                    els.h1.show().html(h1);
-                } else {
+                els.h1.html(h1).show();
+                els.h2.html(h2).show();
+                els.m1.html(m1).show();
+                els.m2.html(m2).show();
+                els.s1.html(s1).show();
+                els.s2.html(s2).show();
+
+                if(h1 == 0) {
                     els.h1.hide();
                 }
 
-                if (h2 > 0) {
-                    els.h2.show().html(h2);
-                    els.hsep.show();
-                } else if (h1 <= 0) {
-                    els.h2.hide();
+                if(h2 == 0 && h1 == 0) {
                     els.hsep.hide();
+                    els.h2.hide();
                 }
 
-                if (m1 > 0) {
-                    els.m1.show().html(m1);
-                } else if (h2 <= 0) {
+                if(m1 == 0) {
                     els.m1.hide();
                 }
 
-                if (m2 > 0) {
-                    els.m2.show().html(m2);
-                    els.msep.show();
-                } else if (m1 <= 0) {
+                if(m2 == 0 && h2 == 0 && h1 == 0) {
                     els.m2.hide();
                     els.msep.hide();
                 }
 
-                if (s1 > 0) {
-                    els.s1.show().html(s1);
-                } else if (m2 <= 0) {
+                if(s1 == 0) {
                     els.s1.hide();
                 }
 
-                els.s2.show().html(s2);
             };
 
             scope.timeout = function () {
@@ -89,7 +79,7 @@ directives.directive("timer", ["Timer", function (Timer) {
             };
 
             scope.toggleEdit = function () {
-                scope.isEdit = !scope.isEdit;
+
             };
 
             timer.on('change', scope.update);
