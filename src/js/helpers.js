@@ -42,44 +42,61 @@ helpers.service("Screen", function () {
 helpers.factory("Timer", function () {
 
     function Timer(h, m, s) {
+        this.started = false;
         this.timeout = false;
         this.time = {};
         this._events = {};
-        this.setAsTime(h, m, s);
+        this.set(h, m, s);
+    }
+
+    Timer.prototype.set = function () {
+        var date = arguments[0];
+        if (arguments.length > 1) {
+            date = new Date(1, 1, 1, arguments[0] || 0, arguments[1] || 0, arguments[2] || 0); // Fri Feb 01 1901
+        }
+        this._update(date);
         this.h = this.time.h;
         this.m = this.time.m;
         this.s = this.time.s;
-    }
+        this.checkTimeout();
+    };
 
     Timer.prototype.start = function () {
         if (!this.timeout && !this.interval) {
-            this.interval = setInterval(this.tick.bind(this), 1000);
+            this.started = true;
+            this.interval = setInterval(this._tick.bind(this), 1000);
         }
     };
 
-    Timer.prototype.tick = function () {
+    Timer.prototype._tick = function () {
         if (!this.timeout) {
-            this.degrees();
-            this.fire('change', this.time);
+            this._degrees();
+            this._fire('change', this.time);
         } else {
             this.stop();
-            this.fire('timeout', this.time);
+            this._fire('timeout', this.time);
         }
     };
+
+    Timer.prototype._update = function(date) {
+        this.time.h = date.getHours() + ((date.getDate() - 1) * 24);
+        this.time.m = date.getMinutes();
+        this.time.s = date.getSeconds();
+    }
 
     Timer.prototype.on = function (e, cb) {
         this._events[e] = cb;
     };
 
-    Timer.prototype.fire = function (e) {
+    Timer.prototype._fire = function (e) {
         var args = [].splice(1, arguments);
         this._events[e] && this._events[e].apply(this, args);
     };
 
-    Timer.prototype.degrees = function () {
+    Timer.prototype._degrees = function () {
         var d = new Date(1, 1, 1, this.time.h, this.time.m, this.time.s);
         d.setSeconds(d.getSeconds() - 1);
-        this.setAsDate(d);
+        this._update(d);
         this.checkTimeout();
     };
 
@@ -90,6 +107,7 @@ helpers.factory("Timer", function () {
 
     Timer.prototype.stop = function () {
         clearInterval(this.interval);
+        this.started = false;
         this.interval = null;
     };
 
@@ -100,39 +118,10 @@ helpers.factory("Timer", function () {
         this.checkTimeout();
     };
 
-    Timer.prototype.setAsDate = function (d) {
-        this.time.h = d.getHours() + ((d.getDate() - 1) * 24);
-        this.time.m = d.getMinutes();
-        this.time.s = d.getSeconds();
-        this.h = this.time.h;
-        this.m = this.time.m;
-        this.s = this.time.s;
-        this.checkTimeout();
-    };
-
-    Timer.prototype.toArray = function () {
-        var to2digit = function (n) {
-            return ("0" + n).slice(-2);
-        };
-
-        return [
-            to2digit(this.time.h)[0],
-            to2digit(this.time.h)[1],
-            to2digit(this.time.m)[0],
-            to2digit(this.time.m)[1],
-            to2digit(this.time.s)[0],
-            to2digit(this.time.s)[1]
-        ]
-    }
-
     Timer.format = {
-        to2digit : function (n) {
+        to2digit: function (n) {
             return ("0" + n).slice(-2);
         }
-    };
-
-    Timer.prototype.setAsTime = function (h, m, s) {
-        this.setAsDate(new Date(1, 1, 1, h || 0, m || 0, s || 0)); // Fri Feb 01 1901
     };
 
     return Timer;

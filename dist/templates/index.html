@@ -64,12 +64,9 @@
       </div>
     </div>
     <div>
-      <button data-ng-click="start()">Start</button>
+      <button data-ng-click="start()" data-ng-show="!timerStarted()">Start</button>
+      <button data-ng-click="stop()" data-ng-show="timerStarted()">Stop</button>
       <button data-ng-click="reset()">Reset</button>
-      <input data-ng-model="h" placeholder="h" type="number">
-      <input data-ng-model="m" placeholder="m" type="number">
-      <input data-ng-model="s" placeholder="s" type="number">
-      <button data-ng-click="setDate(h,m,s)">Set 99 secs</button>
     </div>
   </script>
 

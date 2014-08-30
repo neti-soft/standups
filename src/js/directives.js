@@ -9,16 +9,24 @@ directives.directive("timer", ["Timer", function (Timer) {
             var els = {};
             var timer = new Timer();
 
-            angular.forEach(["h1", "h2", "m1", "m2", "s1", "s2", 'hsep', 'msep', 'ssep'], function (cls) {
+            angular.forEach(["h1", "h2", "m1", "m2", "s1", "s2", 'hsep', 'msep', 'ssep', 'cntr'], function (cls) {
                 els[cls] = $('.standups-timer .' + cls);
             });
 
-            scope.isEdit = false;
+            scope.defaults = {
+                hour: 0,
+                minutes: 5,
+                seconds: 0
+            };
 
             scope.start = function () {
-                scope.isEdit = false;
+                scope.cancelEdit();
                 timer.start();
                 scope.update();
+            };
+
+            scope.timerStarted = function() {
+                return timer.started;
             };
 
             scope.stop = function () {
@@ -26,7 +34,7 @@ directives.directive("timer", ["Timer", function (Timer) {
             };
 
             scope.setDate = function (h, m, s) {
-                timer.setAsTime(h, m, s);
+                timer.set(h, m, s);
                 scope.update();
             };
 
@@ -83,25 +91,43 @@ directives.directive("timer", ["Timer", function (Timer) {
             };
 
             scope.edit = function () {
-                if (!scope.isEdit) {
-                    scope.isEdit = true;
-                    timer.stop();
-                    els.hsep.show();
-                    els.msep.show();
-                    els.h1.show();
-                    els.h2.show();
-                    els.m1.show();
-                    els.m2.show();
-                    els.s1.show();
-                    els.s2.show();
-                }
+                els.cntr.addClass('cntredit');
+                timer.stop();
+                els.hsep.show();
+                els.msep.show();
+                els.h1.show();
+                els.h2.show();
+                els.m1.show();
+                els.m2.show();
+                els.s1.show();
+                els.s2.show();
+                scope.placeCursor('s2');
+            };
+
+            scope.cancelEdit = function () {
+                angular.forEach(els, function (el) {
+                    el.removeClass('cur');
+                });
+                els.cntr.removeClass('cntredit');
+                scope.update();
+            };
+
+            scope.stop = function() {
+                timer.stop();
+            };
+
+            scope.placeCursor = function (t) {
+                angular.forEach(els, function (el) {
+                    el.removeClass('cur');
+                });
+                els[t].addClass('cur');
             };
 
             timer.on('change', scope.update);
 
             timer.on('timeout', scope.timeout);
 
-            scope.update();
+            scope.setDate(scope.defaults.hour, scope.defaults.minutes, scope.defaults.seconds);
         }
     }
 }])
