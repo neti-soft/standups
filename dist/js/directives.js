@@ -13,8 +13,12 @@ directives.directive("timer", ["Timer", function (Timer) {
                 els[cls] = $('.standups-timer .' + cls);
             });
 
+            scope.isEdit = false;
+
             scope.start = function () {
+                scope.isEdit = false;
                 timer.start();
+                scope.update();
             };
 
             scope.stop = function () {
@@ -45,25 +49,25 @@ directives.directive("timer", ["Timer", function (Timer) {
                 els.s1.html(s1).show();
                 els.s2.html(s2).show();
 
-                if(h1 == 0) {
+                if (h1 == 0) {
                     els.h1.hide();
                 }
 
-                if(h2 == 0 && h1 == 0) {
+                if (h2 == 0 && h1 == 0) {
                     els.hsep.hide();
                     els.h2.hide();
                 }
 
-                if(m1 == 0) {
+                if (m1 == 0) {
                     els.m1.hide();
                 }
 
-                if(m2 == 0 && h2 == 0 && h1 == 0) {
+                if (m2 == 0 && h2 == 0 && h1 == 0) {
                     els.m2.hide();
                     els.msep.hide();
                 }
 
-                if(s1 == 0) {
+                if (s1 == 0) {
                     els.s1.hide();
                 }
 
@@ -78,8 +82,19 @@ directives.directive("timer", ["Timer", function (Timer) {
                 scope.update();
             };
 
-            scope.toggleEdit = function () {
-
+            scope.edit = function () {
+                if (!scope.isEdit) {
+                    scope.isEdit = true;
+                    timer.stop();
+                    els.hsep.show();
+                    els.msep.show();
+                    els.h1.show();
+                    els.h2.show();
+                    els.m1.show();
+                    els.m2.show();
+                    els.s1.show();
+                    els.s2.show();
+                }
             };
 
             timer.on('change', scope.update);

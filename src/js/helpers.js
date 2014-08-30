@@ -90,6 +90,7 @@ helpers.factory("Timer", function () {
 
     Timer.prototype.stop = function () {
         clearInterval(this.interval);
+        this.interval = null;
     };
 
     Timer.prototype.reset = function () {
