@@ -130,7 +130,7 @@ directives.directive("timer", ["Timer", "Keyboard", function (Timer, Keyboard) {
 
             scope.onNumberTyped = function(e, str) {
                 if(scope.isEdit) {
-                    console.log(str);
+
                 }
             };
 

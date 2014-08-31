@@ -131,23 +131,117 @@ helpers.service("Keyboard", [function () {
 
     var subs = [];
 
-    window.addEventListener("keydown", function (e) {
-        subs.forEach(function(sub) {
-            if (sub.prevent) {
-                e.preventDefault();
+
+    var Keyboard = {};
+
+    // Lets user to use special key names, as CTRL+Enter, Backspace, ALT+Del, instead of ascii code
+    Keyboard.SpecialKeys = {
+        8: /^backspace$/gi,
+        9: /^tab$/gi,
+        13: /^enter|13$/gi,
+        27: /^escape|27$/gi,
+        37: /^left arrow|left$/gi,
+        38: /^up arrow|up$/gi,
+        39: /^right arrow|right$/gi,
+        40: /^down arrow|down$/gi,
+        45: /^insert$/gi,
+        46: /^delete|del$/gi
+    };
+
+    var ctrlRgx = /ctrl/gi,
+        altRgx = /alt/gi,
+        cmdRgx = /cmd/gi,
+        shiftRgx = /shift/gi;
+
+
+    var Subscription = function (value, cb, ctx) {
+        this.cb = cb;
+        this.value = value;
+        this.ctx = ctx || this;
+        this.hasCtrl = ctrlRgx.test(value);
+        this.hasAlt = altRgx.test(value);
+        this.hasCmd = cmdRgx.test(value);
+        this.hasShift = shiftRgx.test(value);
+
+        if (typeof value === "number") {
+            this.code = value;
+            return;
+        }
+
+        if (value instanceof RegExp) {
+            this.pattern = value;
+            return;
+        }
+
+        var parts = value.split('+');
+        value = parts[parts.length - 1];
+
+        if (value == "*") {
+            this.pattern = /./gi;
+            return;
+        }
+
+        for (var code in Keyboard.SpecialKeys) {
+            if (Keyboard.SpecialKeys[code].test(value)) {
+                this.code = parseInt(code);
+                return;
             }
-            var str = String.fromCharCode(e.keyCode);
-            if(sub.pattern.test(str)) sub.callback(e, str);
+        }
+
+        this.code = this.pattern.charCodeAt(0);
+    };
+
+    Subscription.asKeyBoardEvent = function (event) {
+        if (event instanceof KeyboardEvent) {
+            //create subscription with flag
+            //use this flag during compare
+        }
+    };
+
+    Subscription.prototype.equals = function (sub) {
+        var that = this;
+
+        // use flag
+        //todo: problems with checking during event
+        return ["hasCtrl", "hasAlt", "hasCmd", "hasShift", "pattern", "code"].reduce(function (prevResult, key) {
+            if (typeof prevResult == "string") {
+                prevResult = that[prevResult] === sub[prevResult];
+            }
+            if (key == "pattern") {
+                return (that.pattern && sub.pattern && that.pattern.toString() == sub.pattern) && prevResult;
+            }
+            return that[key] === sub[key] && prevResult;
+        });
+    }
+
+    /**
+     * Subscribes callback for specific key value pattern
+     * @param value [String, Number, Regex]
+     * @param cb Function
+     * @param ctx Object optional function context
+     */
+    Keyboard.on = function (value, cb, ctx) {
+        subs.push(new Subscription(value, cb, ctx));
+    };
+
+    Keyboard.off = function (value, cb) {
+        var subToOff = new Subscription(value, cb);
+        for (var i = 0, sub = subs[i]; i < subs.length; i++) {
+            if (sub.equals(subToOff)) {
+                delete subs[i];
+                subs.splice(i, 1);
+            }
+        }
+    };
+
+    window.addEventListener("keydown", function (e) {
+        var eventSub = new Subscription.asKeyBoardEvent(e);
+        subs.forEach(function (sub) {
+            if(sub.equals(eventSub)) {
+                sub.fire();
+            }
         });
     });
 
-    return {
-        on: function (pattern, cb, prevent) {
-            subs.push({
-                pattern: pattern,
-                callback: cb,
-                prevent: prevent || false
-            });
-        }
-    }
+    return Keyboard;
 }]);
