@@ -149,19 +149,19 @@ helpers.service("Keyboard", [function () {
     };
 
     var ctrlRgx = /ctrl/gi,
-        altRgx = /alt/gi,
-        cmdRgx = /cmd/gi,
+        altRgx = /alt|left alt/gi,
+        cmdRgx = /cmd|command/gi,
         shiftRgx = /shift/gi;
 
 
     var Subscription = function (value, cb, ctx) {
         this.cb = cb;
         this.value = value;
-        this.ctx = ctx || this;
-        this.hasCtrl = ctrlRgx.test(value);
-        this.hasAlt = altRgx.test(value);
-        this.hasCmd = cmdRgx.test(value);
-        this.hasShift = shiftRgx.test(value);
+        this.ctx = ctx;
+        this.ctrlKey = ctrlRgx.test(value);
+        this.altKey = altRgx.test(value);
+        this.metaKey = cmdRgx.test(value);
+        this.shiftKey = shiftRgx.test(value);
 
         if (typeof value === "number") {
             this.code = value;
@@ -191,28 +191,38 @@ helpers.service("Keyboard", [function () {
         this.code = this.pattern.charCodeAt(0);
     };
 
-    Subscription.asKeyBoardEvent = function (event) {
-        if (event instanceof KeyboardEvent) {
-            //create subscription with flag
-            //use this flag during compare
+    Subscription.hasEqualProperties = function (a, b, keys) {
+        return keys.reduce(function (prevResult, key) {
+            if (typeof prevResult == "string") {
+                prevResult = a[prevResult] === b[prevResult];
+            }
+            if (key == "pattern") {
+                return (a.pattern && b.pattern && a.pattern.toString() == b.pattern) && prevResult;
+            }
+            return a[key] === b[key] && prevResult;
+        });
+    };
+
+    Subscription.prototype.fire = function (e) {
+        this.cb.call(this.ctx, e, this);
+    };
+
+
+    Subscription.prototype.match = function (event) {
+        var match = false;
+        if (!event instanceof KeyboardEvent) return match;
+        var specialsMatch = Subscription.hasEqualProperties(this, event, ["altKey", "ctrlKey", "shiftKey", "metaKey"]);
+        if (Keyboard.SpecialKeys[event.which]) {
+            return specialsMatch === true && this.code == event.which;
+        } else {
+            return specialsMatch === true && this.test(this.String.fromCharCode(event.which));
         }
     };
 
     Subscription.prototype.equals = function (sub) {
-        var that = this;
-
-        // use flag
-        //todo: problems with checking during event
-        return ["hasCtrl", "hasAlt", "hasCmd", "hasShift", "pattern", "code"].reduce(function (prevResult, key) {
-            if (typeof prevResult == "string") {
-                prevResult = that[prevResult] === sub[prevResult];
-            }
-            if (key == "pattern") {
-                return (that.pattern && sub.pattern && that.pattern.toString() == sub.pattern) && prevResult;
-            }
-            return that[key] === sub[key] && prevResult;
-        });
-    }
+        return Subscription.hasEqualProperties(this, sub,
+            ["ctrlKey", "altKey", "shiftKey", "metaKey", "pattern", "code", "cb"]);
+    };
 
     /**
      * Subscribes callback for specific key value pattern
@@ -235,10 +245,9 @@ helpers.service("Keyboard", [function () {
     };
 
     window.addEventListener("keydown", function (e) {
-        var eventSub = new Subscription.asKeyBoardEvent(e);
         subs.forEach(function (sub) {
-            if(sub.equals(eventSub)) {
-                sub.fire();
+            if (sub.match(e)) {
+                sub.fire(e);
             }
         });
     });
