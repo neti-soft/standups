@@ -134,12 +134,13 @@ helpers.service("Keyboard", [function () {
 
     var Keyboard = {};
 
-    // Lets user to use special key names, as CTRL+Enter, Backspace, ALT+Del, instead of ascii code
+    // Lets user to use special key names, as CTRL+Enter, Backspace, ALT+Del, ALT+DELETE, instead of ascii code
     Keyboard.SpecialKeys = {
         8: /^backspace$/gi,
         9: /^tab$/gi,
-        13: /^enter|13$/gi,
-        27: /^escape|27$/gi,
+        13: /^enter$/gi,
+        27: /^escape|esc$/gi,
+        32: /^space|spacebar$/gi,
         37: /^left arrow|left$/gi,
         38: /^up arrow|up$/gi,
         39: /^right arrow|right$/gi,
@@ -177,7 +178,7 @@ helpers.service("Keyboard", [function () {
         value = parts[parts.length - 1];
 
         if (value == "*") {
-            this.pattern = /./gi;
+            this.pattern = new RegExp(".", "gi");
             return;
         }
 
@@ -187,8 +188,7 @@ helpers.service("Keyboard", [function () {
                 return;
             }
         }
-
-        this.code = this.pattern.charCodeAt(0);
+        this.code = value.charCodeAt(0);
     };
 
     Subscription.hasEqualProperties = function (a, b, keys) {
@@ -204,7 +204,7 @@ helpers.service("Keyboard", [function () {
     };
 
     Subscription.prototype.fire = function (e) {
-        this.cb.call(this.ctx, e, this);
+        this.cb.call(this.ctx, String.fromCharCode(e.which), e, this);
     };
 
 
@@ -212,10 +212,11 @@ helpers.service("Keyboard", [function () {
         var match = false;
         if (!event instanceof KeyboardEvent) return match;
         var specialsMatch = Subscription.hasEqualProperties(this, event, ["altKey", "ctrlKey", "shiftKey", "metaKey"]);
-        if (Keyboard.SpecialKeys[event.which]) {
+        if (Keyboard.SpecialKeys[event.which] || this.code) {
             return specialsMatch === true && this.code == event.which;
         } else {
-            return specialsMatch === true && this.test(this.String.fromCharCode(event.which));
+            var str = String.fromCharCode(event.which);
+            return specialsMatch === true && (new RegExp(this.pattern)).test(str) === true;
         }
     };
 

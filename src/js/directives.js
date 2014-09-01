@@ -27,7 +27,7 @@ directives.directive("timer", ["Timer", "Keyboard", function (Timer, Keyboard) {
                 scope.update();
             };
 
-            scope.timerStarted = function() {
+            scope.timerStarted = function () {
                 return timer.started;
             };
 
@@ -116,7 +116,7 @@ directives.directive("timer", ["Timer", "Keyboard", function (Timer, Keyboard) {
                 scope.update();
             };
 
-            scope.stop = function() {
+            scope.stop = function () {
                 timer.stop();
             };
 
@@ -128,9 +128,9 @@ directives.directive("timer", ["Timer", "Keyboard", function (Timer, Keyboard) {
                 els[t].addClass('cur');
             };
 
-            scope.onNumberTyped = function(e, str) {
-                if(scope.isEdit) {
-
+            scope.onNumberTyped = function (num) {
+                if (scope.isEdit) {
+                    console.log(num);
                 }
             };
 
