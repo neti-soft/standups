@@ -8,9 +8,14 @@
     display: inline-block;
     outline: none;
     padding: 5px 12px;
+    padding-left: 25px;
     word-spacing: -3px;
     letter-spacing: -3px;
     position: relative;
+
+    &.cntredit {
+      color: #AAA;
+    }
 
     .dig, .sep {
       word-spacing: normal;
@@ -29,13 +34,14 @@
       font-size: 4em;
     }
 
-    .sep {
+    .sep  {
       font-size: 2em;
-      padding-right: 10px;
+      margin-left: 2px;
+      margin-right: 10px;
     }
 
     .cur {
-      border-right: 1px solid #000000;
+      border-right: 1px solid black;
     }
   }
 }
