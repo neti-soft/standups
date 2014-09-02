@@ -54,6 +54,8 @@ directives.directive("timer", ["Timer", "Keyboard", function (Timer, Keyboard) {
                 els.s1.html(t.s1).show();
                 els.s2.html(t.s2).show();
 
+                if(scope.isEdit) return;
+
                 if (t.h1 == 0) {
                     els.h1.hide();
                 }
