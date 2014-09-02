@@ -7,11 +7,10 @@ directives.directive("timer", ["Timer", "Keyboard", function (Timer, Keyboard) {
         link: function (scope, el, attr) {
 
             var els = {};
-            var el = $('.standups-timer');
             var timer = new Timer();
 
             angular.forEach(["h1", "h2", "m1", "m2", "s1", "s2", 'hsep', 'msep', 'ssep', 'cntr'], function (cls) {
-                els[cls] = el.find('.' + cls);
+                els[cls] = $(el).find('.' + cls);
             });
 
             scope.defaults = {
