@@ -59,6 +59,7 @@ helpers.factory("Timer", function () {
         this.m = this.time.m;
         this.s = this.time.s;
         this.checkTimeout();
+        this._fire('change', this.time);
     };
 
     Timer.prototype.start = function () {
@@ -118,9 +119,40 @@ helpers.factory("Timer", function () {
         this.checkTimeout();
     };
 
-    Timer.format = {
-        to2digit: function (n) {
-            return ("0" + n).slice(-2);
+    Timer.prototype.input = function (num) {
+        var t = Timer.to2digits(this.time);
+        //shift left
+        t.h1 = t.h2;
+        t.h2 = t.m1;
+        t.m1 = t.m2;
+        t.m2 = t.s1;
+        t.s1 = t.s2;
+        t.s2 = num;
+        t = Timer.from2digits(t);
+        this.set(t.h, t.m, t.s);
+    };
+
+    Timer.to2digit = function (n) {
+        return ("0" + n).slice(-2);
+    };
+
+    Timer.to2digits = function (time) {
+        var f = Timer.to2digit;
+        return {
+            h1: f(time.h)[0],
+            h2: f(time.h)[1],
+            m1: f(time.m)[0],
+            m2: f(time.m)[1],
+            s1: f(time.s)[0],
+            s2: f(time.s)[1]
+        };
+    };
+
+    Timer.from2digits = function (time) {
+        return {
+            h: time.h1 + time.h2,
+            m: time.m1 + time.m2,
+            s: time.s1 + time.s2
         }
     };
 
@@ -206,7 +238,6 @@ helpers.service("Keyboard", [function () {
     Subscription.prototype.fire = function (e) {
         this.cb.call(this.ctx, String.fromCharCode(e.which), e, this);
     };
-
 
     Subscription.prototype.match = function (event) {
         var match = false;

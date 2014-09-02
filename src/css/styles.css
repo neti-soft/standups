@@ -120,6 +120,9 @@
 #extension-standups .standups-timer .cntr.cntredit {
   color: #AAA;
 }
+#extension-standups .standups-timer .cntr .dirty {
+  color: #222;
+}
 #extension-standups .standups-timer .cntr .dig,
 #extension-standups .standups-timer .cntr .sep {
   word-spacing: normal;
