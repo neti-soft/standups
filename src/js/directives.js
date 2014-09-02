@@ -131,6 +131,12 @@ directives.directive("timer", ["Timer", "Keyboard", function (Timer, Keyboard) {
                 }
             };
 
+            scope.onEnterTyped = function() {
+                if (scope.isEdit) {
+                    scope.cancelEdit();
+                }
+            };
+
             timer.on('change', scope.update);
 
             timer.on('timeout', scope.timeout);
@@ -138,6 +144,7 @@ directives.directive("timer", ["Timer", "Keyboard", function (Timer, Keyboard) {
             scope.setDate(scope.defaults.hour, scope.defaults.minutes, scope.defaults.seconds);
 
             Keyboard.on(/[0-9]/gi, scope.onNumberTyped);
+            Keyboard.on("Enter", scope.onEnterTyped);
         }
     }
 }])
