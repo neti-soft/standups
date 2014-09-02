@@ -59,6 +59,7 @@ helpers.factory("Timer", function () {
         this.m = this.time.m;
         this.s = this.time.s;
         this.checkTimeout();
+        this._fire('change', this.time);
     };
 
     Timer.prototype.start = function () {
@@ -127,8 +128,8 @@ helpers.factory("Timer", function () {
         t.m2 = t.s1;
         t.s1 = t.s2;
         t.s2 = num;
-        this.time = Timer.from2digits(t);
-        this._fire('change', this.time);
+        t = Timer.from2digits(t);
+        this.set(t.h, t.m, t.s);
     };
 
     Timer.to2digit = function (n) {

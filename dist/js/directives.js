@@ -137,14 +137,15 @@ directives.directive("timer", ["Timer", "Keyboard", function (Timer, Keyboard) {
                 }
             };
 
-            timer.on('change', scope.update);
-
-            timer.on('timeout', scope.timeout);
-
             scope.setDate(scope.defaults.hour, scope.defaults.minutes, scope.defaults.seconds);
 
             Keyboard.on(/[0-9]/gi, scope.onNumberTyped);
+
             Keyboard.on("Enter", scope.onEnterTyped);
+
+            timer.on('change', scope.update);
+
+            timer.on('timeout', scope.timeout);
         }
     }
 }])
