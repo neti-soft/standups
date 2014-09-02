@@ -7,10 +7,11 @@ directives.directive("timer", ["Timer", "Keyboard", function (Timer, Keyboard) {
         link: function (scope, el, attr) {
 
             var els = {};
+            var el = $('.standups-timer');
             var timer = new Timer();
 
             angular.forEach(["h1", "h2", "m1", "m2", "s1", "s2", 'hsep', 'msep', 'ssep', 'cntr'], function (cls) {
-                els[cls] = $('.standups-timer .' + cls);
+                els[cls] = el.find('.' + cls);
             });
 
             scope.defaults = {
@@ -54,7 +55,7 @@ directives.directive("timer", ["Timer", "Keyboard", function (Timer, Keyboard) {
                 els.s1.html(t.s1).show();
                 els.s2.html(t.s2).show();
 
-                if(scope.isEdit) return;
+                if (scope.isEdit) return;
 
                 if (t.h1 == 0) {
                     els.h1.hide();
@@ -107,7 +108,7 @@ directives.directive("timer", ["Timer", "Keyboard", function (Timer, Keyboard) {
             scope.cancelEdit = function () {
                 scope.isEdit = false;
                 angular.forEach(els, function (el) {
-                    el.removeClass('cur');
+                    el.removeClass('cur').removeClass('dirty');
                 });
                 els.cntr.removeClass('cntredit');
                 scope.update();
@@ -125,13 +126,28 @@ directives.directive("timer", ["Timer", "Keyboard", function (Timer, Keyboard) {
                 els[t].addClass('cur');
             };
 
-            scope.onNumberTyped = function (num) {
-                if (scope.isEdit) {
-                    timer.input(num);
+            scope.dirtyNext = function () {
+                var order = ["ssep", "s2", "s1", "msep", "m2", "m1", "hsep", "h2", "h1"];
+                for (var i = 0; i < order.length; i++) {
+                    var el = els[order[i]];
+                    if (order[i] == "ssep" || order[i] == "msep" || order[i] == "hsep") {
+                        el.addClass("dirty");
+                    }
+                    if (!el.hasClass("dirty")) {
+                        el.addClass("dirty");
+                        break;
+                    }
                 }
             };
 
-            scope.onEnterTyped = function() {
+            scope.onNumberTyped = function (num) {
+                if (scope.isEdit) {
+                    timer.input(num);
+                    scope.dirtyNext();
+                }
+            };
+
+            scope.onEnterTyped = function () {
                 if (scope.isEdit) {
                     scope.cancelEdit();
                 }
