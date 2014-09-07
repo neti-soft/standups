@@ -69,6 +69,10 @@ ctrlrs.controller('MainCtrl', ["$scope", "$rootScope", function ($scope, $rootSc
         $rootScope.$broadcast('timer-reset');
     };
 
+    $rootScope.$on('timer-timeout', function() {
+        alert('Time is out!')
+    });
+
 }]);
 
 /* Controller for Settings view */
