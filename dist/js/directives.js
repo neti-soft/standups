@@ -96,6 +96,7 @@ directives.directive("timer", ["$rootScope", "Timer", "Keyboard", function ($roo
             scope.edit = function (e) {
                 e.stopPropagation();
                 scope.isEdit = true;
+                scope.canZero = true;
                 els.cntr.addClass('cntredit');
                 timer.stop();
                 els.hsep.show();
@@ -142,6 +143,12 @@ directives.directive("timer", ["$rootScope", "Timer", "Keyboard", function ($roo
 
             scope.onNumberTyped = function (num) {
                 if (scope.isEdit) {
+
+                    if(scope.canZero) {
+                        scope.canZero = false;
+                        timer.zero();
+                    }
+
                     timer.input(num);
                     scope.dirtyNext();
                 }

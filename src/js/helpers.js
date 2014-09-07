@@ -119,6 +119,10 @@ helpers.factory("Timer", function () {
         this.checkTimeout();
     };
 
+    Timer.prototype.zero = function () {
+        this.set(0, 0, 0);
+    };
+
     Timer.prototype.input = function (num) {
         var t = Timer.to2digits(this.time);
         //shift left
