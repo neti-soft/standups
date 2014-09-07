@@ -1,6 +1,6 @@
 var directives = angular.module('standups.directives', ["standups.ctrl", "standups.helpers"]);
 
-directives.directive("timer", ["Timer", "Keyboard", function (Timer, Keyboard) {
+directives.directive("timer", ["$rootScope", "Timer", "Keyboard", function ($rootScope, Timer, Keyboard) {
     return {
         restrict: "AE",
         templateUrl: "templates/timer.html",
@@ -21,18 +21,31 @@ directives.directive("timer", ["Timer", "Keyboard", function (Timer, Keyboard) {
 
             scope.cursorAt = "s2";
 
-            scope.start = function () {
+            $rootScope.$on('timer-start', function () {
                 scope.cancelEdit();
                 timer.start();
                 scope.update();
-            };
+            });
+
+            $rootScope.$on('timer-reset', function () {
+                timer.reset();
+                scope.update();
+            });
+
+            $rootScope.$on('timer-stop', function () {
+                timer.stop();
+            });
+
+            $rootScope.$on('timer-set', function (h, m, s) {
+                scope.setDate(h, m, s);
+            });
+
+            timer.on('timeout', function () {
+                $rootScope.$emit('timer-timeout', timer);
+            });
 
             scope.timerStarted = function () {
                 return timer.started;
-            };
-
-            scope.stop = function () {
-                timer.stop();
             };
 
             scope.setDate = function (h, m, s) {
@@ -69,28 +82,21 @@ directives.directive("timer", ["Timer", "Keyboard", function (Timer, Keyboard) {
                     els.m1.hide();
                 }
 
-                if (t.m2 == 0 && t.h2 == 0 && t.h1 == 0) {
+                if (t.m1 == 0 && t.m2 == 0 && t.h2 == 0 && t.h1 == 0) {
                     els.m2.hide();
                     els.msep.hide();
                 }
 
-                if (t.s1 == 0) {
+                if (t.s1 == 0 && t.m1 == 0 && t.m2 == 0 && t.h2 == 0 && t.h1 == 0) {
                     els.s1.hide();
                 }
 
             };
 
-            scope.timeout = function () {
-                alert('Timeout');
-            };
-
-            scope.reset = function () {
-                timer.reset();
-                scope.update();
-            };
-
-            scope.edit = function () {
+            scope.edit = function (e) {
+                e.stopPropagation();
                 scope.isEdit = true;
+                scope.canZero = true;
                 els.cntr.addClass('cntredit');
                 timer.stop();
                 els.hsep.show();
@@ -111,10 +117,6 @@ directives.directive("timer", ["Timer", "Keyboard", function (Timer, Keyboard) {
                 });
                 els.cntr.removeClass('cntredit');
                 scope.update();
-            };
-
-            scope.stop = function () {
-                timer.stop();
             };
 
             scope.placeCursor = function (t) {
@@ -141,6 +143,12 @@ directives.directive("timer", ["Timer", "Keyboard", function (Timer, Keyboard) {
 
             scope.onNumberTyped = function (num) {
                 if (scope.isEdit) {
+
+                    if (scope.canZero) {
+                        scope.canZero = false;
+                        timer.zero();
+                    }
+
                     timer.input(num);
                     scope.dirtyNext();
                 }
@@ -152,15 +160,19 @@ directives.directive("timer", ["Timer", "Keyboard", function (Timer, Keyboard) {
                 }
             };
 
-            scope.setDate(scope.defaults.hour, scope.defaults.minutes, scope.defaults.seconds);
-
             Keyboard.on(/[0-9]/gi, scope.onNumberTyped);
 
             Keyboard.on("Enter", scope.onEnterTyped);
 
             timer.on('change', scope.update);
 
-            timer.on('timeout', scope.timeout);
+            scope.setDate(scope.defaults.hour, scope.defaults.minutes, scope.defaults.seconds);
+
+            $('#extension-standups').click(function () {
+                if (scope.isEdit) {
+                    scope.cancelEdit();
+                }
+            });
         }
     }
 }])

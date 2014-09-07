@@ -1,7 +1,7 @@
 #extension-standups .standups-timer {
 
   font-family: arial, sans-serif;
-  color: #222;
+  color: @text_dark;
 
   .cntr {
     border: 1px solid transparent;
@@ -14,38 +14,38 @@
     position: relative;
 
     &.cntredit {
-      color: #AAA;
+      .h1, .h2, .m1, .m2, .s1, .s2, .dig, .sep {
+        color: @text_light_gray;
+        cursor: default;
+      }
     }
 
     .dirty {
-      color: #222;
+      color: @text_dark;
     }
 
     .dig, .sep {
+      font-weight: normal;
       word-spacing: normal;
       letter-spacing: normal;
       display: inline-block;
     }
 
-    .edit {
-      color: #AAA;
-      cursor: default;
-    }
-
-    .dig {
+    .h1, .h2, .m1, .m2, .s1, .s2, .dig, .sep {
+      color: @text_dark;
       border: none;
       border-right: 1px solid transparent;
-      font-size: 4em;
+      font-size: 4.5em;
     }
 
-    .sep  {
-      font-size: 2em;
+    .sep {
+      font-size: 2.2em;
       margin-left: 2px;
       margin-right: 10px;
     }
 
     .cur {
-      border-right: 1px solid black;
+      border-right: 1px solid @black;
     }
   }
 }

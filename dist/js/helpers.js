@@ -1,8 +1,8 @@
 var helpers = angular.module('standups.helpers', []);
 
-helpers.service("Screen", function () {
+helpers.service("Extension", function () {
 
-    var extensionEl = $('#extension-standups');
+    var el = $('#extension-standups');
 
     $.fn.scrollStopped = function (callback) {
         $(this).scroll(function () {
@@ -14,29 +14,42 @@ helpers.service("Screen", function () {
         });
     };
 
-    return {
+    var Ext = {
 
-        requestFullScreen: function (elSelector) {
-            var elem = document.querySelector(elSelector);
-            if (elem.requestFullscreen) {
-                elem.requestFullscreen();
-            } else if (elem.msRequestFullscreen) {
-                elem.msRequestFullscreen();
-            } else if (elem.mozRequestFullScreen) {
-                elem.mozRequestFullScreen();
-            } else if (elem.webkitRequestFullscreen) {
-                elem.webkitRequestFullscreen();
+        toggleSound: function () {
+            Ext.Settings.enableSound = !Ext.Settings.enableSound;
+        },
+
+        quit: function () {
+            el.remove();
+        },
+
+        Settings: {
+            enableSound: true
+        },
+
+        Nav: {
+            view: "main",
+            to: function (name) {
+                Ext.Nav.view = name;
+            },
+            is: function (view) {
+                return Ext.Nav.view == view;
             }
         },
 
-        scroll: function (cb) {
-            $(document).scroll(cb.bind(document, extensionEl));
-        },
+        Screen: {
+            scroll: function (cb) {
+                $(document).scroll(cb.bind(document, el));
+            },
 
-        scrollStopped: function (cb) {
-            $(document).scrollStopped(cb.bind(document, extensionEl))
+            scrollStopped: function (cb) {
+                $(document).scrollStopped(cb.bind(document, el))
+            }
         }
-    }
+    };
+
+    return Ext;
 });
 
 helpers.factory("Timer", function () {
@@ -117,6 +130,10 @@ helpers.factory("Timer", function () {
         this.time.m = this.m;
         this.time.s = this.s;
         this.checkTimeout();
+    };
+
+    Timer.prototype.zero = function () {
+        this.set(0, 0, 0);
     };
 
     Timer.prototype.input = function (num) {
