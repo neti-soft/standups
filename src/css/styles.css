@@ -125,6 +125,7 @@
 }
 #extension-standups .standups-timer .cntr .dig,
 #extension-standups .standups-timer .cntr .sep {
+  font-weight: normal;
   word-spacing: normal;
   letter-spacing: normal;
   display: inline-block;

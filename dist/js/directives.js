@@ -21,7 +21,8 @@ directives.directive("timer", ["Timer", "Keyboard", function (Timer, Keyboard) {
 
             scope.cursorAt = "s2";
 
-            scope.start = function () {
+            scope.start = function (e) {
+                e.stopPropagation();
                 scope.cancelEdit();
                 timer.start();
                 scope.update();
@@ -31,7 +32,8 @@ directives.directive("timer", ["Timer", "Keyboard", function (Timer, Keyboard) {
                 return timer.started;
             };
 
-            scope.stop = function () {
+            scope.stop = function (e) {
+                e.stopPropagation();
                 timer.stop();
             };
 
@@ -84,12 +86,14 @@ directives.directive("timer", ["Timer", "Keyboard", function (Timer, Keyboard) {
                 alert('Timeout');
             };
 
-            scope.reset = function () {
+            scope.reset = function (e) {
+                e.stopPropagation();
                 timer.reset();
                 scope.update();
             };
 
-            scope.edit = function () {
+            scope.edit = function (e) {
+                e.stopPropagation();
                 scope.isEdit = true;
                 els.cntr.addClass('cntredit');
                 timer.stop();
@@ -113,7 +117,8 @@ directives.directive("timer", ["Timer", "Keyboard", function (Timer, Keyboard) {
                 scope.update();
             };
 
-            scope.stop = function () {
+            scope.stop = function (e) {
+                e.stopPropagation();
                 timer.stop();
             };
 
@@ -161,6 +166,12 @@ directives.directive("timer", ["Timer", "Keyboard", function (Timer, Keyboard) {
             timer.on('change', scope.update);
 
             timer.on('timeout', scope.timeout);
+
+            $('#extension-standups').click(function() {
+                if(scope.isEdit) {
+                    scope.cancelEdit();
+                }
+            })
         }
     }
 }])

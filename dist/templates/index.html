@@ -50,7 +50,7 @@
 
 
   <script type="text/ng-template" id="templates/timer.html">
-    <div class="standups-timer" data-ng-click="edit()">
+    <div class="standups-timer" data-ng-click="edit($event)">
       <div class="cntr">
         <span class="dig h1"></span>
         <span class="dig h2"></span>
@@ -64,9 +64,9 @@
       </div>
     </div>
     <div>
-      <button data-ng-click="start()" data-ng-show="!timerStarted()">Start</button>
-      <button data-ng-click="stop()" data-ng-show="timerStarted()">Stop</button>
-      <button data-ng-click="reset()">Reset</button>
+      <button data-ng-click="start($event)" data-ng-show="!timerStarted()">Start</button>
+      <button data-ng-click="stop($event)" data-ng-show="timerStarted()">Stop</button>
+      <button data-ng-click="reset($event)">Reset</button>
     </div>
   </script>
 
