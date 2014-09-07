@@ -2,7 +2,7 @@ var helpers = angular.module('standups.helpers', []);
 
 helpers.service("Extension", function () {
 
-    var extensionEl = $('#extension-standups');
+    var el = $('#extension-standups');
 
     $.fn.scrollStopped = function (callback) {
         $(this).scroll(function () {
@@ -21,20 +21,11 @@ helpers.service("Extension", function () {
         },
 
         quit: function () {
-            //todo:
-        },
-
-        minimize: function () {
-            Ext.Settings.isMinimized = true;
-        },
-
-        maximize: function () {
-            Ext.Settings.isMinimized = false;
+            el.remove();
         },
 
         Settings: {
-            enableSound: true,
-            isMinimized: false
+            enableSound: true
         },
 
         Nav: {
@@ -49,11 +40,11 @@ helpers.service("Extension", function () {
 
         Screen: {
             scroll: function (cb) {
-                $(document).scroll(cb.bind(document, extensionEl));
+                $(document).scroll(cb.bind(document, el));
             },
 
             scrollStopped: function (cb) {
-                $(document).scrollStopped(cb.bind(document, extensionEl))
+                $(document).scrollStopped(cb.bind(document, el))
             }
         }
     };

@@ -105,7 +105,7 @@
 }
 #extension-standups .standups-timer {
   font-family: arial, sans-serif;
-  color: #222;
+  color: #222222;
 }
 #extension-standups .standups-timer .cntr {
   border: 1px solid transparent;
@@ -125,11 +125,11 @@
 #extension-standups .standups-timer .cntr.cntredit .s2,
 #extension-standups .standups-timer .cntr.cntredit .dig,
 #extension-standups .standups-timer .cntr.cntredit .sep {
-  color: #AAA;
+  color: #aaaaaa;
   cursor: default;
 }
 #extension-standups .standups-timer .cntr .dirty {
-  color: #222;
+  color: #222222;
 }
 #extension-standups .standups-timer .cntr .dig,
 #extension-standups .standups-timer .cntr .sep {
@@ -146,7 +146,7 @@
 #extension-standups .standups-timer .cntr .s2,
 #extension-standups .standups-timer .cntr .dig,
 #extension-standups .standups-timer .cntr .sep {
-  color: #222;
+  color: #222222;
   border: none;
   border-right: 1px solid transparent;
   font-size: 4.5em;
@@ -157,7 +157,7 @@
   margin-right: 10px;
 }
 #extension-standups .standups-timer .cntr .cur {
-  border-right: 1px solid black;
+  border-right: 1px solid #000000;
 }
 #extension-standups {
   font-family: 'Lucida Grande', Helvetica, sans-serif;
@@ -212,6 +212,7 @@
 #extension-standups .section-name {
   font-size: 18px;
   margin-left: 10px;
+  color: #e20c0c;
 }
 #extension-standups .extension-toggled-menu {
   display: none;

@@ -5,7 +5,7 @@
     <section data-ng-show="Extension.Nav.is('main')" data-ng-controller="MainTimerCtrl">
       <div class="hdr">
         <div class="nv">
-          <span class="section-name">Standups</span>
+          <span class="section-name"> Standups</span>
           <ul class="navigation pull-right">
             <li>
               <a data-ng-click="Extension.toggleSound()">
@@ -15,12 +15,6 @@
             </li>
             <li>
               <a data-ng-click="Extension.Nav.to('settings')"><i class="fa fa-gear"></i></a>
-            </li>
-            <li data-ng-show="Extension.Settings.isMinimized">
-              <a data-ng-click="Extension.minimize()"><i  class="fa fa-minus-square-o"></i></a>
-            </li>
-            <li data-ng-show="!Extension.Settings.isMinimized">
-              <a data-ng-click="Extension.maximize()"><i class="fa fa-plus-square-o"></i></a>
             </li>
             <li>
               <a data-ng-click="Extension.quit()"><i class="fa fa-close"></i></a>
@@ -40,16 +34,16 @@
     </section>
 
     <section id="settings" data-ng-show="Extension.Nav.is('settings')" data-ng-controller="SettingsCtrl">
-      <header>
-        <nav>
+      <div class="hdr">
+        <div class="nv">
           <span class="section-name">Settings</span>
           <ul class="navigation pull-right">
             <li>
-              <a data-ng-click="Extension.Nav.to('main')"><i class="fa fa-times"></i></a>
+              <a data-ng-click="Extension.Nav.to('main')"><i class="fa fa-arrow-left"></i></a>
             </li>
           </ul>
-        </nav>
-      </header>
+        </div>
+      </div>
       <article>
         <h1>Here will be a list of settings</h1>
         <ul>
