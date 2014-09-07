@@ -1,6 +1,6 @@
 var directives = angular.module('standups.directives', ["standups.ctrl", "standups.helpers"]);
 
-directives.directive("timer", ["Timer", "Keyboard", function (Timer, Keyboard) {
+directives.directive("timer", ["$rootScope", "Timer", "Keyboard", function ($rootScope, Timer, Keyboard) {
     return {
         restrict: "AE",
         templateUrl: "templates/timer.html",
@@ -21,20 +21,31 @@ directives.directive("timer", ["Timer", "Keyboard", function (Timer, Keyboard) {
 
             scope.cursorAt = "s2";
 
-            scope.start = function (e) {
-                e.stopPropagation();
+            $rootScope.$on('timer-start', function () {
                 scope.cancelEdit();
                 timer.start();
                 scope.update();
-            };
+            });
+
+            $rootScope.$on('timer-reset', function () {
+                timer.reset();
+                scope.update();
+            });
+
+            $rootScope.$on('timer-stop', function () {
+                timer.stop();
+            });
+
+            $rootScope.$on('timer-set', function (h, m, s) {
+                scope.setDate(h, m, s);
+            });
+
+            timer.on('timeout', function () {
+                $rootScope.$emit('timer-timeout', timer);
+            });
 
             scope.timerStarted = function () {
                 return timer.started;
-            };
-
-            scope.stop = function (e) {
-                e.stopPropagation();
-                timer.stop();
             };
 
             scope.setDate = function (h, m, s) {
@@ -82,16 +93,6 @@ directives.directive("timer", ["Timer", "Keyboard", function (Timer, Keyboard) {
 
             };
 
-            scope.timeout = function () {
-                alert('Timeout');
-            };
-
-            scope.reset = function (e) {
-                e.stopPropagation();
-                timer.reset();
-                scope.update();
-            };
-
             scope.edit = function (e) {
                 e.stopPropagation();
                 scope.isEdit = true;
@@ -115,11 +116,6 @@ directives.directive("timer", ["Timer", "Keyboard", function (Timer, Keyboard) {
                 });
                 els.cntr.removeClass('cntredit');
                 scope.update();
-            };
-
-            scope.stop = function (e) {
-                e.stopPropagation();
-                timer.stop();
             };
 
             scope.placeCursor = function (t) {
@@ -157,21 +153,19 @@ directives.directive("timer", ["Timer", "Keyboard", function (Timer, Keyboard) {
                 }
             };
 
-            scope.setDate(scope.defaults.hour, scope.defaults.minutes, scope.defaults.seconds);
-
             Keyboard.on(/[0-9]/gi, scope.onNumberTyped);
 
             Keyboard.on("Enter", scope.onEnterTyped);
 
             timer.on('change', scope.update);
 
-            timer.on('timeout', scope.timeout);
+            scope.setDate(scope.defaults.hour, scope.defaults.minutes, scope.defaults.seconds);
 
-            $('#extension-standups').click(function() {
-                if(scope.isEdit) {
+            $('#extension-standups').click(function () {
+                if (scope.isEdit) {
                     scope.cancelEdit();
                 }
-            })
+            });
         }
     }
 }])

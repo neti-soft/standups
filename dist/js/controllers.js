@@ -51,7 +51,23 @@ ctrlrs.controller('ViewportCtrl', ["$scope", "Screen", function ($scope, Screen)
 }]);
 
 /* Controller for main view */
-ctrlrs.controller('MainCtrl', ["$scope", function ($scope) {
+ctrlrs.controller('MainCtrl', ["$scope", "$rootScope", function ($scope, $rootScope) {
+
+
+    $scope.start = function(e) {
+        e.stopPropagation();
+        $rootScope.$broadcast('timer-start');
+    };
+
+    $scope.stop = function(e) {
+        e.stopPropagation();
+        $rootScope.$broadcast('timer-stop');
+    };
+
+    $scope.reset = function(e) {
+        e.stopPropagation();
+        $rootScope.$broadcast('timer-reset');
+    };
 
 }]);
 
