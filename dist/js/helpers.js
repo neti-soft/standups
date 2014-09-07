@@ -1,6 +1,6 @@
 var helpers = angular.module('standups.helpers', []);
 
-helpers.service("Screen", function () {
+helpers.service("Extension", function () {
 
     var extensionEl = $('#extension-standups');
 
@@ -14,29 +14,51 @@ helpers.service("Screen", function () {
         });
     };
 
-    return {
+    var Ext = {
 
-        requestFullScreen: function (elSelector) {
-            var elem = document.querySelector(elSelector);
-            if (elem.requestFullscreen) {
-                elem.requestFullscreen();
-            } else if (elem.msRequestFullscreen) {
-                elem.msRequestFullscreen();
-            } else if (elem.mozRequestFullScreen) {
-                elem.mozRequestFullScreen();
-            } else if (elem.webkitRequestFullscreen) {
-                elem.webkitRequestFullscreen();
+        toggleSound: function () {
+            Ext.Settings.enableSound = !Ext.Settings.enableSound;
+        },
+
+        quit: function () {
+            //todo:
+        },
+
+        minimize: function () {
+            Ext.Settings.isMinimized = true;
+        },
+
+        maximize: function () {
+            Ext.Settings.isMinimized = false;
+        },
+
+        Settings: {
+            enableSound: true,
+            isMinimized: false
+        },
+
+        Nav: {
+            view: "main",
+            to: function (name) {
+                Ext.Nav.view = name;
+            },
+            is: function (view) {
+                return Ext.Nav.view == view;
             }
         },
 
-        scroll: function (cb) {
-            $(document).scroll(cb.bind(document, extensionEl));
-        },
+        Screen: {
+            scroll: function (cb) {
+                $(document).scroll(cb.bind(document, extensionEl));
+            },
 
-        scrollStopped: function (cb) {
-            $(document).scrollStopped(cb.bind(document, extensionEl))
+            scrollStopped: function (cb) {
+                $(document).scrollStopped(cb.bind(document, extensionEl))
+            }
         }
-    }
+    };
+
+    return Ext;
 });
 
 helpers.factory("Timer", function () {

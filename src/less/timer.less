@@ -14,7 +14,10 @@
     position: relative;
 
     &.cntredit {
-      color: #AAA;
+      .h1, .h2, .m1, .m2, .s1, .s2, .dig, .sep {
+        color: #AAA;
+        cursor: default;
+      }
     }
 
     .dirty {
@@ -28,19 +31,15 @@
       display: inline-block;
     }
 
-    .edit {
-      color: #AAA;
-      cursor: default;
-    }
-
-    .dig {
+    .h1, .h2, .m1, .m2, .s1, .s2, .dig, .sep {
+      color: #222;
       border: none;
       border-right: 1px solid transparent;
-      font-size: 4em;
+      font-size: 4.5em;
     }
 
-    .sep  {
-      font-size: 2em;
+    .sep {
+      font-size: 2.2em;
       margin-left: 2px;
       margin-right: 10px;
     }

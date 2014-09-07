@@ -1,58 +1,65 @@
 <div id="extension-standups" data-ng-app="standups">
 
-  <div data-ng-controller="ExtensionMiniCtrl" class="extension-toggled-menu">
-    <i data-ng-show="isVolume(true)" class="fa fa-volume-up"></i>
-  </div>
   <div class="viewport" data-ng-controller="ViewportCtrl">
-    <section data-ng-show="isSection('main')" data-ng-controller="MainCtrl">
-      <header>
-        <nav>
+
+    <section data-ng-show="Extension.Nav.is('main')" data-ng-controller="MainTimerCtrl">
+      <div class="hdr">
+        <div class="nv">
           <span class="section-name">Standups</span>
           <ul class="navigation pull-right">
-            <!--<li>-->
-            <!--<a data-ng-click="toggleVolume()">-->
-            <!--<i data-ng-show="isVolume(true)" class="fa fa-volume-up"></i>-->
-            <!--<i data-ng-show="isVolume(false)" class="fa fa-volume-off"></i>-->
-            <!--</a>-->
-            <!--</li>-->
-            <!--<li>-->
-            <!--<a data-ng-click="fullScreen()">-->
-            <!--<i data-ng-show="isFullScreen(false)" class="fa fa-expand"></i>-->
-            <!--<i data-ng-show="isFullScreen(true)" class="fa fa-compress"></i>-->
-            <!--</a>-->
-            <!--</li>-->
             <li>
-              <a data-ng-click="showSettings()"><i class="fa fa-gear"></i></a>
+              <a data-ng-click="Extension.toggleSound()">
+                <i data-ng-show="Extension.Settings.enableSound" class="fa fa-volume-up"></i>
+                <i data-ng-show="!Extension.Settings.enableSound" class="fa fa-volume-off"></i>
+              </a>
+            </li>
+            <li>
+              <a data-ng-click="Extension.Nav.to('settings')"><i class="fa fa-gear"></i></a>
+            </li>
+            <li data-ng-show="Extension.Settings.isMinimized">
+              <a data-ng-click="Extension.minimize()"><i  class="fa fa-minus-square-o"></i></a>
+            </li>
+            <li data-ng-show="!Extension.Settings.isMinimized">
+              <a data-ng-click="Extension.maximize()"><i class="fa fa-plus-square-o"></i></a>
+            </li>
+            <li>
+              <a data-ng-click="Extension.quit()"><i class="fa fa-close"></i></a>
             </li>
           </ul>
-        </nav>
-      </header>
-      <article>
-          <div timer></div>
-          <div>
-            <button data-ng-click="start($event)" data-ng-show="!timerStarted()">Start</button>
-            <button data-ng-click="stop($event)" data-ng-show="timerStarted()">Stop</button>
-            <button data-ng-click="reset($event)">Reset</button>
-          </div>
-      </article>
+        </div>
+      </div>
+      <div>
+        <timer></timer>
+        <hr>
+        <div>
+          <button data-ng-click="startClick($event)" data-ng-show="!timerStarted()">Start</button>
+          <button data-ng-click="stopClick($event)" data-ng-show="timerStarted()">Stop</button>
+          <button data-ng-click="resetClick($event)">Reset</button>
+        </div>
+      </div>
     </section>
 
-
-    <section id="settings" data-ng-show="isSection('settings')" data-ng-controller="SettingsCtrl">
+    <section id="settings" data-ng-show="Extension.Nav.is('settings')" data-ng-controller="SettingsCtrl">
       <header>
         <nav>
           <span class="section-name">Settings</span>
           <ul class="navigation pull-right">
             <li>
-              <a data-ng-click="closeSettings()"><i class="fa fa-times"></i></a>
+              <a data-ng-click="Extension.Nav.to('main')"><i class="fa fa-times"></i></a>
             </li>
           </ul>
         </nav>
       </header>
-      <article></article>
+      <article>
+        <h1>Here will be a list of settings</h1>
+        <ul>
+          <li>First</li>
+          <li>Second</li>
+          <li>Theird</li>
+        </ul>
+      </article>
     </section>
   </div>
-
 
   <script type="text/ng-template" id="templates/timer.html">
     <div class="standups-timer" data-ng-click="edit($event)">
