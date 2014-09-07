@@ -82,12 +82,12 @@ directives.directive("timer", ["$rootScope", "Timer", "Keyboard", function ($roo
                     els.m1.hide();
                 }
 
-                if (t.m2 == 0 && t.h2 == 0 && t.h1 == 0) {
+                if (t.m1 == 0 && t.m2 == 0 && t.h2 == 0 && t.h1 == 0) {
                     els.m2.hide();
                     els.msep.hide();
                 }
 
-                if (t.s1 == 0) {
+                if (t.s1 == 0 && t.m1 == 0 && t.m2 == 0 && t.h2 == 0 && t.h1 == 0) {
                     els.s1.hide();
                 }
 
@@ -144,7 +144,7 @@ directives.directive("timer", ["$rootScope", "Timer", "Keyboard", function ($roo
             scope.onNumberTyped = function (num) {
                 if (scope.isEdit) {
 
-                    if(scope.canZero) {
+                    if (scope.canZero) {
                         scope.canZero = false;
                         timer.zero();
                     }
