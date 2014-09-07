@@ -209,6 +209,11 @@
   font-size: 20px;
   padding: 2px;
 }
+#extension-standups .viewport .extension-btn {
+  background: #ffffff;
+  border: none;
+  padding: 5px 15px;
+}
 #extension-standups .section-name {
   font-size: 18px;
   margin-left: 10px;

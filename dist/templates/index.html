@@ -24,11 +24,10 @@
       </div>
       <div>
         <timer></timer>
-        <hr>
         <div>
-          <button data-ng-click="startClick($event)" data-ng-show="!timerStarted()">Start</button>
-          <button data-ng-click="stopClick($event)" data-ng-show="timerStarted()">Stop</button>
-          <button data-ng-click="resetClick($event)">Reset</button>
+          <button class="extension-btn" data-ng-click="startClick($event)" data-ng-show="!timerStarted()">Start</button>
+          <button class="extension-btn" data-ng-click="stopClick($event)" data-ng-show="timerStarted()">Stop</button>
+          <button class="extension-btn" data-ng-click="resetClick($event)">Reset</button>
         </div>
       </div>
     </section>
