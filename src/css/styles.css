@@ -129,7 +129,7 @@
   cursor: default;
 }
 #extension-standups .standups-timer .cntr .dirty {
-  color: #222222;
+  color: #222222 !important;
 }
 #extension-standups .standups-timer .cntr .dig,
 #extension-standups .standups-timer .cntr .sep {
