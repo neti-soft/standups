@@ -156,6 +156,9 @@
   margin-left: 2px;
   margin-right: 10px;
 }
+#extension-standups .standups-timer .cntr .ssep {
+  margin-right: 0px;
+}
 #extension-standups .standups-timer .cntr .cur {
   border-right: 1px solid #000000;
 }
