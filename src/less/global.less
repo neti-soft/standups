@@ -1,10 +1,14 @@
 #extension-standups {
   font-family: 'Lucida Grande', Helvetica, sans-serif;
   color: @text;
+  text-align: left;
   border-left: 1px solid @light_grey_color;
   background-color: @background;
   display: block;
   position: fixed;
+  text-decoration: none;
+  padding: 0;
+  margin: 0;
   z-index: 100000000000;
   width: 400px;
   height: 100%;
@@ -13,12 +17,15 @@
   right: 2px;
   -webkit-transition: opacity 1.5s;
   transition: opacity 1.5s;
-  font-size: 100%;
+  font-size: 12px;
 
   a {
     text-decoration: none;
     cursor: pointer;
-    color: @links_color;
+    color: @black;
+    &:hover {
+      color: #E20C0C;
+    }
   }
 
   :-webkit-full-screen .viewport {
@@ -49,12 +56,6 @@
         padding-top: 5px;
 
         ul {
-
-          a {
-            color: @text;
-            margin-right: 5px;
-          }
-
           .fa {
             font-size: 20px;
             padding: 2px;
@@ -67,6 +68,7 @@
     .extension-btn {
       background: @btn_bg;
       border: none;
+      font-size: 1.2em;
       padding: 5px 15px;
     }
   }
@@ -84,6 +86,14 @@
     position: fixed;
     top: 10px;
     right: 10px;
+  }
+
+  .standups-right {
+    float: right;
+  }
+
+  .standups-left {
+    float: left;
   }
 }
 

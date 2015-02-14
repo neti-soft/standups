@@ -6,7 +6,7 @@
       <div class="hdr">
         <div class="nv">
           <span class="section-name"> Standups</span>
-          <ul class="navigation pull-right">
+          <ul class="navigation standups-right">
             <li>
               <a data-ng-click="Extension.toggleSound()">
                 <i data-ng-show="Extension.Settings.enableSound" class="fa fa-volume-up"></i>
@@ -30,13 +30,17 @@
           <button class="extension-btn" data-ng-click="resetClick($event)">Reset</button>
         </div>
       </div>
+      <div>
+
+        <div teams></div>
+      </div>
     </section>
 
     <section id="settings" data-ng-show="Extension.Nav.is('settings')" data-ng-controller="SettingsCtrl">
       <div class="hdr">
         <div class="nv">
           <span class="section-name">Settings</span>
-          <ul class="navigation pull-right">
+          <ul class="navigation standups-right">
             <li>
               <a data-ng-click="Extension.Nav.to('main')"><i class="fa fa-arrow-left"></i></a>
             </li>
@@ -66,6 +70,55 @@
         <span class="dig s1"></span>
         <span class="dig s2"></span>
         <span class="ssep sep">s</span>
+      </div>
+    </div>
+  </script>
+
+
+  <script type="text/ng-template" id="templates/teams.html">
+    <div class="standups-teams" ng-controller="TeamsCtrl" ng-init="init()">
+
+      <div ng-show="!showTeams">
+        <div class="standups-header">
+          <div ng-show="!editTeam">
+            <h3 ng-dblclick="editTeamClick(model.selectedTeam)"
+                class="standups-list-header standups-left">
+              {{model.selectedTeam.name}}
+            </h3>
+            <div class="standups-header-actions standups-right">
+              <a ng-click="showTeams = !showTeams"><i class="fa fa-list"></i></a>
+              <a ng-click="editTeamClick(model.selectedTeam)"><i class="fa fa-edit"></i></a>
+              <a ng-click="addTeamClick()"><i class="fa fa-plus"></i></a>
+            </div>
+          </div>
+          <div ng-show="editTeam">
+            <input id="standups-team-name" keypress="{ enter: 'updateTeamName(model.selectedTeam, model.tempTeamName)' }" ng-model="model.tempTeamName" class="standups-list-header standups-left" type="text"/>
+            <div class="standups-header-actions standups-right">
+              <a ng-click="updateTeamName(model.selectedTeam, model.tempTeamName)"><i class="fa fa-save"></i></a>
+              <a ng-click="editTeam = !editTeam"><i class="fa fa-undo"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="standups-list">
+          <ul></ul>
+        </div>
+      </div>
+
+      <div ng-show="showTeams">
+        <div class="standups-header">
+          <h3 class="standups-list-header standups-left">Teams</h3>
+
+          <div class="standups-header-actions standups-right">
+            <a ng-click="showTeams = !showTeams"><i class="fa fa-arrow-left"></i></a>
+          </div>
+        </div>
+        <div class="standups-list">
+          <ul>
+            <li ng-repeat="team in model.teams">
+              <a ng-class="team.selected?'standups-list-item-selected':''">{{team.name}}}</a>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </script>

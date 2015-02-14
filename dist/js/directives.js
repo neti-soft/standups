@@ -1,3 +1,4 @@
+'use strict';
 var directives = angular.module('standups.directives', ["standups.ctrl", "standups.helpers"]);
 
 directives.directive("timer", ["$rootScope", "Timer", "Keyboard", function ($rootScope, Timer, Keyboard) {
@@ -175,4 +176,75 @@ directives.directive("timer", ["$rootScope", "Timer", "Keyboard", function ($roo
             });
         }
     }
-}])
+}]);
+
+
+directives.directive("teams", ["$rootScope", function ($rootScope) {
+    return {
+        restrict: "AE",
+        templateUrl: "templates/teams.html",
+        link: function (scope, el, attr) {
+
+        }
+    };
+}]);
+
+
+directives.directive('keypress', ['$parse', function ($parse) {
+
+    var keysByCode = {
+        8: 'backspace',
+        9: 'tab',
+        13: 'enter',
+        27: 'esc',
+        32: 'space',
+        33: 'pageup',
+        34: 'pagedown',
+        35: 'end',
+        36: 'home',
+        37: 'left',
+        38: 'up',
+        39: 'right',
+        40: 'down',
+        45: 'insert',
+        46: 'delete'
+    };
+
+    return function (scope, elm, attrs) {
+        var params, combinations = [];
+
+        params = scope.$eval(attrs.keypress);
+
+        // Prepare combinations for simple checking
+        angular.forEach(params, function (v, k) {
+            var combination, expression;
+            expression = $parse(v);
+
+            angular.forEach(k.split(' '), function (variation) {
+                combination = {
+                    expression: expression,
+                    keys: {}
+                };
+                angular.forEach(variation.split('-'), function (value) {
+                    combination.keys[value] = true;
+                });
+                combinations.push(combination);
+            });
+        });
+
+        // Check only matching of pressed keys one of the conditions
+        elm.bind("keypress", function (event) {
+            var keyCode = event.keyCode;
+            // Iterate over prepared combinations
+            angular.forEach(combinations, function (combination) {
+                var mainKeyPressed = combination.keys[keysByCode[keyCode]] || combination.keys[keyCode.toString()];
+                if (mainKeyPressed) {
+                    // Run the function
+                    scope.$apply(function () {
+                        combination.expression(scope, {'$event': event});
+                    });
+                }
+            });
+        });
+    }
+}]);
