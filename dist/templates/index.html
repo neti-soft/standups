@@ -88,11 +88,14 @@
             <div class="standups-header-actions standups-right">
               <a ng-click="showTeams = !showTeams"><i class="fa fa-list"></i></a>
               <a ng-click="editTeamClick(model.selectedTeam)"><i class="fa fa-edit"></i></a>
-              <a ng-click="addTeam()"><i class="fa fa-plus"></i></a>
+              <a ng-click="addTeamClick()"><i class="fa fa-plus"></i></a>
             </div>
           </div>
           <div ng-show="editTeam">
-            <input id="standups-team-name" keypress="{ enter: 'updateTeamName(model.selectedTeam, model.tempTeamName)' }" ng-model="model.tempTeamName" class="standups-list-header standups-left" type="text"/>
+            <input id="standups-team-name"
+                   keypress="{ enter: 'updateTeamName(model.selectedTeam, model.tempTeamName)' }"
+                   ng-model="model.tempTeamName"
+                   class="standups-list-header standups-left" type="text"/>
             <div class="standups-header-actions standups-right">
               <a ng-click="updateTeamName(model.selectedTeam, model.tempTeamName)"><i class="fa fa-save"></i></a>
               <a ng-click="editTeam = !editTeam"><i class="fa fa-undo"></i></a>
@@ -106,7 +109,7 @@
 
       <div ng-show="showTeams">
         <div class="standups-header">
-          <h3 class="standups-list-header standups-left">Teams</h3>
+          <h3 class="standups-list-header standups-left">Projects</h3>
 
           <div class="standups-header-actions standups-right">
             <a ng-click="showTeams = !showTeams"><i class="fa fa-arrow-left"></i></a>
@@ -114,8 +117,23 @@
         </div>
         <div class="standups-list">
           <ul>
-            <li ng-repeat="team in model.teams">
-              <a ng-class="team.selected?'standups-list-item-selected':''">{{team.name}}}</a>
+            <li ng-show="showNewTeam" class="standups-new-team-input-li">
+                <input id="standups-new-team-name"
+                       type="text"
+                       placeholder="Type a new project name ..."
+                       keypress="{ enter: 'createNewTeam(model.tempTeamName)' }"
+                       ng-model="model.tempTeamName"/>
+            </li>
+            <li ng-click="selectTeam(team)"
+                ng-repeat="team in model.teams"
+                ng-class="team.selected?'standups-list-item-selected':''">
+              <a><i class="fa fa-circle-o"></i><i class="fa fa-dot-circle-o"></i>{{team.name}}
+                <span class="fade">(<ng-pluralize count="team.users.length"
+                                    when="{'0': 'Nobody assigned',
+                                          'one': '1 user',
+                                          'other': '{} users'}">
+                </ng-pluralize>)</span>
+              </a>
             </li>
           </ul>
         </div>

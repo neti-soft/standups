@@ -42,14 +42,18 @@ ctrlrs.controller('MainTimerCtrl', ["$scope", "$rootScope", function ($scope, $r
 ctrlrs.controller('TeamsCtrl', ["$scope", "$rootScope", "$timeout", function ($scope, $rootScope, $timeout) {
 
     $scope.model = {
-        tempTeamName: null,
+        tempTeamName: "",
         selectedUser: null,
-        teams : [ { name: "My Team"}],
+        teams : [ { name: "My Team", users: [
+            { name: "Max" },
+            { name: "Marry"}
+        ]}],
         selectedTeam : null
     };
 
     $scope.init = function() {
         $scope.model.selectedTeam = $scope.model.teams[0];
+        $scope.model.selectedTeam.selected = true;
     };
 
     $scope.editTeamClick = function(team) {
@@ -72,8 +76,26 @@ ctrlrs.controller('TeamsCtrl', ["$scope", "$rootScope", "$timeout", function ($s
     };
 
     $scope.addTeamClick = function() {
-
+        $scope.showTeams = true;
+        $scope.showNewTeam = true;
     };
+
+    $scope.createNewTeam = function(teamName) {
+        if(teamName.trim()) {
+            var team = {
+                name: teamName,
+                users: []
+            };
+            $scope.model.tempTeamName = "";
+            $scope.model.teams.push(team);
+        }
+    }
+
+    $scope.selectTeam = function(team) {
+        team.selected = true;
+        $scope.model.selectedTeam.selected = false;
+        $scope.model.selectedTeam = team;
+    }
 }]);
 
 /* Controller for Settings view */
