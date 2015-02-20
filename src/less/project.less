@@ -1,4 +1,4 @@
-#extension-standups .standups-teams {
+#extension-standups .standups-project {
   border-top: 1px solid @border;
   margin-top: 10px;
 
@@ -11,10 +11,16 @@
       font-weight: normal;
       width: 310px;
       cursor: pointer;
+      overflow: visible;
       font-weight: normal;
       font-size: 20px;
       display: inline-block;
+
+      input {
+        width: 350px;
+      }
     }
+
 
     .standups-header-actions {
       display: inline-block;
@@ -27,13 +33,12 @@
     }
   }
 
-
   .standups-list {
     ul {
       margin-left: 10px;
 
       input {
-        width: 100%;
+        width: 334px;
         height: 30px;
         font-size: 14px;
       }
@@ -56,7 +61,7 @@
           .fa-circle-o {
             display: inline-block;
           }
-          .fa-dot-circle-o {
+          .fa-dot-circle-o, .fa-bullhorn {
             display: none;
           }
 
@@ -65,12 +70,12 @@
           }
         }
 
-        &.standups-list-item-selected > a,  & > a:hover {
+        &.standups-list-item-selected > a, & > a:hover {
           color: @links_color;
           .fa-circle-o {
             display: none;
           }
-          .fa-dot-circle-o {
+          .fa-dot-circle-o, .fa-bullhorn {
             display: inline-block;
           }
         }
@@ -78,6 +83,11 @@
         &.standups-new-team-input-li {
           margin-bottom: 10px;
         }
+      }
+
+      .standups-item-actions {
+        padding-top: 6px;
+        font-size: 18px;
       }
     }
   }

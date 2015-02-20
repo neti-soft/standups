@@ -262,42 +262,46 @@
 #extension-standups .standups-timer .cntr .cur {
   border-right: 1px solid #000000;
 }
-#extension-standups .standups-teams {
+#extension-standups .standups-project {
   border-top: 1px solid #dddddd;
   margin-top: 10px;
 }
-#extension-standups .standups-teams .standups-header {
+#extension-standups .standups-project .standups-header {
   overflow: auto;
   margin-top: 10px;
   padding: 5px;
 }
-#extension-standups .standups-teams .standups-header .standups-list-header {
+#extension-standups .standups-project .standups-header .standups-list-header {
   width: 310px;
   cursor: pointer;
+  overflow: visible;
   font-weight: normal;
   font-size: 20px;
   display: inline-block;
 }
-#extension-standups .standups-teams .standups-header .standups-header-actions {
+#extension-standups .standups-project .standups-header .standups-list-header input {
+  width: 350px;
+}
+#extension-standups .standups-project .standups-header .standups-header-actions {
   display: inline-block;
   font-size: 16px;
   padding-top: 3px;
 }
-#extension-standups .standups-teams .standups-header .standups-header-actions.standups-left {
+#extension-standups .standups-project .standups-header .standups-header-actions.standups-left {
   margin-right: 10px;
 }
-#extension-standups .standups-teams .standups-list ul {
+#extension-standups .standups-project .standups-list ul {
   margin-left: 10px;
 }
-#extension-standups .standups-teams .standups-list ul input {
-  width: 100%;
+#extension-standups .standups-project .standups-list ul input {
+  width: 334px;
   height: 30px;
   font-size: 14px;
 }
-#extension-standups .standups-teams .standups-list ul li {
+#extension-standups .standups-project .standups-list ul li {
   margin-bottom: 2px;
 }
-#extension-standups .standups-teams .standups-list ul li > a {
+#extension-standups .standups-project .standups-list ul li > a {
   display: block;
   font-size: 14px;
   padding-top: 5px;
@@ -305,30 +309,37 @@
   padding-bottom: 5px;
   border: 1px solid transparent;
 }
-#extension-standups .standups-teams .standups-list ul li > a .fa {
+#extension-standups .standups-project .standups-list ul li > a .fa {
   margin-right: 5px;
 }
-#extension-standups .standups-teams .standups-list ul li > a .fa-circle-o {
+#extension-standups .standups-project .standups-list ul li > a .fa-circle-o {
   display: inline-block;
 }
-#extension-standups .standups-teams .standups-list ul li > a .fa-dot-circle-o {
+#extension-standups .standups-project .standups-list ul li > a .fa-dot-circle-o,
+#extension-standups .standups-project .standups-list ul li > a .fa-bullhorn {
   display: none;
 }
-#extension-standups .standups-teams .standups-list ul li > a .fade {
+#extension-standups .standups-project .standups-list ul li > a .fade {
   font-size: 12px;
 }
-#extension-standups .standups-teams .standups-list ul li.standups-list-item-selected > a,
-#extension-standups .standups-teams .standups-list ul li > a:hover {
+#extension-standups .standups-project .standups-list ul li.standups-list-item-selected > a,
+#extension-standups .standups-project .standups-list ul li > a:hover {
   color: #1e90ff;
 }
-#extension-standups .standups-teams .standups-list ul li.standups-list-item-selected > a .fa-circle-o,
-#extension-standups .standups-teams .standups-list ul li > a:hover .fa-circle-o {
+#extension-standups .standups-project .standups-list ul li.standups-list-item-selected > a .fa-circle-o,
+#extension-standups .standups-project .standups-list ul li > a:hover .fa-circle-o {
   display: none;
 }
-#extension-standups .standups-teams .standups-list ul li.standups-list-item-selected > a .fa-dot-circle-o,
-#extension-standups .standups-teams .standups-list ul li > a:hover .fa-dot-circle-o {
+#extension-standups .standups-project .standups-list ul li.standups-list-item-selected > a .fa-dot-circle-o,
+#extension-standups .standups-project .standups-list ul li > a:hover .fa-dot-circle-o,
+#extension-standups .standups-project .standups-list ul li.standups-list-item-selected > a .fa-bullhorn,
+#extension-standups .standups-project .standups-list ul li > a:hover .fa-bullhorn {
   display: inline-block;
 }
-#extension-standups .standups-teams .standups-list ul li.standups-new-team-input-li {
+#extension-standups .standups-project .standups-list ul li.standups-new-team-input-li {
   margin-bottom: 10px;
+}
+#extension-standups .standups-project .standups-list ul .standups-item-actions {
+  padding-top: 6px;
+  font-size: 18px;
 }

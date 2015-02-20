@@ -17,85 +17,171 @@ ctrlrs.controller('ViewportCtrl', ["$scope", "Extension", function ($scope, Exte
 /* Controller for main view */
 ctrlrs.controller('MainTimerCtrl', ["$scope", "$rootScope", function ($scope, $rootScope) {
 
-    $scope.startClick = function(e) {
+    $scope.startClick = function (e) {
         e.stopPropagation();
         $rootScope.$broadcast('timer-start');
     };
 
-    $scope.stopClick = function(e) {
+    $scope.stopClick = function (e) {
         e.stopPropagation();
         $rootScope.$broadcast('timer-stop');
     };
 
-    $scope.resetClick = function(e) {
+    $scope.resetClick = function (e) {
         e.stopPropagation();
         $rootScope.$broadcast('timer-reset');
     };
 
-    $rootScope.$on('timer-timeout', function() {
+    $rootScope.$on('timer-timeout', function () {
         alert('Time is out!')
     });
 
 }]);
 
-/* Controller for teams view */
-ctrlrs.controller('TeamsCtrl', ["$scope", "$rootScope", "$timeout", function ($scope, $rootScope, $timeout) {
+ctrlrs.service('Projects', [function () {
 
-    $scope.model = {
-        tempTeamName: "",
-        selectedUser: null,
-        teams : [ { name: "My Team", users: [
-            { name: "Max" },
-            { name: "Marry"}
-        ]}],
-        selectedTeam : null
-    };
+    var projects = [
+        {
+            id: 1,
+            name: "Biologics Registration",
+            users: [
+                {name: "Max", active: true},
+                {name: "Krzysiek"},
+                {name: "Szymon"},
+                {name: "Pawel"},
+                {name: "Marcin"},
+                {name: "Piotr"},
+                {name: "Adam"}
+            ]
+        },
+        {
+            id: 2,
+            name: "IMS",
+            users: [
+                {name: "Kamil"},
+                {name: "Richard"},
+                {name: "Jarek"},
+                {name: "Maciej"},
+                {name: "Max"},
+                {name: "Radek"}
 
-    $scope.init = function() {
-        $scope.model.selectedTeam = $scope.model.teams[0];
-        $scope.model.selectedTeam.selected = true;
-    };
+            ]
+        },
+        {
+            id: 3,
+            name: "Patient Check",
+            users: [
+                {name: "Karol"},
+                {name: "Slawek"},
+                {name: "Max"}
+            ]
+        }
+    ];
 
-    $scope.editTeamClick = function(team) {
-        $scope.editTeam = true;
-        $scope.model.tempTeamName = team.name;
-        $scope.focusInput('standups-team-name');
-    };
+    var activeProject = projects[0];
 
-    $scope.focusInput = function(id) {
-        $timeout(function() {
-            document.getElementById(id).focus();
-        });
-    };
+    return {
 
-    $scope.updateTeamName = function(selectedTeam, tempTeamName) {
-       if(tempTeamName.trim()) {
-           selectedTeam.name = tempTeamName;
-           $scope.editTeam = false;
-       }
-    };
+        getActive: function () {
+            return activeProject;
+        },
 
-    $scope.addTeamClick = function() {
-        $scope.showTeams = true;
-        $scope.showNewTeam = true;
-    };
-
-    $scope.createNewTeam = function(teamName) {
-        if(teamName.trim()) {
-            var team = {
-                name: teamName,
+        add: function (projectName) {
+            projects.push({
+                id: Math.max.apply(null, projects.map(function(p) { return p.id })) + 1,
+                name: projectName,
                 users: []
-            };
-            $scope.model.tempTeamName = "";
-            $scope.model.teams.push(team);
+            })
+        },
+
+        setActive: function (project) {
+            activeProject = project;
+        },
+
+        toggleEdit: function (project) {
+            project.isEdited = !project.isEdited;
+        },
+
+        remove: function(project) {
+            var index = projects.indexOf(function(p) {
+                return project.id === p.id;
+            });
+            projects.splice(index, 1);
+        },
+
+        getList: function () {
+            return projects;
         }
     }
+}]);
 
-    $scope.selectTeam = function(team) {
-        team.selected = true;
-        $scope.model.selectedTeam.selected = false;
-        $scope.model.selectedTeam = team;
+/* Controller for projects view */
+ctrlrs.controller('ProjectCtrl', ["$scope", "Projects", function ($scope, Projects) {
+
+    //subview
+    $scope.view = null;
+    $scope.temp = {};
+
+    $scope.init = function () {
+        $scope.details($scope.project);
+    };
+
+    $scope.getProjects = function () {
+        return Projects.getList();
+    };
+
+    $scope.activeProject = function () {
+        return Projects.getActive();
+    };
+
+    $scope.selectProject = function (project) {
+        Projects.setActive(project);
+    };
+
+    $scope.addProject = function (projectName) {
+        projectName = projectName.trim();
+        if (projectName) {
+            Projects.add(projectName);
+            $scope.temp.projectName = "";
+        }
+    };
+
+    $scope.details = function () {
+        $scope.view = "details";
+    };
+
+    $scope.addUser = function (userName) {
+        userName = userName.trim();
+        if (userName) {
+            Projects.getActive().users.push({name: userName});
+            $scope.temp.userName = "";
+        }
+    };
+
+    $scope.removeUser = function ($index) {
+        Projects.getActive().users.splice($index, 1);
+    };
+
+    $scope.removeProject = function (project) {
+        Projects.remove(project);
     }
+
+    $scope.save = function () {
+        Projects.getActive().isEdited = false;
+    };
+
+    $scope.list = function () {
+        $scope.view = "list";
+    };
+
+    $scope.toggleEdit = function (project) {
+        if(project) {
+            Projects.setActive(project);
+        }
+        Projects.toggleEdit(Projects.getActive());
+        $scope.view = "details";
+    };
+
 }]);
 
 /* Controller for Settings view */
