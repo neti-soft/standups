@@ -141,7 +141,8 @@
               </li>
               <li ng-repeat="project in getProjects()"
                   ng-class="project == activeProject()?'standups-list-item-selected':''"
-                  ng-click="selectProject(project)">
+                  ng-click="selectProject(project)"
+                  ng-dblclick="selectProject(project);details(activeProject())">
                 <a>
                   <i class="fa fa-circle-o"></i>
                   <i class="fa fa-dot-circle-o"></i>

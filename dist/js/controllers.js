@@ -164,7 +164,7 @@ ctrlrs.controller('ProjectCtrl', ["$scope", "Projects", function ($scope, Projec
 
     $scope.removeProject = function (project) {
         Projects.remove(project);
-    }
+    };
 
     $scope.save = function () {
         Projects.getActive().isEdited = false;
@@ -173,6 +173,8 @@ ctrlrs.controller('ProjectCtrl', ["$scope", "Projects", function ($scope, Projec
     $scope.list = function () {
         $scope.view = "list";
     };
+
+
 
     $scope.toggleEdit = function (project) {
         if(project) {
