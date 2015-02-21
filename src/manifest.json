@@ -4,7 +4,8 @@
     "description": "Collaboration tool for daily stand-ups meetings.",
     "version": "1.0",
     "permissions": [
-        "tabs"
+        "tabs",
+        "storage"
     ],
     "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
     "browser_action": {
@@ -20,10 +21,12 @@
             "js": [
                 "components/angular/angular.js",
                 "components/jquery/dist/jquery.js",
+                "components/underscore/underscore.js",
                 "js/app.js",
-                "js/controllers.js",
                 "js/helpers.js",
-                "js/directives.js"
+                "js/services.js",
+                "js/directives.js",
+                "js/controllers.js"
             ]
         }
     ],

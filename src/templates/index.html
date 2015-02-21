@@ -86,7 +86,7 @@
 
             <div class="standups-header-actions standups-right">
               <a ng-click="list()"><i class="fa fa-list"></i></a>
-              <a ng-click="toggleEdit()"><i class="fa fa-edit"></i></a>
+              <a ng-click="editProject(activeProject())"><i class="fa fa-edit"></i></a>
             </div>
           </div>
 
@@ -153,7 +153,7 @@
                 </ng-pluralize>)
                 </span>
                 <span class="standups-right standups-item-actions">
-                  <i ng-click="toggleEdit(project)" class="fa fa-edit"></i>
+                  <i ng-click="editProject(project)" class="fa fa-edit"></i>
                    <i ng-click="removeProject(project)" class="fa fa-trash-o"></i>
                 </span>
                 </a>

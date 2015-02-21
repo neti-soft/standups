@@ -1,192 +1,119 @@
-var ctrlrs = angular.module('standups.ctrl', ['standups.helpers']);
+'use strict';
+angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
 
-/* Global view port controller. Handles all views */
-ctrlrs.controller('ViewportCtrl', ["$scope", "Extension", function ($scope, Extension) {
+    /* Global view port controller. Handles all views */
+    .controller('ViewportCtrl', ["$scope", "Extension", function ($scope, Extension) {
 
-    $scope.Extension = Extension;
+        $scope.Extension = Extension;
 
-    Extension.Screen.scroll(function (extEl) {
-        extEl.css('opacity', 0.3);
-    });
+        Extension.Screen.scroll(function (extEl) {
+            extEl.css('opacity', 0.3);
+        });
 
-    Extension.Screen.scrollStopped(function (extEl) {
-        extEl.css('opacity', 1);
-    });
-}]);
+        Extension.Screen.scrollStopped(function (extEl) {
+            extEl.css('opacity', 1);
+        });
+    }])
 
-/* Controller for main view */
-ctrlrs.controller('MainTimerCtrl', ["$scope", "$rootScope", function ($scope, $rootScope) {
+    /* Controller for main view */
+    .controller('MainTimerCtrl', ["$scope", "$rootScope", function ($scope, $rootScope) {
 
-    $scope.startClick = function (e) {
-        e.stopPropagation();
-        $rootScope.$broadcast('timer-start');
-    };
+        $scope.startClick = function (e) {
+            e.stopPropagation();
+            $rootScope.$broadcast('timer-start');
+        };
 
-    $scope.stopClick = function (e) {
-        e.stopPropagation();
-        $rootScope.$broadcast('timer-stop');
-    };
+        $scope.stopClick = function (e) {
+            e.stopPropagation();
+            $rootScope.$broadcast('timer-stop');
+        };
 
-    $scope.resetClick = function (e) {
-        e.stopPropagation();
-        $rootScope.$broadcast('timer-reset');
-    };
+        $scope.resetClick = function (e) {
+            e.stopPropagation();
+            $rootScope.$broadcast('timer-reset');
+        };
 
-    $rootScope.$on('timer-timeout', function () {
-        alert('Time is out!')
-    });
+        $rootScope.$on('timer-timeout', function () {
+            alert('Time is out!')
+        });
 
-}]);
+    }])
 
-ctrlrs.service('Projects', [function () {
 
-    var projects = [
-        {
-            id: 1,
-            name: "Biologics Registration",
-            users: [
-                {name: "Max", active: true},
-                {name: "Krzysiek"},
-                {name: "Szymon"},
-                {name: "Pawel"},
-                {name: "Marcin"},
-                {name: "Piotr"},
-                {name: "Adam"}
-            ]
-        },
-        {
-            id: 2,
-            name: "IMS",
-            users: [
-                {name: "Kamil"},
-                {name: "Richard"},
-                {name: "Jarek"},
-                {name: "Maciej"},
-                {name: "Max"},
-                {name: "Radek"}
+    /* Controller for projects view */
+    .controller('ProjectCtrl', ["$scope", "Projects", 'Store', function ($scope, Projects) {
 
-            ]
-        },
-        {
-            id: 3,
-            name: "Patient Check",
-            users: [
-                {name: "Karol"},
-                {name: "Slawek"},
-                {name: "Max"}
-            ]
-        }
-    ];
+        //subview
+        $scope.view = null;
+        $scope.temp = {};
 
-    var activeProject = projects[0];
-
-    return {
-
-        getActive: function () {
-            return activeProject;
-        },
-
-        add: function (projectName) {
-            projects.push({
-                id: Math.max.apply(null, projects.map(function(p) { return p.id })) + 1,
-                name: projectName,
-                users: []
-            })
-        },
-
-        setActive: function (project) {
-            activeProject = project;
-        },
-
-        toggleEdit: function (project) {
-            project.isEdited = !project.isEdited;
-        },
-
-        remove: function(project) {
-            var index = projects.indexOf(function(p) {
-                return project.id === p.id;
+        $scope.init = function () {
+            Projects.load().then(function () {
+                $scope.details();
             });
-            projects.splice(index, 1);
-        },
+        };
 
-        getList: function () {
-            return projects;
-        }
-    }
-}]);
+        $scope.getProjects = function () {
+            return Projects.getList();
+        };
 
-/* Controller for projects view */
-ctrlrs.controller('ProjectCtrl', ["$scope", "Projects", function ($scope, Projects) {
+        $scope.activeProject = function () {
+            return Projects.getActive();
+        };
 
-    //subview
-    $scope.view = null;
-    $scope.temp = {};
-
-    $scope.init = function () {
-        $scope.details($scope.project);
-    };
-
-    $scope.getProjects = function () {
-        return Projects.getList();
-    };
-
-    $scope.activeProject = function () {
-        return Projects.getActive();
-    };
-
-    $scope.selectProject = function (project) {
-        Projects.setActive(project);
-    };
-
-    $scope.addProject = function (projectName) {
-        projectName = projectName.trim();
-        if (projectName) {
-            Projects.add(projectName);
-            $scope.temp.projectName = "";
-        }
-    };
-
-    $scope.details = function () {
-        $scope.view = "details";
-    };
-
-    $scope.addUser = function (userName) {
-        userName = userName.trim();
-        if (userName) {
-            Projects.getActive().users.push({name: userName});
-            $scope.temp.userName = "";
-        }
-    };
-
-    $scope.removeUser = function ($index) {
-        Projects.getActive().users.splice($index, 1);
-    };
-
-    $scope.removeProject = function (project) {
-        Projects.remove(project);
-    };
-
-    $scope.save = function () {
-        Projects.getActive().isEdited = false;
-    };
-
-    $scope.list = function () {
-        $scope.view = "list";
-    };
-
-
-
-    $scope.toggleEdit = function (project) {
-        if(project) {
+        $scope.selectProject = function (project) {
             Projects.setActive(project);
-        }
-        Projects.toggleEdit(Projects.getActive());
-        $scope.view = "details";
-    };
+        };
 
-}]);
+        $scope.addProject = function (projectName) {
+            projectName = projectName.trim();
+            if (projectName) {
+                Projects.add(projectName);
+                $scope.temp.projectName = "";
+            }
+        };
 
-/* Controller for Settings view */
-ctrlrs.controller('SettingsCtrl', ["$scope", function ($scope) {
+        $scope.details = function () {
+            $scope.view = "details";
+        };
 
-}]);
+        $scope.addUser = function (userName) {
+            userName = userName.trim();
+            if (userName) {
+                Projects.addUser(Projects.getActive().id, { name: userName });
+                $scope.temp.userName = "";
+            }
+        };
+
+        $scope.removeUser = function ($index) {
+            Projects.removeUser(Projects.getActive().id, $index);
+        };
+
+        $scope.removeProject = function (project) {
+            Projects.remove(project.id);
+        };
+
+        $scope.save = function () {
+            var project = Projects.getActive();
+            Projects.save(project);
+            project.isEdited = false;
+        };
+
+        $scope.list = function () {
+            $scope.view = "list";
+        };
+
+        $scope.editProject = function (project) {
+            if (project) {
+                Projects.setActive(project);
+                project.isEdited = !project.isEdited;
+                $scope.view = "details";
+            }
+        };
+
+    }])
+
+    /* Controller for Settings view */
+    .controller('SettingsCtrl', ["$scope", function ($scope) {
+
+    }]);

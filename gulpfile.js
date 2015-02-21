@@ -31,6 +31,7 @@ gulp.task('build', function () {
         "src/js/**/*.*",
         "src/components/angular/angular.js",
         "src/components/jquery/dist/jquery.js",
+        "src/components/underscore/underscore.js",
         "src/img/**/*.*",
         "src/templates/index.html",
         "src/background.html",
