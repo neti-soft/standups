@@ -79,16 +79,20 @@ angular.module('standups.services', ['standups.helpers'])
                 });
             },
 
+            saveProjects: function() {
+                return Store.set("projects", angular.toJson(projects));
+            },
+
             addUser: function (id, user) {
-                var project = this.findIndexById(id);
+                var project = projects[this.findIndexById(id)];
                 project.users.push(user);
-                Projects.save(project);
+                return this.saveProjects()
             },
 
             removeUser: function (id, $index) {
                 var project = this.findIndexById(id);
                 project.users.splice($index, 1);
-                Projects.save(project);
+                return this.saveProjects();
             },
 
             save: function (p) {
@@ -97,7 +101,7 @@ angular.module('standups.services', ['standups.helpers'])
                 project.name = p.name;
                 project.active = p.active;
                 delete project.isEdited;
-                Store.set("projects", projects);
+                return this.saveProjects();
             },
 
             findIndexById: function (id) {
@@ -111,21 +115,26 @@ angular.module('standups.services', ['standups.helpers'])
             },
 
             add: function (projectName) {
-                projects.push({
-                    id: Math.max.apply(null, projects.map(function (p) {
-                        return p.id
-                    })) + 1,
+                var project = {
+                    id: $h.generateId(),
                     name: projectName,
                     users: []
-                })
+                };
+                projects.push(project);
+                this.saveProjects();
+                return project;
             },
 
             setActive: function (project) {
                 if ($h.isUndefined(project)) {
                     throw new Error("Error: project is undefined.");
                 }
-                this.getActive().active = false;
+                var activeProject = this.getActive();
+                if (activeProject) {
+                    activeProject.active = false;
+                }
                 _.findWhere(projects, {id: project.id}).active = true;
+                return this.saveProjects();
             },
 
             remove: function (id) {
@@ -133,7 +142,7 @@ angular.module('standups.services', ['standups.helpers'])
                     return p.id = id;
                 });
                 projects.splice(index, 1);
-                Store.set("projects", projects);
+                return this.saveProjects();
             },
 
             getList: function () {

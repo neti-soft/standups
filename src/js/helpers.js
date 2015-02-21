@@ -5,6 +5,18 @@ angular.module('standups.helpers', [])
 
         var api = {
 
+            ID_LENGTH: 10,
+
+            ALPHABET: '23456789abdegjkmnpqrvwxyz',
+
+            generateId: function () {
+                var rtn = '';
+                for (var i = 0; i < this.ID_LENGTH; i++) {
+                    rtn += this.ALPHABET.charAt(Math.floor(Math.random() * this.ALPHABET.length));
+                }
+                return rtn;
+            },
+
             capitalise: function (string) {
                 return string.charAt(0).toUpperCase() + string.slice(1);
             },

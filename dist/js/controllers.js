@@ -41,7 +41,7 @@ angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
 
 
     /* Controller for projects view */
-    .controller('ProjectCtrl', ["$scope", "Projects", 'Store', function ($scope, Projects) {
+    .controller('ProjectCtrl', ["$scope", "$h", "Projects", 'Store', function ($scope, $h, Projects) {
 
         //subview
         $scope.view = null;
@@ -68,7 +68,10 @@ angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
         $scope.addProject = function (projectName) {
             projectName = projectName.trim();
             if (projectName) {
-                Projects.add(projectName);
+                var project = Projects.add(projectName);
+                if (!this.activeProject()) {
+                    Projects.setActive(project);
+                }
                 $scope.temp.projectName = "";
             }
         };
@@ -80,7 +83,10 @@ angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
         $scope.addUser = function (userName) {
             userName = userName.trim();
             if (userName) {
-                Projects.addUser(Projects.getActive().id, { name: userName });
+                Projects.addUser(Projects.getActive().id, {
+                    id: $h.generateId(),
+                    name: userName
+                });
                 $scope.temp.userName = "";
             }
         };

@@ -92,7 +92,8 @@
 
           <div class="standups-header" ng-if="activeProject().isEdited">
             <h3 class="standups-list-header standups-left">
-              <input type="text" ng-model="activeProject().name" placeholder="Project name"/>
+              <input type="text" ng-model="activeProject().name" placeholder="Project name"
+                     keypress="{ 'enter': 'save()'}"/>
             </h3>
 
             <div class="standups-header-actions standups-right">
