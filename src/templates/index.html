@@ -78,9 +78,46 @@
     <div class="standups-project" ng-controller="ProjectCtrl" ng-init="init()">
 
       <div ng-switch="view">
+
+        <div ng-switch="wizard" class="standups-wizard">
+          <div class="standups-step" ng-show="wizard.wizardStep === 1">
+            <div class="standups-header">
+              <h3 class="standups-list-header standups-left">
+                Create your first project
+              </h3>
+            </div>
+            <div class="standups-wizard">
+              <label>
+                <input placeholder="Project name" autofocus="true" ng-model="wizard.project.porjectName"/>
+              </label>
+              <button class="standups-button standups-big" ng-click="wizard.wizardStep = 2">Next <i
+                  class="fa fa-arrow-right"></i></button>
+            </div>
+          </div>
+
+          <div class="standups-step standups-step2" ng-show="wizard.wizardStep === 2">
+            <div class="standups-header">
+              <h3 class="standups-list-header standups-left">{{wizard.project.projectName}}</h3>
+            </div>
+            <label>
+              <input placeholder="User name" autofocus="true"/>
+            </label>
+            <button class="standups-button standups-big" ng-click="createProjectFromWizard()">Next <i
+                class="fa fa-arrow-right"></i></button>
+            <div class="standups-list">
+              <ul>
+                <li><a>User 1</a></li>
+                <li><a>User 2</a></li>
+                <li><a>User 3</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+
         <div ng-switch-when="details">
           <div class="standups-header" ng-if="!activeProject().isEdited">
-            <h3 class="standups-list-header standups-left">
+            <h3 class="standups-list-header standups-left" ng-dblclick="editProject(activeProject())">
               {{activeProject().name}}
             </h3>
 
@@ -148,9 +185,8 @@
                   <i class="fa fa-circle-o"></i>
                   <i class="fa fa-dot-circle-o"></i>
                   {{project.name}}
-                <span class="fade">(
-                <ng-pluralize count="project.users.length"
-                              when="{'0': 'Nobody assigned','one': '1 user','other': '{} users'}">
+                <span class="fade">(<ng-pluralize count="project.users.length"
+                                                  when="{'0': 'Nobody assigned','one': '1 user','other': '{} users'}">
                 </ng-pluralize>)
                 </span>
                 <span class="standups-right standups-item-actions">

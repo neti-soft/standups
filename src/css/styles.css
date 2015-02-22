@@ -130,7 +130,7 @@
   color: #000000;
 }
 #extension-standups a:hover {
-  color: #E20C0C;
+  color: #e20c0c;
 }
 #extension-standups :-webkit-full-screen .viewport {
   width: 100%;
@@ -141,7 +141,8 @@
   margin: 0;
   padding: 0;
 }
-#extension-standups input {
+#extension-standups input,
+#extension-standups .standups-button {
   height: 35px;
   border: 1px solid #aaaaaa;
   border-radius: 2px;
@@ -150,10 +151,23 @@
   font: inherit;
   margin: 0;
   min-height: 2em;
-  padding: 3px;
   outline: none;
-  padding-bottom: 4px;
+  padding: 3px 3px 4px 7px;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075);
+}
+#extension-standups .standups-button {
+  padding: 8px;
+  background-color: #efefef;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+#extension-standups .standups-button:hover {
+  cursor: pointer;
+  color: #ffffff;
+  background: #222222;
+}
+#extension-standups .standups-button.standups-big {
+  font-size: 16px;
 }
 #extension-standups ul.navigation {
   list-style: none;
@@ -290,6 +304,9 @@
 #extension-standups .standups-project .standups-header .standups-header-actions.standups-left {
   margin-right: 10px;
 }
+#extension-standups .standups-project .standups-list {
+  text-align: left;
+}
 #extension-standups .standups-project .standups-list ul {
   margin-left: 10px;
 }
@@ -342,4 +359,16 @@
 #extension-standups .standups-project .standups-list ul .standups-item-actions {
   padding-top: 6px;
   font-size: 18px;
+}
+#extension-standups .standups-project .standups-wizard .standups-step {
+  text-align: center;
+}
+#extension-standups .standups-project .standups-wizard .standups-step > label {
+  display: block;
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
+#extension-standups .standups-project .standups-wizard .standups-step > label input {
+  font-size: 16px;
+  width: 95%;
 }

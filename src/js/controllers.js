@@ -45,12 +45,22 @@ angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
 
         //subview
         $scope.view = null;
+        $scope.wizardStep = 1;
         $scope.temp = {};
 
         $scope.init = function () {
             Projects.load().then(function () {
-                $scope.details();
+                if (Projects.getActive()) {
+                    $scope.details();
+                } else {
+                    $scope.wizard()
+                }
+
             });
+        };
+
+        $scope.wizard = function () {
+            $scope.view = "wizard";
         };
 
         $scope.getProjects = function () {

@@ -24,7 +24,7 @@
     cursor: pointer;
     color: @black;
     &:hover {
-      color: #E20C0C;
+      color: @header_color_red;
     }
   }
 
@@ -39,8 +39,9 @@
     padding: 0;
   }
 
-  input {
+  input, .standups-button {
     height: 35px;
+
     border: 1px solid @text_light_gray;
     border-radius: 2px;
     box-sizing: border-box;
@@ -48,10 +49,26 @@
     font: inherit;
     margin: 0;
     min-height: 2em;
-    padding: 3px;
     outline: none;
-    padding-bottom: 4px;
+    padding: 3px 3px 4px 7px;
     box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075);
+  }
+
+  .standups-button {
+    padding: 8px;
+    background-color: @very_light_gray;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .standups-button:hover {
+    cursor: pointer;
+    color: @background;
+    background: @text_dark;
+  }
+
+  .standups-button.standups-big {
+    font-size: 16px;
   }
 
   ul.navigation {
