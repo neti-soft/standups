@@ -34,3 +34,4 @@ node_modules
 # see http://bower.io/
 bower_components
 src/components
+dist/components

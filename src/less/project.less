@@ -1,0 +1,117 @@
+#extension-standups .standups-project {
+  border-top: 1px solid @border;
+  margin-top: 10px;
+
+  .standups-header {
+    overflow: auto;
+    margin-top: 10px;
+    padding: 5px;
+
+    .standups-list-header {
+      font-weight: normal;
+      width: 310px;
+      cursor: pointer;
+      overflow: visible;
+      font-weight: normal;
+      font-size: 20px;
+      display: inline-block;
+
+      input {
+        width: 350px;
+      }
+    }
+
+    .standups-header-actions {
+      display: inline-block;
+      font-size: 16px;
+      padding-top: 3px;
+
+      &.standups-left {
+        margin-right: 10px;
+      }
+    }
+  }
+
+  .standups-list {
+
+    text-align: left;
+
+    ul {
+      margin-left: 10px;
+
+      input {
+        width: 334px;
+        height: 30px;
+        font-size: 14px;
+      }
+
+      li {
+        margin-bottom: 2px;
+
+        & > a {
+          display: block;
+          font-size: 14px;
+          padding-top: 5px;
+          padding-left: 8px;
+          padding-bottom: 5px;
+          border: 1px solid transparent;
+
+          .fa {
+            margin-right: 5px;
+          }
+
+          .fa-circle-o {
+            display: inline-block;
+          }
+          .fa-dot-circle-o, .fa-bullhorn {
+            display: none;
+          }
+
+          .fade {
+            font-size: 12px;
+          }
+        }
+
+        &.standups-list-item-selected > a, & > a:hover {
+          color: @links_color;
+          .fa-circle-o {
+            display: none;
+          }
+          .fa-dot-circle-o, .fa-bullhorn {
+            display: inline-block;
+          }
+        }
+
+        &.standups-new-team-input-li {
+          margin-bottom: 10px;
+        }
+      }
+
+      .standups-item-actions {
+        padding-top: 6px;
+        font-size: 18px;
+      }
+    }
+  }
+
+  .standups-wizard {
+
+    .standups-step {
+      & > label {
+        display: block;
+        margin-top: 20px;
+        margin-bottom: 15px;
+        input {
+          font-size: 16px;
+          width: 95%;
+        }
+      }
+
+      text-align: center;
+    }
+
+    .standups-step2 {
+
+    }
+  }
+}

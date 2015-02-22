@@ -103,6 +103,120 @@
 #extension-standups :focus {
   outline: 0;
 }
+#extension-standups {
+  font-family: 'Lucida Grande', Helvetica, sans-serif;
+  color: #000000;
+  text-align: left;
+  border-left: 1px solid #f2f2f2;
+  background-color: #ffffff;
+  display: block;
+  position: fixed;
+  text-decoration: none;
+  padding: 0;
+  margin: 0;
+  z-index: 100000000000;
+  width: 400px;
+  height: 100%;
+  min-height: 640px;
+  top: 1px;
+  right: 2px;
+  -webkit-transition: opacity 1.5s;
+  transition: opacity 1.5s;
+  font-size: 12px;
+}
+#extension-standups a {
+  text-decoration: none;
+  cursor: pointer;
+  color: #000000;
+}
+#extension-standups a:hover {
+  color: #e20c0c;
+}
+#extension-standups :-webkit-full-screen .viewport {
+  width: 100%;
+  height: 100%;
+}
+#extension-standups ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+#extension-standups input,
+#extension-standups .standups-button {
+  height: 35px;
+  border: 1px solid #aaaaaa;
+  border-radius: 2px;
+  box-sizing: border-box;
+  color: #222222;
+  font: inherit;
+  margin: 0;
+  min-height: 2em;
+  outline: none;
+  padding: 3px 3px 4px 7px;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075);
+}
+#extension-standups .standups-button {
+  padding: 8px;
+  background-color: #efefef;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+#extension-standups .standups-button:hover {
+  cursor: pointer;
+  color: #ffffff;
+  background: #222222;
+}
+#extension-standups .standups-button.standups-big {
+  font-size: 16px;
+}
+#extension-standups ul.navigation {
+  list-style: none;
+}
+#extension-standups ul.navigation li {
+  display: inline-block;
+  float: left;
+}
+#extension-standups .fade {
+  opacity: 0.5;
+}
+#extension-standups .viewport section {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+#extension-standups .viewport div.hdr div.nv {
+  height: 30px;
+  margin-bottom: 5px;
+  padding-top: 5px;
+}
+#extension-standups .viewport div.hdr div.nv ul .fa {
+  font-size: 20px;
+  padding: 2px;
+}
+#extension-standups .viewport .extension-btn {
+  background: #ffffff;
+  border: none;
+  font-size: 1.2em;
+  padding: 5px 15px;
+}
+#extension-standups .section-name {
+  font-size: 18px;
+  margin-left: 10px;
+  color: #e20c0c;
+}
+#extension-standups .extension-toggled-menu {
+  display: none;
+  width: 100px;
+  height: 50px;
+  position: fixed;
+  top: 10px;
+  right: 10px;
+}
+#extension-standups .standups-right {
+  float: right;
+}
+#extension-standups .standups-left {
+  float: left;
+}
 #extension-standups .standups-timer {
   font-family: arial, sans-serif;
   color: #222222;
@@ -129,7 +243,7 @@
   cursor: default;
 }
 #extension-standups .standups-timer .cntr .dirty {
-  color: #222222;
+  color: #222222 !important;
 }
 #extension-standups .standups-timer .cntr .dig,
 #extension-standups .standups-timer .cntr .sep {
@@ -156,74 +270,105 @@
   margin-left: 2px;
   margin-right: 10px;
 }
+#extension-standups .standups-timer .cntr .ssep {
+  margin-right: 0px;
+}
 #extension-standups .standups-timer .cntr .cur {
   border-right: 1px solid #000000;
 }
-#extension-standups {
-  font-family: 'Lucida Grande', Helvetica, sans-serif;
-  color: #000000;
-  border-left: 1px solid #f2f2f2;
-  background-color: #ffffff;
-  display: block;
-  position: fixed;
-  z-index: 100000000000;
-  width: 400px;
-  height: 100%;
-  min-height: 640px;
-  top: 1px;
-  right: 2px;
-  -webkit-transition: opacity 1.5s;
-  transition: opacity 1.5s;
-  font-size: 100%;
+#extension-standups .standups-project {
+  border-top: 1px solid #dddddd;
+  margin-top: 10px;
 }
-#extension-standups a {
-  text-decoration: none;
+#extension-standups .standups-project .standups-header {
+  overflow: auto;
+  margin-top: 10px;
+  padding: 5px;
+}
+#extension-standups .standups-project .standups-header .standups-list-header {
+  width: 310px;
   cursor: pointer;
-  color: #1122cc;
-}
-#extension-standups :-webkit-full-screen .viewport {
-  width: 100%;
-  height: 100%;
-}
-#extension-standups ul.navigation {
-  list-style: none;
-}
-#extension-standups ul.navigation li {
+  overflow: visible;
+  font-weight: normal;
+  font-size: 20px;
   display: inline-block;
-  float: left;
 }
-#extension-standups .viewport section {
-  padding-left: 10px;
-  padding-right: 10px;
+#extension-standups .standups-project .standups-header .standups-list-header input {
+  width: 350px;
 }
-#extension-standups .viewport div.hdr div.nv {
+#extension-standups .standups-project .standups-header .standups-header-actions {
+  display: inline-block;
+  font-size: 16px;
+  padding-top: 3px;
+}
+#extension-standups .standups-project .standups-header .standups-header-actions.standups-left {
+  margin-right: 10px;
+}
+#extension-standups .standups-project .standups-list {
+  text-align: left;
+}
+#extension-standups .standups-project .standups-list ul {
+  margin-left: 10px;
+}
+#extension-standups .standups-project .standups-list ul input {
+  width: 334px;
   height: 30px;
-  margin-bottom: 5px;
-  padding-top: 5px;
+  font-size: 14px;
 }
-#extension-standups .viewport div.hdr div.nv ul a {
-  color: #000000;
+#extension-standups .standups-project .standups-list ul li {
+  margin-bottom: 2px;
+}
+#extension-standups .standups-project .standups-list ul li > a {
+  display: block;
+  font-size: 14px;
+  padding-top: 5px;
+  padding-left: 8px;
+  padding-bottom: 5px;
+  border: 1px solid transparent;
+}
+#extension-standups .standups-project .standups-list ul li > a .fa {
   margin-right: 5px;
 }
-#extension-standups .viewport div.hdr div.nv ul .fa {
-  font-size: 20px;
-  padding: 2px;
+#extension-standups .standups-project .standups-list ul li > a .fa-circle-o {
+  display: inline-block;
 }
-#extension-standups .viewport .extension-btn {
-  background: #ffffff;
-  border: none;
-  padding: 5px 15px;
-}
-#extension-standups .section-name {
-  font-size: 18px;
-  margin-left: 10px;
-  color: #e20c0c;
-}
-#extension-standups .extension-toggled-menu {
+#extension-standups .standups-project .standups-list ul li > a .fa-dot-circle-o,
+#extension-standups .standups-project .standups-list ul li > a .fa-bullhorn {
   display: none;
-  width: 100px;
-  height: 50px;
-  position: fixed;
-  top: 10px;
-  right: 10px;
+}
+#extension-standups .standups-project .standups-list ul li > a .fade {
+  font-size: 12px;
+}
+#extension-standups .standups-project .standups-list ul li.standups-list-item-selected > a,
+#extension-standups .standups-project .standups-list ul li > a:hover {
+  color: #1e90ff;
+}
+#extension-standups .standups-project .standups-list ul li.standups-list-item-selected > a .fa-circle-o,
+#extension-standups .standups-project .standups-list ul li > a:hover .fa-circle-o {
+  display: none;
+}
+#extension-standups .standups-project .standups-list ul li.standups-list-item-selected > a .fa-dot-circle-o,
+#extension-standups .standups-project .standups-list ul li > a:hover .fa-dot-circle-o,
+#extension-standups .standups-project .standups-list ul li.standups-list-item-selected > a .fa-bullhorn,
+#extension-standups .standups-project .standups-list ul li > a:hover .fa-bullhorn {
+  display: inline-block;
+}
+#extension-standups .standups-project .standups-list ul li.standups-new-team-input-li {
+  margin-bottom: 10px;
+}
+#extension-standups .standups-project .standups-list ul .standups-item-actions {
+  padding-top: 6px;
+  font-size: 18px;
+}
+#extension-standups .standups-project .standups-wizard .standups-step {
+  text-align: center;
+}
+#extension-standups .standups-project .standups-wizard .standups-step > label {
+  display: block;
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
+#extension-standups .standups-project .standups-wizard .standups-step > label input {
+  font-size: 16px;
+  width: 95%;
 }
