@@ -40,8 +40,75 @@ angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
     }])
 
 
+    .service('Projects', ['$h', 'Store', function ($h, Store) {
+
+        var api = {
+
+            data: {
+                project: null, //active project
+                projects: []
+            },
+
+            load: function () {
+                return Store.get('projects').then(function (data) {
+                    if ($h.isArray(data)) {
+                        api.data.projects = data;
+                        api.data.project = _.findWhere(data, {active: true});
+                    }
+                });
+            },
+
+            select: function (project) {
+                if (api.data.project) {
+                    api.data.project.active = false;
+                }
+                api.data.project = project;
+                api.data.project.active = true;
+            },
+
+            update: function (project) {
+                var original = _.findWhere(api.data.projects, {id: project.id});
+                if (original) {
+                    original.name = project.name;
+                    original.users = project.users;
+                }
+            },
+
+            create: function (project) {
+                //generate id
+                project.id = $h.generateId();
+                if (!api.data.project) {
+                    api.data.project = project;
+                    api.data.project.active = true;
+                }
+                api.data.projects.push(project);
+            },
+
+            addUser: function (project, userName) {
+                project.users.push({
+                    id: $h.generateId(),
+                    name: userName
+                });
+            },
+
+            removeUser: function (project, user) {
+                $h.removeFromArray(project.users, {id: user.id});
+            },
+
+            remove: function (project) {
+                $h.removeFromArray(api.data.projects, {id: project.id});
+            },
+
+            saveState: function () {
+                return Store.set('projects', angular.copy(api.data.projects));
+            }
+        };
+
+        return api;
+    }])
+
     /* Controller for projects view */
-    .controller('ProjectCtrl', ["$scope", "$h", 'Store', function ($scope, $h, Store) {
+    .controller('ProjectCtrl', ["$scope", "$h", "Projects", function ($scope, $h, Projects) {
 
         //subview: details, edit, list, wizard
         $scope.view = null;
@@ -53,7 +120,7 @@ angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
         $scope.temp = {};
 
         // projects related models
-        $scope.data = {};
+        $scope.data = Projects.data;
 
         $scope.resetTemp = function () {
             $scope.temp = {
@@ -63,100 +130,78 @@ angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
 
         $scope.init = function () {
             $scope.resetTemp();
-            $scope.data.projects = [];
-            Store.get("projects").then(function (projects) {
-                if ($h.isArray(projects)) {
-                    $scope.data.projects = projects;
-                    $scope.data.project = _.findWhere(projects, {active: true});
-                    $scope.details($scope.data.project);
+            Projects.load().then(function () {
+                if (Projects.data.projects.length) {
+                    $scope.goSubView("details");
                 } else {
-                    $scope.wizard();
+                    $scope.goSubView('wizard');
                 }
             });
         };
 
-        $scope.edit = function (project) {
-            $scope.resetTemp();
-            $scope.temp.project = _.clone(project);
-            $scope.view = "edit";
-        };
-
-        $scope.cancelEdit = function (project) {
-            $scope.resetTemp();
-            $scope.details($scope.data.project);
-        };
-
-        $scope.wizard = function () {
-            $scope.view = "wizard";
-        };
-
-        $scope.details = function (project) {
-            $scope.data.project = project;
-            $scope.view = "details";
-        };
-
-        $scope.list = function () {
-            $scope.view = "list";
-        };
-
-        $scope.select = function (project) {
-            if ($scope.data.project) {
-                $scope.data.project.active = false;
-            }
-            $scope.data.project = project;
-            $scope.data.project.active = true;
-            //todo: save store
-        };
-
-        $scope.update = function (project) {
-            $scope.data.project = project;
-            //todo: save store
-        };
-
-        $scope.create = function (project) {
-            if (project.name && project.name.trim() !== "") {
-                //generate id
-                project.id = $h.generateId();
-                if (!$scope.data.project) {
-                    $scope.data.project = project;
-                    $scope.data.project.active = true;
-                }
-                $scope.data.projects.push(project);
-                $scope.resetTemp();
-
-                //todo: save store
-            }
-        };
-
-        $scope.addUser = function (project, userName) {
-            userName = userName.trim();
-            if (userName !== "") {
-                project.users.push({
-                    id: $h.generateId(),
-                    name: userName
-                });
-            }
-        };
-
-        $scope.removeUser = function (project, user) {
-            if (project && user) {
-                project.users = _.without(project.users, _.findWhere(project.users, {id: user.id}));
-            }
-        };
-
-        $scope.remove = function (project) {
-            Projects.remove(project.id);
+        $scope.goSubView = function (view) {
+            $scope.view = view;
         };
 
         $scope.goWizardNext = function () {
             if ($scope.wizardStep == 1 && $scope.temp.project.name && $scope.temp.project.name.trim() !== "") {
                 $scope.wizardStep = 2;
             }
+
             if ($scope.wizardStep == 2 && $scope.temp.project.users.length) {
-                $scope.create($scope.temp.project);
-                $scope.details($scope.data.project);
+                Projects.create($scope.temp.project);
+                $scope.goSubView("details");
+                Projects.saveState();
             }
-        }
+        };
+
+        $scope.selectProject = function (project) {
+            Projects.select(project);
+            Projects.saveState();
+        };
+
+        $scope.createProject = function (project) {
+            if (!project.name || project.name.trim() !== "" || !$h.isArray(project.users)) return;
+            Projects.create(project);
+            Projects.saveState();
+            $scope.resetTemp();
+        };
+
+        $scope.editProject = function (project) {
+            $scope.resetTemp();
+            $scope.temp.project = _.clone(project);
+            $scope.goSubView("edit");
+        };
+
+        $scope.cancelEdit = function (project) {
+            $scope.resetTemp();
+            $scope.data.project = _.findWhere($scope.data.projects, {id: project.id});
+            $scope.goSubView("details");
+        };
+
+        $scope.updateProject = function (project) {
+            Projects.update(project);
+            Projects.saveState();
+        };
+
+        $scope.removeProject = function (project) {
+            //todo: add r u sure logic
+            Projects.remove(project);
+            Projects.saveState();
+        };
+
+        $scope.addUser = function (project, userName) {
+            if (!project || !userName) return;
+            if (!userName.trim()) return;
+            Projects.addUser(project, userName.trim());
+            Projects.saveState();
+        };
+
+        $scope.removeUser = function (project, user) {
+            if (!project || !user) return;
+            Projects.removeUser(project, user);
+            Projects.saveState();
+        };
 
     }])
 

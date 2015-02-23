@@ -88,7 +88,9 @@
             </div>
             <div class="standups-wizard-body">
               <label>
-                <input placeholder="Project name" autofocus="true" ng-model="temp.project.name"/>
+                <input placeholder="Project name" autofocus="true"
+                       ng-model="temp.project.name"
+                       keypress="{ 'enter': 'goWizardNext()'}"/>
               </label>
               <button class="standups-button standups-big" ng-click="goWizardNext()">Next <i
                   class="fa fa-arrow-right"></i></button>
@@ -132,7 +134,7 @@
             </h3>
 
             <div class="standups-header-actions standups-right">
-              <a ng-click="update(temp.project)"><i class="fa fa-save"></i></a>
+              <a ng-click="updateProject(temp.project)"><i class="fa fa-save"></i></a>
               <a ng-click="cancelEdit(temp.project)"><i class="fa fa-save"></i></a>
             </div>
           </div>
@@ -142,14 +144,14 @@
               <li>
                 <a>
                   <input type="text" ng-model="temp.userName" placeholder="User name"
-                         keypress="{ enter: 'addUser(update(temp.project)), temp.userName' }"/>
+                         keypress="{ enter: 'addUser(temp.project, temp.userName' }"/>
                 </a>
               </li>
               <li ng-repeat="user in temp.project.users">
                 <a>
                   <input type="text" ng-model="user.name"/>
                   <span class="standups-right standups-item-actions">
-                    <i ng-click="removeUser($index)" class="fa fa-trash-o"></i>
+                    <i ng-click="removeUser(temp.project, user)" class="fa fa-trash-o"></i>
                   </span>
                 </a>
               </li>
@@ -159,13 +161,13 @@
 
         <div ng-switch-when="details">
           <div class="standups-header">
-            <h3 class="standups-list-header standups-left" ng-dblclick="edit(data.project)">
+            <h3 class="standups-list-header standups-left" ng-dblclick="editProject(data.project)">
               {{data.project.name}}
             </h3>
 
             <div class="standups-header-actions standups-right">
-              <a ng-click="list()"><i class="fa fa-list"></i></a>
-              <a ng-click="edit(data.project)"><i class="fa fa-edit"></i></a>
+              <a ng-click="goSubView('list')"><i class="fa fa-list"></i></a>
+              <a ng-click="editProject(data.project)"><i class="fa fa-edit"></i></a>
             </div>
           </div>
           <div class="standups-list">
@@ -184,7 +186,7 @@
             <h3 class="standups-list-header standups-left">Projects</h3>
 
             <div class="standups-header-actions standups-right">
-              <a ng-click="details(data.project)"><i class="fa fa-arrow-left"></i></a>
+              <a ng-click="goSubView('details')"><i class="fa fa-arrow-left"></i></a>
             </div>
           </div>
 
@@ -193,13 +195,13 @@
               <li>
                 <a>
                   <input type="text" ng-model="temp.project.name" placeholder="Project name"
-                         keypress="{ enter: 'create(temp.project)' }"/>
+                         keypress="{ enter: 'createProject(temp.project)' }"/>
                 </a>
               </li>
               <li ng-repeat="project in data.projects"
                   ng-class="project.active?'standups-list-item-selected':''"
-                  ng-click="data.project = project"
-                  ng-dblclick="details((data.project = project))">
+                  ng-click="selectProject(project)"
+                  ng-dblclick="selectProject(project); goSubView('details')">
                 <a>
                   <i class="fa fa-circle-o"></i>
                   <i class="fa fa-dot-circle-o"></i>
@@ -209,8 +211,8 @@
                 </ng-pluralize>)
                 </span>
                 <span class="standups-right standups-item-actions">
-                  <i ng-click="edit(project)" class="fa fa-edit"></i>
-                   <i ng-click="remove(project)" class="fa fa-trash-o"></i>
+                  <i ng-click="editProject(project)" class="fa fa-edit"></i>
+                   <i ng-click="removeProject(project)" class="fa fa-trash-o"></i>
                 </span>
                 </a>
               </li>

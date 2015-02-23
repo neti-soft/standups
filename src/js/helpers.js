@@ -28,6 +28,16 @@ angular.module('standups.helpers', [])
                     (type == "object" && o === Object(o)) ||
                     (type == "array" && Array.isArray && Array.isArray(o)) ||
                     Object.prototype.toString.call(o).slice(8, -1).toLowerCase() == type;
+            },
+
+            removeFromArray: function (array, item, field) {
+                var q = {};
+                q[field] = item[field];
+                var index = _.findIndex(array, q);
+                if (index >= 0) {
+                    array.splice(index, 1);
+                }
+                return array;
             }
         };
 
