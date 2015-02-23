@@ -79,108 +79,127 @@
 
       <div ng-switch="view">
 
-        <div ng-switch="wizard" class="standups-wizard">
-          <div class="standups-step" ng-show="wizard.wizardStep === 1">
+        <div ng-switch-when="wizard" class="standups-wizard">
+          <div class="standups-step" ng-show="wizardStep === 1">
             <div class="standups-header">
               <h3 class="standups-list-header standups-left">
                 Create your first project
               </h3>
             </div>
-            <div class="standups-wizard">
+            <div class="standups-wizard-body">
               <label>
-                <input placeholder="Project name" autofocus="true" ng-model="wizard.project.porjectName"/>
+                <input placeholder="Project name" autofocus="true" ng-model="temp.project.name"/>
               </label>
-              <button class="standups-button standups-big" ng-click="wizard.wizardStep = 2">Next <i
+              <button class="standups-button standups-big" ng-click="goWizardNext()">Next <i
                   class="fa fa-arrow-right"></i></button>
             </div>
           </div>
 
-          <div class="standups-step standups-step2" ng-show="wizard.wizardStep === 2">
+          <div class="standups-step standups-step2" ng-show="wizardStep === 2">
             <div class="standups-header">
-              <h3 class="standups-list-header standups-left">{{wizard.project.projectName}}</h3>
+              <h3 class="standups-list-header standups-left">{{temp.project.name}}</h3>
             </div>
-            <label>
-              <input placeholder="User name" autofocus="true"/>
-            </label>
-            <button class="standups-button standups-big" ng-click="createProjectFromWizard()">Next <i
-                class="fa fa-arrow-right"></i></button>
-            <div class="standups-list">
-              <ul>
-                <li><a>User 1</a></li>
-                <li><a>User 2</a></li>
-                <li><a>User 3</a></li>
-              </ul>
+            <div class="standups-wizard-body">
+              <label>
+                <input placeholder="User name"
+                       ng-model="temp.userName"
+                       keypress="{ 'enter': 'addUser(temp.project, temp.userName); temp.userName = \'\'' }"/>
+              </label>
+              <button class="standups-button standups-big" ng-click="goWizardNext()">Next <i
+                  class="fa fa-arrow-right"></i></button>
+              <div class="standups-list">
+                <ul>
+                  <li ng-if="temp.project.users.length == 0"> No users </li>
+                  <li ng-repeat="user in temp.project.users">
+                    <a>
+                      {{user.name}}
+                       <span class="standups-right standups-item-actions">
+                        <i ng-click="removeUser(temp.project, user)" class="fa fa-trash-o"></i>
+                      </span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
 
-
-        <div ng-switch-when="details">
-          <div class="standups-header" ng-if="!activeProject().isEdited">
-            <h3 class="standups-list-header standups-left" ng-dblclick="editProject(activeProject())">
-              {{activeProject().name}}
-            </h3>
-
-            <div class="standups-header-actions standups-right">
-              <a ng-click="list()"><i class="fa fa-list"></i></a>
-              <a ng-click="editProject(activeProject())"><i class="fa fa-edit"></i></a>
-            </div>
-          </div>
-
-          <div class="standups-header" ng-if="activeProject().isEdited">
+        <div ng-switch-when="edit">
+          <div class="standups-header">
             <h3 class="standups-list-header standups-left">
-              <input type="text" ng-model="activeProject().name" placeholder="Project name"
-                     keypress="{ 'enter': 'save()'}"/>
+              <input type="text" ng-model="temp.project.name" placeholder="Project name"
+                     keypress="{ 'enter': 'update(temp.project)'}"/>
             </h3>
 
             <div class="standups-header-actions standups-right">
-              <a ng-click="save()"><i class="fa fa-save"></i></a>
+              <a ng-click="update(temp.project)"><i class="fa fa-save"></i></a>
+              <a ng-click="cancelEdit(temp.project)"><i class="fa fa-save"></i></a>
             </div>
           </div>
 
           <div class="standups-list">
             <ul>
-              <li ng-if="activeProject().isEdited">
+              <li>
                 <a>
                   <input type="text" ng-model="temp.userName" placeholder="User name"
-                         keypress="{ enter: 'addUser(temp.userName)' }"/>
+                         keypress="{ enter: 'addUser(update(temp.project)), temp.userName' }"/>
                 </a>
               </li>
-              <li ng-repeat="user in activeProject().users"
-                  ng-class="user.active && !activeProject().isEdited?'standups-list-item-selected':''"
-                  ng-dbclick="user.isEdited = !user.isEdited">
-                <a ng-if="!activeProject().isEdited"><i class="fa fa-bullhorn"></i>{{user.name}}</a>
-                <a ng-if="activeProject().isEdited">
+              <li ng-repeat="user in temp.project.users">
+                <a>
                   <input type="text" ng-model="user.name"/>
-                <span class="standups-right standups-item-actions">
-                  <i ng-click="removeUser($index)" class="fa fa-trash-o"></i>
-                </span>
+                  <span class="standups-right standups-item-actions">
+                    <i ng-click="removeUser($index)" class="fa fa-trash-o"></i>
+                  </span>
                 </a>
               </li>
             </ul>
           </div>
         </div>
 
-        <div ng-switch-when="list">
+        <div ng-switch-when="details">
           <div class="standups-header">
-            <h3 class="standups-list-header standups-left">Projects</h3>
+            <h3 class="standups-list-header standups-left" ng-dblclick="edit(data.project)">
+              {{data.project.name}}
+            </h3>
 
             <div class="standups-header-actions standups-right">
-              <a ng-click="details(activeProject())"><i class="fa fa-arrow-left"></i></a>
+              <a ng-click="list()"><i class="fa fa-list"></i></a>
+              <a ng-click="edit(data.project)"><i class="fa fa-edit"></i></a>
             </div>
           </div>
           <div class="standups-list">
             <ul>
+              <li ng-repeat="user in data.project.users"
+                  ng-class="user.active?'standups-list-item-selected':''">
+                <a><i class="fa fa-bullhorn"></i>{{user.name}}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div ng-switch-when="list">
+
+          <div class="standups-header">
+            <h3 class="standups-list-header standups-left">Projects</h3>
+
+            <div class="standups-header-actions standups-right">
+              <a ng-click="details(data.project)"><i class="fa fa-arrow-left"></i></a>
+            </div>
+          </div>
+
+          <div class="standups-list">
+            <ul>
               <li>
                 <a>
-                  <input type="text" ng-model="temp.projectName" placeholder="Project name"
-                         keypress="{ enter: 'addProject(temp.projectName)' }"/>
+                  <input type="text" ng-model="temp.project.name" placeholder="Project name"
+                         keypress="{ enter: 'create(temp.project)' }"/>
                 </a>
               </li>
-              <li ng-repeat="project in getProjects()"
-                  ng-class="project == activeProject()?'standups-list-item-selected':''"
-                  ng-click="selectProject(project)"
-                  ng-dblclick="selectProject(project);details(activeProject())">
+              <li ng-repeat="project in data.projects"
+                  ng-class="project.active?'standups-list-item-selected':''"
+                  ng-click="data.project = project"
+                  ng-dblclick="details((data.project = project))">
                 <a>
                   <i class="fa fa-circle-o"></i>
                   <i class="fa fa-dot-circle-o"></i>
@@ -190,14 +209,15 @@
                 </ng-pluralize>)
                 </span>
                 <span class="standups-right standups-item-actions">
-                  <i ng-click="editProject(project)" class="fa fa-edit"></i>
-                   <i ng-click="removeProject(project)" class="fa fa-trash-o"></i>
+                  <i ng-click="edit(project)" class="fa fa-edit"></i>
+                   <i ng-click="remove(project)" class="fa fa-trash-o"></i>
                 </span>
                 </a>
               </li>
             </ul>
           </div>
         </div>
+
       </div>
     </div>
   </script>
