@@ -158,10 +158,6 @@ angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
             }
         }
 
-        $scope.test = function (va) {
-            debugger;
-        }
-
     }])
 
     /* Controller for Settings view */
