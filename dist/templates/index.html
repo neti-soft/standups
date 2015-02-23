@@ -130,12 +130,12 @@
           <div class="standups-header">
             <h3 class="standups-list-header standups-left">
               <input type="text" ng-model="temp.project.name" placeholder="Project name"
-                     keypress="{ 'enter': 'update(temp.project)'}"/>
+                     keypress="{ 'enter': 'updateProject(temp.project)'}"/>
             </h3>
 
             <div class="standups-header-actions standups-right">
               <a ng-click="updateProject(temp.project)"><i class="fa fa-save"></i></a>
-              <a ng-click="cancelEdit(temp.project)"><i class="fa fa-save"></i></a>
+              <a ng-click="cancelEdit(temp.project)"><i class="fa fa-times"></i></a>
             </div>
           </div>
 
@@ -144,7 +144,7 @@
               <li>
                 <a>
                   <input type="text" ng-model="temp.userName" placeholder="User name"
-                         keypress="{ enter: 'addUser(temp.project, temp.userName' }"/>
+                         keypress="{ enter: 'addUser(temp.project, temp.userName)' }"/>
                 </a>
               </li>
               <li ng-repeat="user in temp.project.users">

@@ -30,9 +30,7 @@ angular.module('standups.helpers', [])
                     Object.prototype.toString.call(o).slice(8, -1).toLowerCase() == type;
             },
 
-            removeFromArray: function (array, item, field) {
-                var q = {};
-                q[field] = item[field];
+            removeFromArray: function (array, q) {
                 var index = _.findIndex(array, q);
                 if (index >= 0) {
                     array.splice(index, 1);

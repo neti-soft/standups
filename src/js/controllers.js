@@ -39,74 +39,6 @@ angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
 
     }])
 
-
-    .service('Projects', ['$h', 'Store', function ($h, Store) {
-
-        var api = {
-
-            data: {
-                project: null, //active project
-                projects: []
-            },
-
-            load: function () {
-                return Store.get('projects').then(function (data) {
-                    if ($h.isArray(data)) {
-                        api.data.projects = data;
-                        api.data.project = _.findWhere(data, {active: true});
-                    }
-                });
-            },
-
-            select: function (project) {
-                if (api.data.project) {
-                    api.data.project.active = false;
-                }
-                api.data.project = project;
-                api.data.project.active = true;
-            },
-
-            update: function (project) {
-                var original = _.findWhere(api.data.projects, {id: project.id});
-                if (original) {
-                    original.name = project.name;
-                    original.users = project.users;
-                }
-            },
-
-            create: function (project) {
-                //generate id
-                project.id = $h.generateId();
-                if (!api.data.project) {
-                    api.data.project = project;
-                    api.data.project.active = true;
-                }
-                api.data.projects.push(project);
-            },
-
-            addUser: function (project, userName) {
-                project.users.push({
-                    id: $h.generateId(),
-                    name: userName
-                });
-            },
-
-            removeUser: function (project, user) {
-                $h.removeFromArray(project.users, {id: user.id});
-            },
-
-            remove: function (project) {
-                $h.removeFromArray(api.data.projects, {id: project.id});
-            },
-
-            saveState: function () {
-                return Store.set('projects', angular.copy(api.data.projects));
-            }
-        };
-
-        return api;
-    }])
-
     /* Controller for projects view */
     .controller('ProjectCtrl', ["$scope", "$h", "Projects", function ($scope, $h, Projects) {
 
@@ -161,7 +93,7 @@ angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
         };
 
         $scope.createProject = function (project) {
-            if (!project.name || project.name.trim() !== "" || !$h.isArray(project.users)) return;
+            if (!project.name || project.name.trim() === "" || !$h.isArray(project.users)) return;
             Projects.create(project);
             Projects.saveState();
             $scope.resetTemp();
@@ -182,6 +114,7 @@ angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
         $scope.updateProject = function (project) {
             Projects.update(project);
             Projects.saveState();
+            $scope.goSubView("details");
         };
 
         $scope.removeProject = function (project) {
@@ -195,6 +128,7 @@ angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
             if (!userName.trim()) return;
             Projects.addUser(project, userName.trim());
             Projects.saveState();
+            $scope.resetTemp();
         };
 
         $scope.removeUser = function (project, user) {
