@@ -39,92 +39,102 @@ angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
 
     }])
 
-
     /* Controller for projects view */
-    .controller('ProjectCtrl', ["$scope", "$h", "Projects", 'Store', function ($scope, $h, Projects) {
+    .controller('ProjectCtrl', ["$scope", "$h", "Projects", function ($scope, $h, Projects) {
 
-        //subview
+        //subview: details, edit, list, wizard
         $scope.view = null;
+
+        // wizard like steps for startup
         $scope.wizardStep = 1;
+
+        // temporary stuff, edited projects, not created stuff
         $scope.temp = {};
 
-        $scope.init = function () {
-            Projects.load().then(function () {
-                if (Projects.getActive()) {
-                    $scope.details();
-                } else {
-                    $scope.wizard()
-                }
+        // projects related models
+        $scope.data = Projects.data;
 
+        $scope.resetTemp = function () {
+            $scope.temp = {
+                project: {users: []}
+            };
+        };
+
+        $scope.init = function () {
+            $scope.resetTemp();
+            Projects.load().then(function () {
+                if (Projects.data.projects.length) {
+                    $scope.goSubView("details");
+                } else {
+                    $scope.goSubView('wizard');
+                }
             });
         };
 
-        $scope.wizard = function () {
-            $scope.view = "wizard";
+        $scope.goSubView = function (view) {
+            $scope.view = view;
         };
 
-        $scope.getProjects = function () {
-            return Projects.getList();
-        };
+        $scope.goWizardNext = function () {
+            if ($scope.wizardStep == 1 && $scope.temp.project.name && $scope.temp.project.name.trim() !== "") {
+                $scope.wizardStep = 2;
+            }
 
-        $scope.activeProject = function () {
-            return Projects.getActive();
+            if ($scope.wizardStep == 2 && $scope.temp.project.users.length) {
+                Projects.create($scope.temp.project);
+                $scope.goSubView("details");
+                Projects.saveState();
+            }
         };
 
         $scope.selectProject = function (project) {
-            Projects.setActive(project);
+            Projects.select(project);
+            Projects.saveState();
         };
 
-        $scope.addProject = function (projectName) {
-            projectName = projectName.trim();
-            if (projectName) {
-                var project = Projects.add(projectName);
-                if (!this.activeProject()) {
-                    Projects.setActive(project);
-                }
-                $scope.temp.projectName = "";
-            }
-        };
-
-        $scope.details = function () {
-            $scope.view = "details";
-        };
-
-        $scope.addUser = function (userName) {
-            userName = userName.trim();
-            if (userName) {
-                Projects.addUser(Projects.getActive().id, {
-                    id: $h.generateId(),
-                    name: userName
-                });
-                $scope.temp.userName = "";
-            }
-        };
-
-        $scope.removeUser = function ($index) {
-            Projects.removeUser(Projects.getActive().id, $index);
-        };
-
-        $scope.removeProject = function (project) {
-            Projects.remove(project.id);
-        };
-
-        $scope.save = function () {
-            var project = Projects.getActive();
-            Projects.save(project);
-            project.isEdited = false;
-        };
-
-        $scope.list = function () {
-            $scope.view = "list";
+        $scope.createProject = function (project) {
+            if (!project.name || project.name.trim() === "" || !$h.isArray(project.users)) return;
+            Projects.create(project);
+            Projects.saveState();
+            $scope.resetTemp();
         };
 
         $scope.editProject = function (project) {
-            if (project) {
-                Projects.setActive(project);
-                project.isEdited = !project.isEdited;
-                $scope.view = "details";
-            }
+            $scope.resetTemp();
+            $scope.temp.project = _.clone(project);
+            $scope.goSubView("edit");
+        };
+
+        $scope.cancelEdit = function (project) {
+            $scope.resetTemp();
+            $scope.data.project = _.findWhere($scope.data.projects, {id: project.id});
+            $scope.goSubView("details");
+        };
+
+        $scope.updateProject = function (project) {
+            Projects.update(project);
+            Projects.saveState();
+            $scope.goSubView("details");
+        };
+
+        $scope.removeProject = function (project) {
+            //todo: add r u sure logic
+            Projects.remove(project);
+            Projects.saveState();
+        };
+
+        $scope.addUser = function (project, userName) {
+            if (!project || !userName) return;
+            if (!userName.trim()) return;
+            Projects.addUser(project, userName.trim());
+            Projects.saveState();
+            $scope.resetTemp();
+        };
+
+        $scope.removeUser = function (project, user) {
+            if (!project || !user) return;
+            Projects.removeUser(project, user);
+            Projects.saveState();
         };
 
     }])

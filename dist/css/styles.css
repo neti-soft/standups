@@ -156,10 +156,8 @@
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075);
 }
 #extension-standups .standups-button {
-  padding: 8px;
+  padding: 6px 15px;
   background-color: #efefef;
-  padding-left: 15px;
-  padding-right: 15px;
 }
 #extension-standups .standups-button:hover {
   cursor: pointer;
@@ -294,7 +292,7 @@
   display: inline-block;
 }
 #extension-standups .standups-project .standups-header .standups-list-header input {
-  width: 350px;
+  width: 330px;
 }
 #extension-standups .standups-project .standups-header .standups-header-actions {
   display: inline-block;
@@ -363,12 +361,12 @@
 #extension-standups .standups-project .standups-wizard .standups-step {
   text-align: center;
 }
-#extension-standups .standups-project .standups-wizard .standups-step > label {
+#extension-standups .standups-project .standups-wizard .standups-step .standups-wizard-body label {
   display: block;
   margin-top: 20px;
   margin-bottom: 15px;
 }
-#extension-standups .standups-project .standups-wizard .standups-step > label input {
+#extension-standups .standups-project .standups-wizard .standups-step .standups-wizard-body label input {
   font-size: 16px;
   width: 95%;
 }

@@ -67,88 +67,69 @@ angular.module('standups.services', ['standups.helpers'])
 
     .service('Projects', ['$h', 'Store', function ($h, Store) {
 
-        var projects = [];
+        var api = {
 
-        return {
+            data: {
+                project: null, //active project
+                projects: []
+            },
 
             load: function () {
                 return Store.get('projects').then(function (data) {
                     if ($h.isArray(data)) {
-                        projects = data;
+                        api.data.projects = data;
+                        api.data.project = _.findWhere(data, {active: true});
                     }
                 });
             },
 
-            saveProjects: function() {
-                return Store.set("projects", angular.toJson(projects));
+            select: function (project) {
+                if (api.data.project) {
+                    api.data.project.active = false;
+                }
+                api.data.project = project;
+                api.data.project.active = true;
             },
 
-            addUser: function (id, user) {
-                var project = projects[this.findIndexById(id)];
-                project.users.push(user);
-                return this.saveProjects()
+            update: function (project) {
+                var original = _.findWhere(api.data.projects, {id: project.id});
+                if (original) {
+                    original.name = project.name;
+                    original.users = project.users;
+                }
             },
 
-            removeUser: function (id, $index) {
-                var project = this.findIndexById(id);
-                project.users.splice($index, 1);
-                return this.saveProjects();
+            create: function (project) {
+                //generate id
+                project.id = $h.generateId();
+                if (!api.data.project) {
+                    api.data.project = project;
+                    api.data.project.active = true;
+                }
+                api.data.projects.push(project);
             },
 
-            save: function (p) {
-                var project = projects[this.findIndexById(p.id)];
-                project.users = p.users;
-                project.name = p.name;
-                project.active = p.active;
-                delete project.isEdited;
-                return this.saveProjects();
-            },
-
-            findIndexById: function (id) {
-                return _.findIndex(projects, function (p) {
-                    return p.id === id;
-                });
-            },
-
-            getActive: function () {
-                return _.findWhere(projects, {active: true});
-            },
-
-            add: function (projectName) {
-                var project = {
+            addUser: function (project, userName) {
+                project.users.push({
                     id: $h.generateId(),
-                    name: projectName,
-                    users: []
-                };
-                projects.push(project);
-                this.saveProjects();
-                return project;
-            },
-
-            setActive: function (project) {
-                if ($h.isUndefined(project)) {
-                    throw new Error("Error: project is undefined.");
-                }
-                var activeProject = this.getActive();
-                if (activeProject) {
-                    activeProject.active = false;
-                }
-                _.findWhere(projects, {id: project.id}).active = true;
-                return this.saveProjects();
-            },
-
-            remove: function (id) {
-                var index = _.findIndex(projects, function (p) {
-                    return p.id = id;
+                    name: userName
                 });
-                projects.splice(index, 1);
-                return this.saveProjects();
             },
 
-            getList: function () {
-                return projects;
+            removeUser: function (project, user) {
+                $h.removeFromArray(project.users, {id: user.id});
+            },
+
+            remove: function (project) {
+                $h.removeFromArray(api.data.projects, {id: project.id});
+            },
+
+            saveState: function () {
+                return Store.set('projects', angular.copy(api.data.projects));
             }
-        }
+        };
+
+        return api;
     }])
 
     .service("Extension", function () {
