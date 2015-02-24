@@ -144,7 +144,7 @@
               <li>
                 <a>
                   <input type="text" ng-model="temp.userName" placeholder="User name"
-                         keypress="{ enter: 'addUser(temp.project, temp.userName)' }"/>
+                         keypress="{ enter: 'addUser(temp.project, temp.userName); resetTemp()' }"/>
                 </a>
               </li>
               <li ng-repeat="user in temp.project.users">
@@ -186,7 +186,7 @@
             <h3 class="standups-list-header standups-left">Projects</h3>
 
             <div class="standups-header-actions standups-right">
-              <a ng-click="goSubView('details')"><i class="fa fa-arrow-left"></i></a>
+              <a ng-click="listBack()"><i class="fa fa-arrow-left"></i></a>
             </div>
           </div>
 
