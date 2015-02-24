@@ -121,6 +121,9 @@ angular.module('standups.services', ['standups.helpers'])
             },
 
             remove: function (project) {
+                if(api.data.project ==  project) {
+                    api.data.project = null;
+                }
                 $h.removeFromArray(api.data.projects, {id: project.id});
             },
 

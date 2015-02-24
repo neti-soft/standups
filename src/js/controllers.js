@@ -75,6 +75,14 @@ angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
             $scope.view = view;
         };
 
+        $scope.listBack = function() {
+            if($scope.data.project) {
+                $scope.goSubView("details");
+            } else {
+                $scope.goSubView("wizard");
+            }
+        };
+
         $scope.goWizardNext = function () {
             if ($scope.wizardStep == 1 && $scope.temp.project.name && $scope.temp.project.name.trim() !== "") {
                 $scope.wizardStep = 2;
@@ -84,6 +92,7 @@ angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
                 Projects.create($scope.temp.project);
                 $scope.goSubView("details");
                 Projects.saveState();
+                $scope.resetTemp();
             }
         };
 
@@ -128,7 +137,6 @@ angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
             if (!userName.trim()) return;
             Projects.addUser(project, userName.trim());
             Projects.saveState();
-            $scope.resetTemp();
         };
 
         $scope.removeUser = function (project, user) {
