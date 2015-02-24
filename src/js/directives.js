@@ -189,6 +189,25 @@ angular.module('standups.directives', ["standups.ctrl", "standups.helpers", "sta
         };
     }])
 
+    .directive('focusOn', ["$timeout", function ($timeout) {
+        return function (scope, el, attr) {
+
+            var timeout = function (fn) {
+                $timeout(function () {
+                    el[0][fn]();
+                }, 200);
+            };
+
+            scope.$watch(attr.focusOn, function (value) {
+
+                if (value) {
+                    timeout("focus");
+                } else {
+                    timeout("blur");
+                }
+            })
+        }
+    }])
 
     .directive('keypress', ['$parse', function ($parse) {
 

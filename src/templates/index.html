@@ -88,7 +88,8 @@
             </div>
             <div class="standups-wizard-body">
               <label>
-                <input placeholder="Project name" autofocus="true"
+                <input placeholder="Project name"
+                       focus-on="wizardStep === 1"
                        ng-model="temp.project.name"
                        keypress="{ 'enter': 'goWizardNext()'}"/>
               </label>
@@ -104,6 +105,7 @@
             <div class="standups-wizard-body">
               <label>
                 <input placeholder="User name"
+                       focus-on="wizardStep === 2"
                        ng-model="temp.userName"
                        keypress="{ 'enter': 'addUser(temp.project, temp.userName); temp.userName = \'\'' }"/>
               </label>
@@ -129,7 +131,10 @@
         <div ng-switch-when="edit">
           <div class="standups-header">
             <h3 class="standups-list-header standups-left">
-              <input type="text" ng-model="temp.project.name" placeholder="Project name"
+              <input type="text"
+                     ng-model="temp.project.name"
+                     focus-on="view == 'edit'"
+                     placeholder="Project name"
                      keypress="{ 'enter': 'updateProject(temp.project)'}"/>
             </h3>
 
@@ -144,7 +149,7 @@
               <li>
                 <a>
                   <input type="text" ng-model="temp.userName" placeholder="User name"
-                         keypress="{ enter: 'addUser(temp.project, temp.userName); resetTemp()' }"/>
+                         keypress="{ enter: 'addUser(temp.project, temp.userName); temp.userName = null' }"/>
                 </a>
               </li>
               <li ng-repeat="user in temp.project.users">
@@ -166,7 +171,7 @@
             </h3>
 
             <div class="standups-header-actions standups-right">
-              <a ng-click="goSubView('list')"><i class="fa fa-list"></i></a>
+              <a ng-click="goSubView('list'); resetTemp()"><i class="fa fa-list"></i></a>
               <a ng-click="editProject(data.project)"><i class="fa fa-edit"></i></a>
             </div>
           </div>
@@ -194,7 +199,10 @@
             <ul>
               <li>
                 <a>
-                  <input type="text" ng-model="temp.project.name" placeholder="Project name"
+                  <input type="text"
+                         focus-on="view == 'list'"
+                         ng-model="temp.project.name"
+                         placeholder="Project name"
                          keypress="{ enter: 'createProject(temp.project)' }"/>
                 </a>
               </li>
