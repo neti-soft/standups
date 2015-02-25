@@ -177,6 +177,9 @@
 #extension-standups .fade {
   opacity: 0.5;
 }
+#extension-standups .standups-center {
+  text-align: center;
+}
 #extension-standups .viewport section {
   padding-left: 10px;
   padding-right: 10px;
@@ -282,6 +285,7 @@
   overflow: auto;
   margin-top: 10px;
   padding: 5px;
+  text-align: left;
 }
 #extension-standups .standups-project .standups-header .standups-list-header {
   width: 310px;
@@ -312,6 +316,9 @@
   width: 334px;
   height: 30px;
   font-size: 14px;
+}
+#extension-standups .standups-project .standups-list ul .standups-list-item-empty {
+  margin-top: 15px;
 }
 #extension-standups .standups-project .standups-list ul li {
   margin-bottom: 2px;
