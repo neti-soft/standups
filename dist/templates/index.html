@@ -2,17 +2,17 @@
 
   <div class="viewport" data-ng-controller="ViewportCtrl">
 
-    <section data-ng-show="Extension.Nav.is('main')" data-ng-controller="MainTimerCtrl">
+    <section data-ng-show="Extension.Nav.is('main')">
       <div class="hdr">
         <div class="nv">
           <span class="section-name"> Standups</span>
           <ul class="navigation standups-right">
-            <li>
-              <a data-ng-click="Extension.toggleSound()">
-                <i data-ng-show="Extension.Settings.enableSound" class="fa fa-volume-up"></i>
-                <i data-ng-show="!Extension.Settings.enableSound" class="fa fa-volume-off"></i>
-              </a>
-            </li>
+            <!--<li>-->
+              <!--<a data-ng-click="Extension.toggleSound()">-->
+                <!--<i data-ng-show="Extension.Settings.enableSound" class="fa fa-volume-up"></i>-->
+                <!--<i data-ng-show="!Extension.Settings.enableSound" class="fa fa-volume-off"></i>-->
+              <!--</a>-->
+            <!--</li>-->
             <li>
               <a data-ng-click="Extension.Nav.to('settings')"><i class="fa fa-gear"></i></a>
             </li>
@@ -22,7 +22,7 @@
           </ul>
         </div>
       </div>
-      <div>
+      <div ng-controller="TimerCtrl">
         <div timer></div>
         <div>
           <button class="extension-btn" data-ng-click="startClick($event)" data-ng-show="!timerStarted()">Start</button>
@@ -30,10 +30,7 @@
           <button class="extension-btn" data-ng-click="resetClick($event)">Reset</button>
         </div>
       </div>
-      <div>
-
-        <div teams></div>
-      </div>
+      <div projects></div>
     </section>
 
     <section id="settings" data-ng-show="Extension.Nav.is('settings')" data-ng-controller="SettingsCtrl">
@@ -56,6 +53,7 @@
         </ul>
       </article>
     </section>
+
   </div>
 
   <script type="text/ng-template" id="templates/timer.html">
@@ -75,7 +73,7 @@
   </script>
 
   <script type="text/ng-template" id="templates/teams.html">
-    <div class="standups-project" ng-controller="ProjectCtrl" ng-init="init()">
+    <div class="standups-project" ng-init="init()">
 
       <div ng-switch="view">
 
@@ -180,7 +178,7 @@
             <ul>
               <li ng-repeat="user in data.project.users"
                   ng-class="user.active?'standups-list-item-selected':''">
-                <a><i class="fa fa-bullhorn"></i>{{user.name}}</a>
+                <a ng-click="selectUser(data.project, user)"><i class="fa fa-bullhorn"></i>{{user.name}}</a>
               </li>
             </ul>
           </div>

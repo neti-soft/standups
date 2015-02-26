@@ -16,7 +16,7 @@ angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
     }])
 
     /* Controller for main view */
-    .controller('MainTimerCtrl', ["$scope", "$rootScope", function ($scope, $rootScope) {
+    .controller('TimerCtrl', ["$scope", "$rootScope", "Standup", function ($scope, $rootScope, Standup) {
 
         $scope.startClick = function (e) {
             e.stopPropagation();
@@ -34,13 +34,13 @@ angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
         };
 
         $rootScope.$on('timer-timeout', function () {
-            alert('Time is out!')
+            alert('Timeout!')
         });
 
     }])
 
     /* Controller for projects view */
-    .controller('ProjectCtrl', ["$scope", "$h", "Projects", function ($scope, $h, Projects) {
+    .controller('ProjectCtrl', ["$scope", "$rootScope", "$h", "Projects", function ($scope, $rootScope, $h, Projects) {
 
         //subview: details, edit, list, wizard
         $scope.view = null;
@@ -64,6 +64,7 @@ angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
             $scope.resetTemp();
             Projects.load().then(function () {
                 if (Projects.data.projects.length) {
+                    _.each(Projects.data.projects, Projects.unSelectionAllUsers);
                     $scope.goSubView("details");
                 } else {
                     $scope.goSubView('wizard');
@@ -75,8 +76,8 @@ angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
             $scope.view = view;
         };
 
-        $scope.listBack = function() {
-            if($scope.data.project) {
+        $scope.listBack = function () {
+            if ($scope.data.project) {
                 $scope.goSubView("details");
             } else {
                 $scope.goSubView("wizard");
@@ -98,7 +99,12 @@ angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
 
         $scope.selectProject = function (project) {
             Projects.select(project);
+            Projects.unSelectionAllUsers(project);
             Projects.saveState();
+        };
+
+        $scope.selectUser = function (project, user) {
+            Projects.selectUser(project, user);
         };
 
         $scope.createProject = function (project) {
@@ -144,6 +150,10 @@ angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
             Projects.removeUser(project, user);
             Projects.saveState();
         };
+
+        $rootScope.$on('timer-start', function () {
+            $scope.cancelEdit($scope.data.project);
+        });
 
     }])
 

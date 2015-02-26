@@ -65,6 +65,13 @@ angular.module('standups.services', ['standups.helpers'])
         }
     }])
 
+    .service("Standup", function() {
+        return {
+            projectId: null,
+            isRunning: false
+        };
+    })
+
     .service('Projects', ['$h', 'Store', function ($h, Store) {
 
         var api = {
@@ -89,6 +96,25 @@ angular.module('standups.services', ['standups.helpers'])
                 }
                 api.data.project = project;
                 api.data.project.active = true;
+            },
+
+            selectUser: function (project, user) {
+                var p = this.byId(project.id);
+                if (!p) return;
+                var u = _.findWhere(p.users, {id: user.id});
+                if (!u) return;
+                this.unSelectionAllUsers(p);
+                u.active = true;
+            },
+
+            byId: function(id) {
+                return _.findWhere(api.data.projects, {id: id});
+            },
+
+            unSelectionAllUsers: function(project) {
+                _.each(project.users, function (u) {
+                    u.active = false;
+                });
             },
 
             update: function (project) {
@@ -121,7 +147,7 @@ angular.module('standups.services', ['standups.helpers'])
             },
 
             remove: function (project) {
-                if(api.data.project ==  project) {
+                if (api.data.project == project) {
                     api.data.project = null;
                 }
                 $h.removeFromArray(api.data.projects, {id: project.id});

@@ -179,10 +179,11 @@ angular.module('standups.directives', ["standups.ctrl", "standups.helpers", "sta
     }])
 
 
-    .directive("teams", ["$rootScope", function ($rootScope) {
+    .directive("projects", ["$rootScope", function ($rootScope) {
         return {
             restrict: "AE",
             templateUrl: "templates/teams.html",
+            controller: "ProjectCtrl",
             link: function (scope, el, attr) {
 
             }
