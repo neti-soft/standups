@@ -112,8 +112,9 @@
               <button class="standups-button standups-big" ng-click="goWizardNext()">Next <i
                   class="fa fa-arrow-right"></i></button>
               <div class="standups-list">
+
                 <ul>
-                  <li ng-if="temp.project.users.length == 0"> No users </li>
+                  <li class="standups-list-item-empty" ng-if="temp.project.users.length == 0"><a>No users yet ... </a></li>
                   <li ng-repeat="user in temp.project.users">
                     <a>
                       {{user.name}}
