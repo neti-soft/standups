@@ -40,7 +40,7 @@ angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
     }])
 
     /* Controller for projects view */
-    .controller('ProjectCtrl', ["$scope", "$h", "Projects", function ($scope, $h, Projects) {
+    .controller('ProjectCtrl', ["$scope", "$rootScope", "$h", "Projects", function ($scope, $rootScope, $h, Projects) {
 
         //subview: details, edit, list, wizard
         $scope.view = null;
@@ -75,8 +75,8 @@ angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
             $scope.view = view;
         };
 
-        $scope.listBack = function() {
-            if($scope.data.project) {
+        $scope.listBack = function () {
+            if ($scope.data.project) {
                 $scope.goSubView("details");
             } else {
                 $scope.goSubView("wizard");
@@ -99,6 +99,10 @@ angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
         $scope.selectProject = function (project) {
             Projects.select(project);
             Projects.saveState();
+        };
+
+        $scope.selectUser = function (project, user) {
+            Projects.selectUser(project, user);
         };
 
         $scope.createProject = function (project) {
@@ -144,6 +148,10 @@ angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
             Projects.removeUser(project, user);
             Projects.saveState();
         };
+
+        $rootScope.$on('timer-start', function () {
+            $scope.cancelEdit($scope.data.project);
+        });
 
     }])
 

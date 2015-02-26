@@ -180,7 +180,7 @@
             <ul>
               <li ng-repeat="user in data.project.users"
                   ng-class="user.active?'standups-list-item-selected':''">
-                <a><i class="fa fa-bullhorn"></i>{{user.name}}</a>
+                <a ng-click="selectUser(data.project, user)"><i class="fa fa-bullhorn"></i>{{user.name}}</a>
               </li>
             </ul>
           </div>

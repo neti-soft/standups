@@ -91,6 +91,17 @@ angular.module('standups.services', ['standups.helpers'])
                 api.data.project.active = true;
             },
 
+            selectUser: function (project, user) {
+                var p = _.findWhere(api.data.projects, {id: project.id});
+                if (!p) return;
+                var u = _.findWhere(p.users, {id: user.id});
+                if (!u) return;
+                _.each(p.users, function (u) {
+                    u.active = false;
+                });
+                u.active = true;
+            },
+
             update: function (project) {
                 var original = _.findWhere(api.data.projects, {id: project.id});
                 if (original) {
@@ -121,7 +132,7 @@ angular.module('standups.services', ['standups.helpers'])
             },
 
             remove: function (project) {
-                if(api.data.project ==  project) {
+                if (api.data.project == project) {
                     api.data.project = null;
                 }
                 $h.removeFromArray(api.data.projects, {id: project.id});
