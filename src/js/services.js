@@ -65,6 +65,13 @@ angular.module('standups.services', ['standups.helpers'])
         }
     }])
 
+    .service("Standup", function() {
+        return {
+            projectId: null,
+            isRunning: false
+        };
+    })
+
     .service('Projects', ['$h', 'Store', function ($h, Store) {
 
         var api = {
