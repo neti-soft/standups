@@ -92,14 +92,22 @@ angular.module('standups.services', ['standups.helpers'])
             },
 
             selectUser: function (project, user) {
-                var p = _.findWhere(api.data.projects, {id: project.id});
+                var p = this.byId(project.id);
                 if (!p) return;
                 var u = _.findWhere(p.users, {id: user.id});
                 if (!u) return;
-                _.each(p.users, function (u) {
+                this.unSelectionAllUsers(p);
+                u.active = true;
+            },
+
+            byId: function(id) {
+                return _.findWhere(api.data.projects, {id: id});
+            },
+
+            unSelectionAllUsers: function(project) {
+                _.each(project.users, function (u) {
                     u.active = false;
                 });
-                u.active = true;
             },
 
             update: function (project) {
