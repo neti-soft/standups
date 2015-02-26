@@ -64,6 +64,7 @@ angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
             $scope.resetTemp();
             Projects.load().then(function () {
                 if (Projects.data.projects.length) {
+                    _.each(Projects.data.projects, Projects.unSelectionAllUsers);
                     $scope.goSubView("details");
                 } else {
                     $scope.goSubView('wizard');
@@ -98,6 +99,7 @@ angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
 
         $scope.selectProject = function (project) {
             Projects.select(project);
+            Projects.unSelectionAllUsers(project);
             Projects.saveState();
         };
 
