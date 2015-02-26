@@ -16,16 +16,11 @@ angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
     }])
 
     /* Controller for main view */
-    .controller('TimerCtrl', ["$scope", "$rootScope", "Projects", "Standup", function ($scope, $rootScope, Projects) {
-
+    .controller('TimerCtrl', ["$scope", "$rootScope", "Standup", function ($scope, $rootScope, Standup) {
 
         $scope.startClick = function (e) {
             e.stopPropagation();
             $rootScope.$broadcast('timer-start');
-
-            if (Projects.data.project) {
-
-            }
         };
 
         $scope.stopClick = function (e) {
@@ -39,7 +34,7 @@ angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
         };
 
         $rootScope.$on('timer-timeout', function () {
-
+            alert('Timeout!')
         });
 
     }])
