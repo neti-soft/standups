@@ -155,6 +155,19 @@ angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
             $scope.cancelEdit($scope.data.project);
         });
 
+        $rootScope.$on('timer-end', function () {
+            var users = $scope.data.project.users,
+                activeIndex = _.findIndex(users, function (u) {
+                    u.active = true
+                }),
+                nextUser = users[activeIndex + 1];
+            users[activeIndex].active = false;
+            if (nextUser) {
+                nextUser.active = true;
+            } else if (users[0]) {
+                users[0].active = true;
+            }
+        })
     }])
 
     /* Controller for Settings view */
