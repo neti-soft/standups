@@ -213,14 +213,35 @@ angular.module('standups.services', ['standups.helpers'])
         return Ext;
     })
 
+    .service("Observable", [function() {
 
-    .factory("Timer", function () {
+        function Observable() {
+            this._events = {};
+        }
+
+        Observable.mixin = function(o) {
+            var obs = new Observable();
+            return _.extend(o, obs);
+        };
+
+        Observable.prototype.on = function (e, cb) {
+            this._events[e] = cb;
+        };
+
+        Observable.prototype._fire = function (e) {
+            var args = [].splice(1, arguments);
+            this._events[e] && this._events[e].apply(this, args);
+        };
+
+        return Observable;
+    }])
+
+    .factory("Timer", ["Observable", function (Observable) {
 
         function Timer(h, m, s) {
             this.started = false;
             this.timeout = false;
             this.time = {};
-            this._events = {};
             this.set(h, m, s);
         }
 
@@ -258,15 +279,6 @@ angular.module('standups.services', ['standups.helpers'])
             this.time.h = date.getHours() + ((date.getDate() - 1) * 24);
             this.time.m = date.getMinutes();
             this.time.s = date.getSeconds();
-        }
-
-        Timer.prototype.on = function (e, cb) {
-            this._events[e] = cb;
-        };
-
-        Timer.prototype._fire = function (e) {
-            var args = [].splice(1, arguments);
-            this._events[e] && this._events[e].apply(this, args);
         };
 
         Timer.prototype._degrees = function () {
@@ -335,8 +347,10 @@ angular.module('standups.services', ['standups.helpers'])
             }
         };
 
+        Timer.prototype = Observable.mixin(Timer.prototype);
+
         return Timer;
-    })
+    }])
 
     .service("Keyboard", [function () {
 

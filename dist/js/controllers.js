@@ -36,7 +36,8 @@ angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
     }])
 
     /* Controller for projects view */
-    .controller('ProjectCtrl', ["$scope", "$rootScope", "$h", "Projects", function ($scope, $rootScope, $h, Projects) {
+    .controller('ProjectCtrl',
+    ["$scope", "$rootScope", "$h", "Projects", "Standup", function ($scope, $rootScope, $h, Projects, Standup) {
 
         //subview: details, edit, list, wizard
         $scope.view = null;
@@ -158,7 +159,7 @@ angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
 
             nextUser = users[activeIndex + 1];
 
-            if(users[activeIndex]) {
+            if (users[activeIndex]) {
                 users[activeIndex].active = false;
             }
 
