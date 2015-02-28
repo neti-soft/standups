@@ -213,6 +213,7 @@ angular.module('standups.services', ['standups.helpers'])
         return Ext;
     })
 
+
     .factory("Timer", function () {
 
         function Timer(h, m, s) {

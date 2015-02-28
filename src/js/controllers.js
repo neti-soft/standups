@@ -33,14 +33,11 @@ angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
             $rootScope.$broadcast('timer-reset');
         };
 
-        $rootScope.$on('timer-timeout', function () {
-            alert('Timeout!')
-        });
-
     }])
 
     /* Controller for projects view */
-    .controller('ProjectCtrl', ["$scope", "$rootScope", "$h", "Projects", function ($scope, $rootScope, $h, Projects) {
+    .controller('ProjectCtrl',
+    ["$scope", "$rootScope", "$h", "Projects", "Standup", function ($scope, $rootScope, $h, Projects, Standup) {
 
         //subview: details, edit, list, wizard
         $scope.view = null;
@@ -151,23 +148,36 @@ angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
             Projects.saveState();
         };
 
-        $rootScope.$on('timer-start', function () {
-            $scope.cancelEdit($scope.data.project);
-        });
+        $scope.nextSpeaker = function () {
+            var users, activeIndex, nextUser;
+            users = $scope.data.project.users;
+            if (!users.length) return;
 
-        $rootScope.$on('timer-end', function () {
-            var users = $scope.data.project.users,
-                activeIndex = _.findIndex(users, function (u) {
-                    u.active = true
-                }),
-                nextUser = users[activeIndex + 1];
-            users[activeIndex].active = false;
+            activeIndex = _.findIndex(users, function (u) {
+                return !!u.active
+            });
+
+            nextUser = users[activeIndex + 1];
+
+            if (users[activeIndex]) {
+                users[activeIndex].active = false;
+            }
+
             if (nextUser) {
                 nextUser.active = true;
             } else if (users[0]) {
                 users[0].active = true;
             }
-        })
+        };
+
+        $rootScope.$on("timer-start", function () {
+            $scope.cancelEdit($scope.data.project);
+            $scope.nextSpeaker();
+        });
+
+        $rootScope.$on("timer-timeout", function () {
+            $scope.nextSpeaker();
+        });
     }])
 
     /* Controller for Settings view */
