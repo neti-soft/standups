@@ -65,13 +65,6 @@ angular.module('standups.services', ['standups.helpers'])
         }
     }])
 
-    .service("Standup", function() {
-        return {
-            projectId: null,
-            isRunning: false
-        };
-    })
-
     .service('Projects', ['$h', 'Store', function ($h, Store) {
 
         var api = {
@@ -213,7 +206,7 @@ angular.module('standups.services', ['standups.helpers'])
         return Ext;
     })
 
-    .service("Observable", [function() {
+    .factory("Observable", [function() {
 
         function Observable() {
             this._events = {};

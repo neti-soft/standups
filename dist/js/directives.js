@@ -42,7 +42,9 @@ angular.module('standups.directives', ["standups.ctrl", "standups.helpers", "sta
                 });
 
                 timer.on('timeout', function () {
-                    $rootScope.$emit('timer-timeout', timer);
+                    scope.$apply(function() {
+                        $rootScope.$emit('timer-timeout', timer);
+                    });
                 });
 
                 scope.timerStarted = function () {

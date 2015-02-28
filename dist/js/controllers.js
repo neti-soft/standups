@@ -18,21 +18,37 @@ angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
     /* Controller for main view */
     .controller('TimerCtrl', ["$scope", "$rootScope", "Standup", function ($scope, $rootScope, Standup) {
 
-        $scope.startClick = function (e) {
-            e.stopPropagation();
-            $rootScope.$broadcast('timer-start');
+        $scope.startClick = function () {
+            if (Standup.paused) {
+                Standup.paused = false;
+                $rootScope.$broadcast('timer-resume');
+            } else {
+                $rootScope.$broadcast('timer-reset');
+                $rootScope.$broadcast('timer-start');
+                $scope.nextSpeaker();
+            }
         };
 
-        $scope.stopClick = function (e) {
-            e.stopPropagation();
+        $scope.isPaused = function () {
+            return Standup.paused;
+        };
+
+        $scope.stopClick = function () {
+            Standup.paused = true;
             $rootScope.$broadcast('timer-stop');
         };
 
-        $scope.resetClick = function (e) {
-            e.stopPropagation();
+        $scope.resetClick = function () {
+            Standup.paused = false;
             $rootScope.$broadcast('timer-reset');
         };
 
+    }])
+
+    .service("Standup", ["Observable", function (Observable) {
+        return {
+            paused: false
+        };
     }])
 
     /* Controller for projects view */
@@ -149,34 +165,23 @@ angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
         };
 
         $scope.nextSpeaker = function () {
-            var users, activeIndex, nextUser;
-            users = $scope.data.project.users;
-            if (!users.length) return;
-
-            activeIndex = _.findIndex(users, function (u) {
+            var index;
+            if (!$scope.data.project.users.length) return;
+            index = _.findIndex($scope.data.project.users, function (u) {
                 return !!u.active
             });
-
-            nextUser = users[activeIndex + 1];
-
-            if (users[activeIndex]) {
-                users[activeIndex].active = false;
-            }
-
-            if (nextUser) {
-                nextUser.active = true;
-            } else if (users[0]) {
-                users[0].active = true;
-            }
+            Projects.selectUser($scope.data.project, $scope.data.project.users[index + 1] ?
+                $scope.data.project.users[index + 1] : $scope.data.project.users[0]);
         };
 
         $rootScope.$on("timer-start", function () {
             $scope.cancelEdit($scope.data.project);
-            $scope.nextSpeaker();
         });
 
         $rootScope.$on("timer-timeout", function () {
             $scope.nextSpeaker();
+            $rootScope.$broadcast('timer-reset');
+            $rootScope.$broadcast('timer-start');
         });
     }])
 
