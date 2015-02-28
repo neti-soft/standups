@@ -28,6 +28,12 @@ angular.module('standups.directives', ["standups.ctrl", "standups.helpers", "sta
                     scope.update();
                 });
 
+                $rootScope.$on('timer-resume', function () {
+                    scope.cancelEdit();
+                    timer.start();
+                    scope.update();
+                });
+
                 $rootScope.$on('timer-reset', function () {
                     timer.reset();
                     scope.update();
@@ -42,7 +48,9 @@ angular.module('standups.directives', ["standups.ctrl", "standups.helpers", "sta
                 });
 
                 timer.on('timeout', function () {
-                    $rootScope.$emit('timer-timeout', timer);
+                    scope.$apply(function() {
+                        $rootScope.$emit('timer-timeout', timer);
+                    });
                 });
 
                 scope.timerStarted = function () {

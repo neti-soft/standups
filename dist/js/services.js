@@ -1,8 +1,8 @@
-'use strict';
-angular.module('standups.services', ['standups.helpers'])
+"use strict";
+angular.module("standups.services", ["standups.helpers"])
 
     // Service for storing data using the Chrome extension storage API.
-    .service("Store", ['$q', '$h', function ($q, $h) {
+    .service("Store", ["$q", "$h", function ($q, $h) {
 
         var cache = {};
 
@@ -10,11 +10,11 @@ angular.module('standups.services', ['standups.helpers'])
 
             get: function (key) {
                 if (!key) {
-                    return $q.reject("Error: No 'key' parameter specified.");
+                    return $q.reject("Error: No \"key\" parameter specified.");
                 }
 
                 if (!$h.isString(key) || key.trim() === "") {
-                    return $q.reject("Error: Parameter 'key' is not valid string or empty.");
+                    return $q.reject("Error: Parameter \"key\" is not valid string or empty.");
                 }
 
                 var def = $q.defer();
@@ -37,15 +37,15 @@ angular.module('standups.services', ['standups.helpers'])
             set: function (key, value) {
 
                 if ($h.isUndefined(key)) {
-                    return $q.reject("Error: No 'key' parameter specified.");
+                    return $q.reject("Error: No \"key\" parameter specified.");
                 }
 
                 if (!$h.isString(key) || key.trim() === "") {
-                    return $q.reject("Error: Parameter 'key' is not valid string or empty.");
+                    return $q.reject("Error: Parameter \"key\" is not valid string or empty.");
                 }
 
                 if ($h.isUndefined(value)) {
-                    return $q.reject("Error: No 'value' parameter specified.");
+                    return $q.reject("Error: No \"value\" parameter specified.");
                 }
 
                 var def = $q.defer();
@@ -65,14 +65,7 @@ angular.module('standups.services', ['standups.helpers'])
         }
     }])
 
-    .service("Standup", function() {
-        return {
-            projectId: null,
-            isRunning: false
-        };
-    })
-
-    .service('Projects', ['$h', 'Store', function ($h, Store) {
+    .service("Projects", ["$h", "Store", function ($h, Store) {
 
         var api = {
 
@@ -82,7 +75,7 @@ angular.module('standups.services', ['standups.helpers'])
             },
 
             load: function () {
-                return Store.get('projects').then(function (data) {
+                return Store.get("projects").then(function (data) {
                     if ($h.isArray(data)) {
                         api.data.projects = data;
                         api.data.project = _.findWhere(data, {active: true});
@@ -154,7 +147,7 @@ angular.module('standups.services', ['standups.helpers'])
             },
 
             saveState: function () {
-                return Store.set('projects', angular.copy(api.data.projects));
+                return Store.set("projects", angular.copy(api.data.projects));
             }
         };
 
@@ -163,15 +156,15 @@ angular.module('standups.services', ['standups.helpers'])
 
     .service("Extension", function () {
 
-        var el = $('#extension-standups');
+        var el = $("#extension-standups");
 
         $.fn.scrollStopped = function (callback) {
             $(this).scroll(function () {
                 var self = this, $this = $(self);
-                if ($this.data('scrollTimeout')) {
-                    clearTimeout($this.data('scrollTimeout'));
+                if ($this.data("scrollTimeout")) {
+                    clearTimeout($this.data("scrollTimeout"));
                 }
-                $this.data('scrollTimeout', setTimeout(callback, 250, self));
+                $this.data("scrollTimeout", setTimeout(callback, 250, self));
             });
         };
 
@@ -213,13 +206,41 @@ angular.module('standups.services', ['standups.helpers'])
         return Ext;
     })
 
-    .factory("Timer", function () {
+    .service("Standup", ["Observable", function (Observable) {
+        return {
+            paused: false
+        };
+    }])
+
+    .factory("Observable", [function() {
+
+        function Observable() {
+            this._events = {};
+        }
+
+        Observable.mixin = function(o) {
+            var obs = new Observable();
+            return _.extend(o, obs);
+        };
+
+        Observable.prototype.on = function (e, cb) {
+            this._events[e] = cb;
+        };
+
+        Observable.prototype._fire = function (e) {
+            var args = [].splice(1, arguments);
+            this._events[e] && this._events[e].apply(this, args);
+        };
+
+        return Observable;
+    }])
+
+    .factory("Timer", ["Observable", function (Observable) {
 
         function Timer(h, m, s) {
             this.started = false;
             this.timeout = false;
             this.time = {};
-            this._events = {};
             this.set(h, m, s);
         }
 
@@ -233,7 +254,7 @@ angular.module('standups.services', ['standups.helpers'])
             this.m = this.time.m;
             this.s = this.time.s;
             this.checkTimeout();
-            this._fire('change', this.time);
+            this._fire("change", this.time);
         };
 
         Timer.prototype.start = function () {
@@ -246,10 +267,10 @@ angular.module('standups.services', ['standups.helpers'])
         Timer.prototype._tick = function () {
             if (!this.timeout) {
                 this._degrees();
-                this._fire('change', this.time);
+                this._fire("change", this.time);
             } else {
                 this.stop();
-                this._fire('timeout', this.time);
+                this._fire("timeout", this.time);
             }
         };
 
@@ -257,15 +278,6 @@ angular.module('standups.services', ['standups.helpers'])
             this.time.h = date.getHours() + ((date.getDate() - 1) * 24);
             this.time.m = date.getMinutes();
             this.time.s = date.getSeconds();
-        }
-
-        Timer.prototype.on = function (e, cb) {
-            this._events[e] = cb;
-        };
-
-        Timer.prototype._fire = function (e) {
-            var args = [].splice(1, arguments);
-            this._events[e] && this._events[e].apply(this, args);
         };
 
         Timer.prototype._degrees = function () {
@@ -334,8 +346,10 @@ angular.module('standups.services', ['standups.helpers'])
             }
         };
 
+        Timer.prototype = Observable.mixin(Timer.prototype);
+
         return Timer;
-    })
+    }])
 
     .service("Keyboard", [function () {
 
@@ -384,7 +398,7 @@ angular.module('standups.services', ['standups.helpers'])
                 return;
             }
 
-            var parts = value.split('+');
+            var parts = value.split("+");
             value = parts[parts.length - 1];
 
             if (value == "*") {

@@ -1,46 +1,57 @@
-'use strict';
-angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
+"use strict";
+angular.module("standups.ctrl", ["standups.helpers", "standups.services"])
 
     /* Global view port controller. Handles all views */
-    .controller('ViewportCtrl', ["$scope", "Extension", function ($scope, Extension) {
+    .controller("ViewportCtrl", ["$scope", "Extension", function ($scope, Extension) {
 
         $scope.Extension = Extension;
 
         Extension.Screen.scroll(function (extEl) {
-            extEl.css('opacity', 0.3);
+            extEl.css("opacity", 0.3);
         });
 
         Extension.Screen.scrollStopped(function (extEl) {
-            extEl.css('opacity', 1);
+            extEl.css("opacity", 1);
         });
     }])
 
     /* Controller for main view */
-    .controller('TimerCtrl', ["$scope", "$rootScope", "Standup", function ($scope, $rootScope, Standup) {
+    .controller("TimerCtrl", ["$scope", "$rootScope", "Standup", function ($scope, $rootScope, Standup) {
 
-        $scope.startClick = function (e) {
-            e.stopPropagation();
-            $rootScope.$broadcast('timer-start');
+        $scope.startClick = function () {
+            if (Standup.paused) {
+                Standup.paused = false;
+                $rootScope.$broadcast("timer-resume");
+            } else {
+                $rootScope.$broadcast("timer-reset");
+                $rootScope.$broadcast("timer-start");
+                $scope.nextSpeaker();
+            }
         };
 
-        $scope.stopClick = function (e) {
-            e.stopPropagation();
-            $rootScope.$broadcast('timer-stop');
+        $scope.isPaused = function () {
+            return Standup.paused;
         };
 
-        $scope.resetClick = function (e) {
-            e.stopPropagation();
-            $rootScope.$broadcast('timer-reset');
+        $scope.stopClick = function () {
+            Standup.paused = true;
+            $rootScope.$broadcast("timer-stop");
         };
 
-        $rootScope.$on('timer-timeout', function () {
-            alert('Timeout!')
+        $scope.resetClick = function () {
+            Standup.paused = false;
+            $rootScope.$broadcast("timer-reset");
+        };
+
+        $rootScope.$on("user-select", function() {
+            $rootScope.$broadcast("timer-reset");
         });
 
     }])
 
     /* Controller for projects view */
-    .controller('ProjectCtrl', ["$scope", "$rootScope", "$h", "Projects", function ($scope, $rootScope, $h, Projects) {
+    .controller("ProjectCtrl",
+    ["$scope", "$rootScope", "$h", "Projects", "Standup", function ($scope, $rootScope, $h, Projects, Standup) {
 
         //subview: details, edit, list, wizard
         $scope.view = null;
@@ -67,7 +78,7 @@ angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
                     _.each(Projects.data.projects, Projects.unSelectionAllUsers);
                     $scope.goSubView("details");
                 } else {
-                    $scope.goSubView('wizard');
+                    $scope.goSubView("wizard");
                 }
             });
         };
@@ -105,6 +116,7 @@ angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
 
         $scope.selectUser = function (project, user) {
             Projects.selectUser(project, user);
+            $rootScope.$emit("user-select", user);
         };
 
         $scope.createProject = function (project) {
@@ -151,13 +163,28 @@ angular.module('standups.ctrl', ['standups.helpers', 'standups.services'])
             Projects.saveState();
         };
 
-        $rootScope.$on('timer-start', function () {
+        $scope.nextSpeaker = function () {
+            var index;
+            if (!$scope.data.project.users.length) return;
+            index = _.findIndex($scope.data.project.users, function (u) {
+                return !!u.active
+            });
+            Projects.selectUser($scope.data.project, $scope.data.project.users[index + 1] ?
+                $scope.data.project.users[index + 1] : $scope.data.project.users[0]);
+        };
+
+        $rootScope.$on("timer-start", function () {
             $scope.cancelEdit($scope.data.project);
         });
 
+        $rootScope.$on("timer-timeout", function () {
+            $scope.nextSpeaker();
+            $rootScope.$broadcast("timer-reset");
+            $rootScope.$broadcast("timer-start");
+        });
     }])
 
     /* Controller for Settings view */
-    .controller('SettingsCtrl', ["$scope", function ($scope) {
+    .controller("SettingsCtrl", ["$scope", function ($scope) {
 
     }]);
