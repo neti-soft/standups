@@ -124,6 +124,22 @@
   transition: opacity 1.5s;
   font-size: 12px;
 }
+#extension-standups a,
+#extension-standups span,
+#extension-standups div,
+#extension-standups h1,
+#extension-standups h2,
+#extension-standups h3,
+#extension-standups h4,
+#extension-standups ul,
+#extension-standups li,
+#extension-standups input,
+#extension-standups button {
+  font-family: 'Lucida Grande', Helvetica, sans-serif;
+  color: #000000;
+  text-align: left;
+  font-size: 12px;
+}
 #extension-standups a {
   text-decoration: none;
   cursor: pointer;
@@ -218,10 +234,6 @@
 #extension-standups .standups-left {
   float: left;
 }
-#extension-standups .standups-timer {
-  font-family: arial, sans-serif;
-  color: #222222;
-}
 #extension-standups .standups-timer .cntr {
   border: 1px solid transparent;
   display: inline-block;
@@ -231,6 +243,10 @@
   word-spacing: -3px;
   letter-spacing: -3px;
   position: relative;
+}
+#extension-standups .standups-timer .cntr * {
+  font-family: arial, sans-serif !important;
+  color: #222222;
 }
 #extension-standups .standups-timer .cntr.cntredit .h1,
 #extension-standups .standups-timer .cntr.cntredit .h2,
@@ -376,4 +392,15 @@
 #extension-standups .standups-project .standups-wizard .standups-step .standups-wizard-body label input {
   font-size: 16px;
   width: 95%;
+}
+#extension-standups .standups-info {
+  padding-top: 10px;
+}
+#extension-standups .standups-info article h1 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+#extension-standups .standups-info article p {
+  text-align: justify;
 }

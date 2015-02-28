@@ -1,8 +1,5 @@
 #extension-standups .standups-timer {
 
-  font-family: arial, sans-serif;
-  color: @text_dark;
-
   .cntr {
     border: 1px solid transparent;
     display: inline-block;
@@ -12,6 +9,11 @@
     word-spacing: -3px;
     letter-spacing: -3px;
     position: relative;
+
+    * {
+      font-family: arial, sans-serif !important;
+      color: @text_dark;
+    }
 
     &.cntredit {
       .h1, .h2, .m1, .m2, .s1, .s2, .dig, .sep {
