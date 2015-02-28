@@ -28,6 +28,12 @@ angular.module('standups.directives', ["standups.ctrl", "standups.helpers", "sta
                     scope.update();
                 });
 
+                $rootScope.$on('timer-resume', function () {
+                    scope.cancelEdit();
+                    timer.start();
+                    scope.update();
+                });
+
                 $rootScope.$on('timer-reset', function () {
                     timer.reset();
                     scope.update();
