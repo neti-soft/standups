@@ -1,57 +1,82 @@
 #extension-standups .standups-timer {
 
-  .cntr {
-    border: 1px solid transparent;
-    display: inline-block;
-    outline: none;
-    padding: 5px 12px;
-    padding-left: 25px;
-    word-spacing: -3px;
-    letter-spacing: -3px;
-    position: relative;
 
-    * {
-      font-family: arial, sans-serif !important;
-      color: @text_dark;
-    }
+  .standups-timer-actions {
 
-    &.cntredit {
-      .h1, .h2, .m1, .m2, .s1, .s2, .dig, .sep {
-        color: @text_light_gray;
-        cursor: default;
-      }
-    }
+    height: 30px;
+    padding-top: 15px;
+    margin: 0;
 
-    .dirty {
-      color: @text_dark !important;
-    }
-
-    .dig, .sep {
+    button {
+      background: @btn_bg;
+      font-size: 15px;
       font-weight: normal;
-      word-spacing: normal;
-      letter-spacing: normal;
-      display: inline-block;
-    }
-
-    .h1, .h2, .m1, .m2, .s1, .s2, .dig, .sep {
-      color: @text_dark;
       border: none;
-      border-right: 1px solid transparent;
-      font-size: 4.5em;
+      background: none;
+      margin: 0;
+      padding: 5px 15px;
+      height: 25px;
+      widows: 64px;
     }
+  }
 
-    .sep {
-      font-size: 2.2em;
-      margin-left: 2px;
-      margin-right: 10px;
-    }
+  .standups-timer-widget {
 
-    .ssep {
-      margin-right: 0px;
-    }
+    height: 65px;
 
-    .cur {
-      border-right: 1px solid @black;
+    .cntr {
+      border: 1px solid transparent;
+      display: inline-block;
+      outline: none;
+      padding: 5px 12px;
+      padding-left: 25px;
+      word-spacing: -3px;
+      letter-spacing: -3px;
+      position: relative;
+
+      * {
+        font-family: arial, sans-serif !important;
+        color: @text_dark;
+      }
+
+      &.cntredit {
+        .h1, .h2, .m1, .m2, .s1, .s2, .dig, .sep {
+          color: @text_light_gray;
+          cursor: default;
+        }
+      }
+
+      .dirty {
+        color: @text_dark !important;
+      }
+
+      .dig, .sep {
+        font-weight: normal;
+        word-spacing: normal;
+        letter-spacing: normal;
+        display: inline-block;
+      }
+
+      .h1, .h2, .m1, .m2, .s1, .s2, .dig, .sep {
+        color: @text_dark;
+        border: none;
+        border-right: 1px solid transparent;
+        font-size: 55px;
+      }
+
+      .sep {
+        font-size: 21px;;
+        margin-left: 2px;
+        margin-right: 10px;
+      }
+
+      .ssep {
+        margin-right: 0px;
+      }
+
+      .cur {
+        border-right: 1px solid @black;
+      }
     }
   }
 }

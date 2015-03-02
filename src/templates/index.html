@@ -3,19 +3,10 @@
   <div class="viewport" data-ng-controller="ViewportCtrl">
 
     <section class="standups-main" data-ng-show="Extension.Nav.is('main')">
-      <div class="hdr">
-        <div class="nv">
+      <div class="standups-header">
+        <div class="standups-nav">
           <span class="section-name"> Standups</span>
           <ul class="navigation standups-right">
-            <!--<li>-->
-            <!--<a data-ng-click="Extension.toggleSound()">-->
-            <!--<i data-ng-show="Extension.Settings.enableSound" class="fa fa-volume-up"></i>-->
-            <!--<i data-ng-show="!Extension.Settings.enableSound" class="fa fa-volume-off"></i>-->
-            <!--</a>-->
-            <!--</li>-->
-            <!--<li>-->
-            <!--<a data-ng-click="Extension.Nav.to('settings')"><i class="fa fa-gear"></i></a>-->
-            <!--</li>-->
             <li>
               <a data-ng-click="Extension.Nav.to('info')"><i class="fa fa-question"></i></a>
             </li>
@@ -25,22 +16,20 @@
           </ul>
         </div>
       </div>
-      <div ng-controller="TimerCtrl">
+      <div class="standups-timer" ng-controller="TimerCtrl">
         <div timer></div>
-        <div>
-          <button class="extension-btn" data-ng-click="startClick()" data-ng-show="!timerStarted()">
-            {{isPaused()?"Resume":"Start"}}
-          </button>
-          <button class="extension-btn" data-ng-click="stopClick()" data-ng-show="timerStarted()">Stop</button>
-          <button class="extension-btn" data-ng-click="resetClick()">Reset</button>
+        <div class="standups-timer-actions">
+          <button data-ng-click="startClick()" data-ng-show="!timerStarted()">{{isPaused()?"Resume":"Start"}}</button>
+          <button data-ng-click="stopClick()" data-ng-show="timerStarted()">Stop</button>
+          <button data-ng-click="resetClick()">Reset</button>
         </div>
       </div>
       <div projects></div>
     </section>
 
     <section class="standups-settings" data-ng-show="Extension.Nav.is('settings')" data-ng-controller="SettingsCtrl">
-      <div class="hdr">
-        <div class="nv">
+      <div class="standups-header">
+        <div class="standups-nav">
           <span class="section-name">Settings</span>
           <ul class="navigation standups-right">
             <li>
@@ -53,8 +42,8 @@
     </section>
 
     <section class="standups-info" data-ng-show="Extension.Nav.is('info')" data-ng-controller="SettingsCtrl">
-      <div class="hdr">
-        <div class="nv">
+      <div class="standups-header">
+        <div class="standups-nav">
           <span class="section-name">About</span>
           <ul class="navigation standups-right">
             <li>
@@ -94,7 +83,7 @@
   </div>
 
   <script type="text/ng-template" id="templates/timer.html">
-    <div class="standups-timer" data-ng-click="edit($event)">
+    <div class="standups-timer-widget" data-ng-click="edit($event)">
       <div class="cntr">
         <span class="dig h1"></span>
         <span class="dig h2"></span>

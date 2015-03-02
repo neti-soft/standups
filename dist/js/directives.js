@@ -4,6 +4,7 @@ angular.module('standups.directives', ["standups.ctrl", "standups.helpers", "sta
     .directive("timer", ["$rootScope", "Timer", "Keyboard", function ($rootScope, Timer, Keyboard) {
         return {
             restrict: "AE",
+            replace: true,
             templateUrl: "templates/timer.html",
             link: function (scope, el, attr) {
 
@@ -185,7 +186,6 @@ angular.module('standups.directives', ["standups.ctrl", "standups.helpers", "sta
             }
         }
     }])
-
 
     .directive("projects", ["$rootScope", function ($rootScope) {
         return {
