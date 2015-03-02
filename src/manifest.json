@@ -39,7 +39,6 @@
         }
     ],
     "homepage_url": "https://github.com/neti-soft/standups",
-    "minimum_chrome_version":"30.x",
     "web_accessible_resources": [
         "fonts/*.*",
         "templates/*.html"
