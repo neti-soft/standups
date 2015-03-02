@@ -1,6 +1,6 @@
 {
   "name": "standups",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Collaboration tool for daily stand-ups meetings",
   "scripts": {
     "test": "karma run"
