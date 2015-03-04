@@ -105,6 +105,7 @@ angular.module("standups.ctrl", ["standups.helpers", "standups.services"])
                 $scope.goSubView("details");
                 Projects.saveState();
                 $scope.resetTemp();
+                $scope.wizardStep = 1;
             }
         };
 
@@ -148,6 +149,10 @@ angular.module("standups.ctrl", ["standups.helpers", "standups.services"])
             //todo: add r u sure logic
             Projects.remove(project);
             Projects.saveState();
+
+            if(!Projects.data.projects.length) {
+                $scope.goSubView("wizard");
+            }
         };
 
         $scope.addUser = function (project, userName) {
