@@ -3,14 +3,40 @@
   padding-top: 10px;
 
   article {
+    padding-left: 10px;
+
     h1 {
       margin-top: 10px;
       margin-bottom: 10px;
-      font-size: 14px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    ul {
+      font-weight: normal;
+      > li, * {
+        font-size: 14px !important;
+      }
+
+      > li {
+        padding: 2px;
+      }
+
+      li.line {
+        color: @links_color;
+        font-weight: normal;
+        margin-top: 5px;
+      }
     }
 
     p {
+      margin: 0;
+      padding: 0;
+      font-weight: normal;
+      font-size: 14px;
       text-align: justify;
+      margin-bottom: 10px;
+      line-height: 16px;
     }
   }
 }
