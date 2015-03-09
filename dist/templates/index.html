@@ -16,7 +16,7 @@
           </ul>
         </div>
       </div>
-      <div class="standups-timer" ng-controller="TimerCtrl">
+      <div class="standups-timer" ng-controller="TimerCtrl" ng-if="view != 'wizard'">
         <div timer></div>
         <div class="standups-timer-actions">
           <button data-ng-click="startClick()" data-ng-show="!timerStarted()">{{isPaused()?"Resume":"Start"}}</button>
