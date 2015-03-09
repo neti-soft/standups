@@ -135,6 +135,7 @@ angular.module("standups.ctrl", ["standups.helpers", "standups.services"])
 
         $scope.cancelEdit = function (project) {
             $scope.resetTemp();
+            if($scope.view == "wizard" || !$scope.data.project) return;
             $scope.data.project = _.findWhere($scope.data.projects, {id: project.id});
             $scope.goSubView("details");
         };
