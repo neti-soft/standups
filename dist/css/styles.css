@@ -245,6 +245,9 @@
   padding-top: 15px;
   margin: 0;
 }
+#extension-standups .standups-timer .standups-timer-actions button:first-child {
+  margin-left: 15px;
+}
 #extension-standups .standups-timer .standups-timer-actions button {
   background: #ffffff;
   font-size: 15px;
@@ -252,7 +255,7 @@
   border: none;
   background: none;
   margin: 0;
-  padding: 5px 15px;
+  padding: 5px 0;
   height: 25px;
   width: 64px;
 }
