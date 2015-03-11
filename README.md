@@ -14,3 +14,5 @@ that's why he has to laconic and precise to fit in time. Using this technique, w
 on the meeting and improve your team organisation and collaboration.
 
 Chrome App Store: [Standups](https://chrome.google.com/webstore/detail/standups/eccginhjnppmfhojalmebplgpanjmina)
+
+Developers: Max Podriezov, Sławomir Paśko, Oleksiy koreniewski, neti-soft
