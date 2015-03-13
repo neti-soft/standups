@@ -10,10 +10,10 @@
             <li>
               <a data-ng-click="Extension.Nav.to('info')"><i class="fa fa-info"></i></a>
             </li>
-            <li ng-if="Extension.maximized">
-              <a data-ng-click="Extension.minify()"><i class="fa fa-toggle-up"></i></a>
+            <li ng-if="Extension.isMaximized">
+              <a data-ng-click="Extension.minimize()"><i class="fa fa-toggle-up"></i></a>
             </li>
-            <li ng-if="Extension.minimized">
+            <li ng-if="!Extension.isMaximized">
               <a data-ng-click="Extension.maximize()"><i class="fa fa-toggle-down"></i></a>
             </li>
             <li>
