@@ -170,12 +170,22 @@ angular.module("standups.services", ["standups.helpers"])
 
         var Ext = {
 
+            isMaximized: true,
+
             toggleSound: function () {
                 Ext.Settings.enableSound = !Ext.Settings.enableSound;
             },
 
             quit: function () {
                 el.remove();
+            },
+
+            minimize: function() {
+                this.isMaximized = false;
+            },
+
+            maximize: function() {
+                this.isMaximized = true;
             },
 
             Settings: {

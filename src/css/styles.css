@@ -107,7 +107,7 @@
   font-family: 'Lucida Grande', Helvetica, sans-serif;
   color: #000000;
   text-align: left;
-  border-left: 1px solid #f2f2f2;
+  border: 1px solid #f2f2f2;
   background-color: #ffffff;
   display: block;
   position: fixed;
@@ -123,6 +123,12 @@
   -webkit-transition: opacity 1.5s;
   transition: opacity 1.5s;
   font-size: 12px;
+}
+#extension-standups.minimized {
+  width: 180px;
+  height: 30px;
+  overflow: hidden;
+  min-height: 30px;
 }
 #extension-standups * {
   box-sizing: content-box;
@@ -216,6 +222,9 @@
 #extension-standups .viewport .standups-header .standups-nav {
   margin-bottom: 5px;
   padding-top: 5px;
+}
+#extension-standups .viewport .standups-header .standups-nav ul {
+  margin-top: -1px;
 }
 #extension-standups .viewport .standups-header .standups-nav ul .fa {
   font-size: 18px;

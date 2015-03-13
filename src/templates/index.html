@@ -1,6 +1,6 @@
-<div id="extension-standups" data-ng-app="standups">
+<div id="extension-standups" data-ng-app="standups" data-ng-controller="ViewportCtrl" ng-class="!Extension.isMaximized?'minimized':''">
 
-  <div class="viewport" data-ng-controller="ViewportCtrl">
+  <div class="viewport">
 
     <section class="standups-main" data-ng-show="Extension.Nav.is('main')">
       <div class="standups-header">
@@ -8,7 +8,13 @@
           <span class="section-name"> Standups</span>
           <ul class="navigation standups-right">
             <li>
-              <a data-ng-click="Extension.Nav.to('info')"><i class="fa fa-question"></i></a>
+              <a data-ng-click="Extension.Nav.to('info');Extension.maximize()"><i class="fa fa-info"></i></a>
+            </li>
+            <li ng-if="Extension.isMaximized">
+              <a data-ng-click="Extension.minimize()"><i class="fa fa-toggle-up"></i></a>
+            </li>
+            <li ng-if="!Extension.isMaximized">
+              <a data-ng-click="Extension.maximize()"><i class="fa fa-toggle-down"></i></a>
             </li>
             <li>
               <a data-ng-click="Extension.quit()"><i class="fa fa-close fa-times"></i></a>
