@@ -1,6 +1,6 @@
 <div id="extension-standups" data-ng-app="standups">
 
-  <div class="viewport" data-ng-controller="ViewportCtrl">
+  <div class="viewport" data-ng-controller="ViewportCtrl" ng-class="!Extension.isMaximized?'minimized':''">
 
     <section class="standups-main" data-ng-show="Extension.Nav.is('main')">
       <div class="standups-header">
