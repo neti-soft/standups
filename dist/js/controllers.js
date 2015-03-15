@@ -13,6 +13,12 @@ angular.module("standups.ctrl", ["standups.helpers", "standups.services"])
         Extension.Screen.scrollStopped(function (extEl) {
             extEl.css("opacity", 1);
         });
+
+        $scope.listStyle = function() {
+            return {
+                height: window.innerHeight - 240 + "px"
+            }
+        }
     }])
 
     /* Controller for main view */
