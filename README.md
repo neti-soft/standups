@@ -1,7 +1,7 @@
 Standups
 ========
 
-Version: 0.0.5
+Version: 0.1.0
 
 Chrome browser plug-in. Collaboration tool for daily stand-ups meetings.
 

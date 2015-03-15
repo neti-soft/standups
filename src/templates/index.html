@@ -165,7 +165,7 @@
               </label>
               <button class="standups-button standups-big" ng-click="goWizardNext()">Next <i
                   class="fa fa-arrow-right"></i></button>
-              <div class="standups-list">
+              <div class="standups-list" ng-style="listStyle()">
 
                 <ul>
                   <li class="standups-list-item-empty" ng-if="temp.project.users.length == 0"><a>No users yet ... </a>
@@ -200,7 +200,7 @@
             </div>
           </div>
 
-          <div class="standups-list">
+          <div class="standups-list" ng-style="listStyle()">
             <ul>
               <li>
                 <a>
@@ -231,7 +231,7 @@
               <a ng-click="editProject(data.project)"><i class="fa fa-edit"></i></a>
             </div>
           </div>
-          <div class="standups-list">
+          <div class="standups-list" ng-style="listStyle()">
             <ul>
               <li ng-repeat="user in data.project.users"
                   ng-class="user.active?'standups-list-item-selected':''">
@@ -251,7 +251,7 @@
             </div>
           </div>
 
-          <div class="standups-list">
+          <div class="standups-list" ng-style="listStyle()">
             <ul>
               <li>
                 <a>

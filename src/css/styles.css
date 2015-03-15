@@ -359,7 +359,11 @@
 #extension-standups .standups-project .standups-header .standups-header-actions.standups-left {
   margin-right: 10px;
 }
+#extension-standups .standups-project .standups-list::-webkit-scrollbar {
+  width: 0 !important;
+}
 #extension-standups .standups-project .standups-list {
+  overflow-y: scroll;
   text-align: left;
 }
 #extension-standups .standups-project .standups-list ul {
