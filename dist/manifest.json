@@ -31,6 +31,7 @@
                 "components/jquery/dist/jquery.js",
                 "components/underscore/underscore.js",
                 "js/app.js",
+                "js/locales.js",
                 "js/helpers.js",
                 "js/services.js",
                 "js/directives.js",
