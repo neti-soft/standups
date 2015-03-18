@@ -487,4 +487,4 @@ angular.module("standups.services", ["standups.helpers"])
         });
 
         return Keyboard;
-    }]);
+    }])
